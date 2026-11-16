@@ -1,0 +1,30 @@
+services:
+  mediadl:
+    build: .
+    container_name: mediadl
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_URL=http://localhost:3000
+      - AUTH_SECRET=change_me_to_a_secure_random_string
+      - AUTH_URL=http://localhost:3000
+      - FLARESOLVERR_ENABLED=true
+      - FLARESOLVERR_URL=http://flaresolverr:8191
+    volumes:
+      - mediadl_data:/app/db
+    depends_on:
+      - flaresolverr
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    ports:
+      - "8191:8191"
+    environment:
+      - LOG_LEVEL=info
+      - TZ=UTC
+
+volumes:
+  mediadl_data:
