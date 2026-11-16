@@ -31,8 +31,24 @@ body {
   --admin-border: #e4e9f0;
   --admin-ink: #172033;
   --admin-muted: #64748b;
+  --admin-tooltip-bg: #ffffff;
+  --admin-tooltip-border: #e2e8f0;
+  --admin-tooltip-color: #0f172a;
+  --admin-tooltip-label: #475569;
   background-color: var(--admin-canvas);
   color: var(--admin-ink);
+}
+
+.dark .admin-ui, html.dark .admin-ui, :root.dark .admin-ui {
+  --admin-canvas: #09090b;
+  --admin-surface: #121215;
+  --admin-border: #27272a;
+  --admin-ink: #f4f4f5;
+  --admin-muted: #a1a1aa;
+  --admin-tooltip-bg: #18181b;
+  --admin-tooltip-border: #3f3f46;
+  --admin-tooltip-color: #fafafa;
+  --admin-tooltip-label: #d4d4d8;
 }
 
 .admin-ui .admin-main {

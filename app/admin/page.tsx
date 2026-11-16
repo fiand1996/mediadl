@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { fetchLogs, cookiesConfig } from "@/db/schema";
 import { desc, count, eq } from "drizzle-orm";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminChartSection } from "@/components/admin/AdminChartSection";
 import { Activity, CheckCircle2, XCircle, KeyRound } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -12,23 +13,29 @@ export default function AdminDashboard() {
   
   const recentLogs = db.select().from(fetchLogs).orderBy(desc(fetchLogs.createdAt)).limit(5).all();
 
+  // Fetch all logs or sufficient historical logs for the chart (e.g. up to 1000 latest or all within range)
+  const allLogsForChart = db.select().from(fetchLogs).orderBy(desc(fetchLogs.createdAt)).limit(1000).all().map(log => ({
+    ...log,
+    createdAt: log.createdAt instanceof Date ? log.createdAt.toISOString() : new Date(log.createdAt).toISOString()
+  }));
+
   const successRate = totalLogs > 0 ? ((successLogs / totalLogs) * 100).toFixed(1) : "100";
 
   return (
-    <div className="admin-ui min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row font-sans">
+    <div className="admin-ui min-h-screen bg-slate-50 dark:bg-[#09090b] text-slate-900 dark:text-zinc-100 flex flex-col lg:flex-row font-sans">
       <AdminSidebar />
 
       <main className="admin-main min-w-0 flex-1 p-4 sm:p-6 lg:p-9">
         <div className="admin-page mx-auto max-w-6xl space-y-8">
           <div className="admin-page-heading flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">Workspace</p>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-950">System overview</h1>
-              <p className="admin-muted mt-2 text-sm">Monitor download activity and system health at a glance.</p>
+              <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">Media Downloader</p>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-zinc-100">Dashboard Overview</h1>
+              <p className="admin-muted mt-2 text-sm">Track download success rates, media fetch history, and cookie profiles.</p>
             </div>
             <div className="admin-date-pill inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-medium">
               <span className="admin-status-dot h-2 w-2 rounded-full" />
-              System activity
+              Live activity
             </div>
           </div>
 
@@ -77,6 +84,9 @@ export default function AdminDashboard() {
               <p className="admin-muted mt-1.5 text-[11px]">Configured across providers</p>
             </div>
           </div>
+
+          {/* Analytics Chart Section */}
+          <AdminChartSection logs={allLogsForChart} />
 
           <div className="admin-card overflow-hidden rounded-2xl border">
             <div className="flex items-center justify-between border-b px-5 py-5 sm:px-6">
