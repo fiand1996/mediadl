@@ -86,10 +86,10 @@ export default function AdminCookiesPage() {
     .all();
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex font-sans">
+    <div className="admin-ui min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row font-sans">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="admin-main min-w-0 flex-1 p-4 sm:p-6 lg:p-9">
         <CookiesClient
           cookieManagers={cookieManagers}
           addCookieManagerAction={addCookieManagerAction}

@@ -15,87 +15,110 @@ export default function AdminDashboard() {
   const successRate = totalLogs > 0 ? ((successLogs / totalLogs) * 100).toFixed(1) : "100";
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex font-sans">
+    <div className="admin-ui min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row font-sans">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 overflow-y-auto">
-        <div className="max-w-5xl mx-auto space-y-8">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">System Overview</h1>
-            <p className="text-sm text-zinc-400 mt-1">Real-time metrics and ingestion pipeline status.</p>
-          </div>
-
-          {/* Metrics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 backdrop-blur">
-              <div className="flex items-center justify-between text-zinc-400 text-xs mb-2">
-                <span>TOTAL REQUESTS</span>
-                <Activity className="w-4 h-4 text-emerald-400" />
-              </div>
-              <div className="text-3xl font-extrabold text-white">{totalLogs}</div>
+      <main className="admin-main min-w-0 flex-1 p-4 sm:p-6 lg:p-9">
+        <div className="admin-page mx-auto max-w-6xl space-y-8">
+          <div className="admin-page-heading flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">Workspace</p>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-950">System overview</h1>
+              <p className="admin-muted mt-2 text-sm">Monitor download activity and system health at a glance.</p>
             </div>
-
-            <div className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 backdrop-blur">
-              <div className="flex items-center justify-between text-zinc-400 text-xs mb-2">
-                <span>SUCCESS RATE</span>
-                <CheckCircle2 className="w-4 h-4 text-teal-400" />
-              </div>
-              <div className="text-3xl font-extrabold text-white">{successRate}%</div>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 backdrop-blur">
-              <div className="flex items-center justify-between text-zinc-400 text-xs mb-2">
-                <span>FAILED FETCHES</span>
-                <XCircle className="w-4 h-4 text-red-400" />
-              </div>
-              <div className="text-3xl font-extrabold text-white">{errorLogs}</div>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 backdrop-blur">
-              <div className="flex items-center justify-between text-zinc-400 text-xs mb-2">
-                <span>ACTIVE COOKIES</span>
-                <KeyRound className="w-4 h-4 text-cyan-400" />
-              </div>
-              <div className="text-3xl font-extrabold text-white">{totalCookies}</div>
+            <div className="admin-date-pill inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-medium">
+              <span className="admin-status-dot h-2 w-2 rounded-full" />
+              System activity
             </div>
           </div>
 
-          {/* Recent Activity Table */}
-          <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-6 backdrop-blur">
-            <h2 className="text-base font-bold text-white mb-4">Recent Ingestion Logs</h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="admin-metric rounded-2xl border p-5">
+              <div className="mb-5 flex items-center justify-between">
+                <span className="admin-muted text-xs font-medium">Total requests</span>
+                <span className="admin-icon-tile flex h-9 w-9 items-center justify-center rounded-xl">
+                  <Activity className="h-[18px] w-[18px]" />
+                </span>
+              </div>
+              <div className="text-3xl font-bold tracking-tight text-slate-950">{totalLogs}</div>
+              <p className="admin-muted mt-1.5 text-[11px]">All recorded fetch attempts</p>
+            </div>
+
+            <div className="admin-metric rounded-2xl border p-5">
+              <div className="mb-5 flex items-center justify-between">
+                <span className="admin-muted text-xs font-medium">Success rate</span>
+                <span className="admin-icon-tile admin-icon-green flex h-9 w-9 items-center justify-center rounded-xl">
+                  <CheckCircle2 className="h-[18px] w-[18px]" />
+                </span>
+              </div>
+              <div className="text-3xl font-bold tracking-tight text-slate-950">{successRate}%</div>
+              <p className="admin-muted mt-1.5 text-[11px]">Successful requests to date</p>
+            </div>
+
+            <div className="admin-metric rounded-2xl border p-5">
+              <div className="mb-5 flex items-center justify-between">
+                <span className="admin-muted text-xs font-medium">Failed fetches</span>
+                <span className="admin-icon-tile admin-icon-red flex h-9 w-9 items-center justify-center rounded-xl">
+                  <XCircle className="h-[18px] w-[18px]" />
+                </span>
+              </div>
+              <div className="text-3xl font-bold tracking-tight text-slate-950">{errorLogs}</div>
+              <p className="admin-muted mt-1.5 text-[11px]">Requests that need attention</p>
+            </div>
+
+            <div className="admin-metric rounded-2xl border p-5">
+              <div className="mb-5 flex items-center justify-between">
+                <span className="admin-muted text-xs font-medium">Cookie profiles</span>
+                <span className="admin-icon-tile admin-icon-blue flex h-9 w-9 items-center justify-center rounded-xl">
+                  <KeyRound className="h-[18px] w-[18px]" />
+                </span>
+              </div>
+              <div className="text-3xl font-bold tracking-tight text-slate-950">{totalCookies}</div>
+              <p className="admin-muted mt-1.5 text-[11px]">Configured across providers</p>
+            </div>
+          </div>
+
+          <div className="admin-card overflow-hidden rounded-2xl border">
+            <div className="flex items-center justify-between border-b px-5 py-5 sm:px-6">
+              <div>
+                <h2 className="text-sm font-bold text-slate-900">Recent fetch activity</h2>
+                <p className="admin-muted mt-1 text-xs">The latest media requests processed by the system.</p>
+              </div>
+              <span className="admin-count-badge rounded-full px-2.5 py-1 text-[11px] font-semibold">{recentLogs.length} recent</span>
+            </div>
             
             {recentLogs.length === 0 ? (
-              <p className="text-xs text-zinc-500 py-6 text-center">No logs recorded yet. Try fetching a media URL.</p>
+              <p className="admin-muted py-14 text-center text-sm">No logs recorded yet. Try fetching a media URL.</p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
+                <table className="admin-table w-full min-w-[680px] text-left text-xs">
                   <thead>
-                    <tr className="border-b border-zinc-800 text-zinc-400">
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium">Provider</th>
-                      <th className="pb-3 font-medium">URL</th>
-                      <th className="pb-3 font-medium">Cookie Used</th>
-                      <th className="pb-3 font-medium text-right">Time</th>
+                    <tr className="border-b text-[10px] uppercase tracking-wider">
+                      <th className="px-5 py-3.5 font-semibold sm:px-6">Status</th>
+                      <th className="px-4 py-3.5 font-semibold">Provider</th>
+                      <th className="px-4 py-3.5 font-semibold">URL</th>
+                      <th className="px-4 py-3.5 font-semibold">Cookie used</th>
+                      <th className="px-5 py-3.5 text-right font-semibold sm:px-6">Time</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-800/60">
+                  <tbody className="divide-y">
                     {recentLogs.map((log) => (
-                      <tr key={log.id} className="hover:bg-zinc-900/50 transition-colors">
-                        <td className="py-3">
+                      <tr key={log.id} className="transition-colors">
+                        <td className="px-5 py-4 sm:px-6">
                           {log.status === "success" ? (
-                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px]">
-                              SUCCESS
+                            <span className="admin-status-success inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold">
+                              <span className="h-1.5 w-1.5 rounded-full bg-current" /> Success
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20 text-[10px]" title={log.errorMessage || ""}>
-                              ERROR
+                            <span className="admin-status-error inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold" title={log.errorMessage || ""}>
+                              <span className="h-1.5 w-1.5 rounded-full bg-current" /> Error
                             </span>
                           )}
                         </td>
-                        <td className="py-3 text-zinc-300 uppercase">{log.provider}</td>
-                        <td className="py-3 text-zinc-300 max-w-xs truncate">{log.url}</td>
-                        <td className="py-3 text-zinc-400">{log.cookieUsed || "N/A"}</td>
-                        <td className="py-3 text-zinc-500 text-right">{new Date(log.createdAt).toLocaleTimeString()}</td>
+                        <td className="px-4 py-4 font-medium uppercase">{log.provider}</td>
+                        <td className="admin-cell-muted max-w-xs truncate px-4 py-4" title={log.url}>{log.url}</td>
+                        <td className="admin-cell-muted px-4 py-4">{log.cookieUsed || "N/A"}</td>
+                        <td className="admin-cell-muted whitespace-nowrap px-5 py-4 text-right sm:px-6">{new Date(log.createdAt).toLocaleTimeString()}</td>
                       </tr>
                     ))}
                   </tbody>

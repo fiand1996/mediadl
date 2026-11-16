@@ -134,15 +134,21 @@ export function ExtensionsClient({
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8  text-xs">
+    <div className="admin-page mx-auto max-w-6xl space-y-7 text-xs">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
-          <Puzzle className="w-7 h-7 text-indigo-400" />
-          <span>Installed Extensions ({extensions.length})</span>
-        </h1>
-        <p className="text-sm text-zinc-400 mt-1">
-          Manage active platform extractors, URL matchers, and extension burner cookies cleanly.
-        </p>
+        <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">Integrations</p>
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-950 flex items-center gap-3">
+              <Puzzle className="h-7 w-7 text-emerald-600" />
+              <span>Extensions</span>
+            </h1>
+            <p className="admin-muted mt-2 text-sm">
+              Manage platform extractors, URL matchers, and extension cookie profiles.
+            </p>
+          </div>
+          <span className="admin-count-badge w-fit rounded-full border px-3 py-1.5 text-xs font-semibold">{extensions.length} installed</span>
+        </div>
       </div>
 
       {/* Extensions Compact List */}
@@ -154,18 +160,18 @@ export function ExtensionsClient({
           return (
             <div 
               key={ext.id}
-              className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-5 backdrop-blur transition-all space-y-4"
+              className="admin-card space-y-4 rounded-2xl border p-5 transition-all"
             >
               {/* Row Summary Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 font-bold text-sm">
+                  <div className="admin-icon-tile admin-icon-green flex h-10 w-10 items-center justify-center rounded-xl border font-bold text-sm">
                     {ext.name.slice(0, 2).toUpperCase()}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-white text-sm">{ext.name}</span>
-                      <span className="bg-zinc-800 text-zinc-300 text-[10px] px-2 py-0.5 rounded-full">v{ext.version}</span>
+                      <span className="admin-count-badge rounded-full px-2 py-0.5 text-[10px] font-medium">v{ext.version}</span>
                       <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1">
                         <ShieldCheck className="w-3 h-3" /> Active
                       </span>
@@ -178,14 +184,14 @@ export function ExtensionsClient({
                   {ext.cookies.support && (
                     <button
                       onClick={() => setAddModalProvider(ext.id)}
-                      className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5"
+                      className="admin-primary-button flex cursor-pointer items-center gap-1.5 rounded-xl px-3.5 py-2 font-semibold transition"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add Cookie ({extCookies.length})
                     </button>
                   )}
                   <button
                     onClick={() => setExpandedId(isExpanded ? null : ext.id)}
-                    className="px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl transition cursor-pointer flex items-center gap-1"
+                    className="admin-secondary-button flex cursor-pointer items-center gap-1 rounded-xl border px-3.5 py-2 transition"
                   >
                     <span>{isExpanded ? "Hide" : "Details"}</span>
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

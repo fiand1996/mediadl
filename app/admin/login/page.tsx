@@ -177,7 +177,7 @@ function LoginForm() {
 
 export default function AdminLoginPage() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center p-4 font-sans selection:bg-emerald-500/20 selection:text-emerald-400">
+    <div className="admin-ui admin-login-shell min-h-screen flex items-center justify-center p-4 font-sans selection:bg-emerald-500/20 selection:text-emerald-700">
       <Suspense fallback={<div className="text-zinc-500  text-xs">Loading authentication...</div>}>
         <LoginForm />
       </Suspense>
