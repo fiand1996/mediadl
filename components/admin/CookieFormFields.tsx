@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Globe, FileText } from "lucide-react";
+import { FileText, Globe } from "lucide-react";
 import { DomainTagInput } from "@/components/admin/DomainTagInput";
-import { CurlParserBox, CookieParserResult } from "@/components/admin/CurlParserBox";
+import { CurlParserBox, type CookieParserResult } from "@/components/admin/CurlParserBox";
+import { CookieSessionWarning } from "@/components/admin/CookieSessionWarning";
 
 interface CookieFormFieldsProps {
   formId: string;
@@ -39,45 +40,54 @@ export function CookieFormFields({
   };
 
   return (
-    <div className="space-y-4 text-xs">
-      <CurlParserBox onParsed={handleParsed} />
+    <div className="space-y-5 text-xs">
+      <CookieSessionWarning />
 
-      <div>
-        <label className="block text-zinc-400 mb-1">Account Label / Name</label>
+      <div className="space-y-1.5">
+        <label htmlFor={`${formId}-name`} className="admin-form-label block font-medium">Account name</label>
         <input 
+          id={`${formId}-name`}
           type="text" 
           name="name" 
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Account Burner 1" 
+          placeholder="e.g. Personal account"
           required
-          className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-100 focus:outline-none focus:border-emerald-500 "
+          className="admin-form-input w-full rounded-xl border px-3.5 py-3 text-sm transition"
         />
+        <p className="admin-form-hint">A label to help you identify this cookie profile.</p>
       </div>
 
       {showDomains && (
-        <div>
-          <label className="block text-zinc-400 mb-1 flex items-center gap-1.5">
-            <Globe className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="space-y-1.5">
+          <label className="admin-form-label flex items-center gap-1.5 font-medium">
+            <Globe className="h-3.5 w-3.5 text-emerald-500" />
             <span>Target Domains</span>
           </label>
           <DomainTagInput key={domains} name="domains" defaultValue={domains} />
+          <p className="admin-form-hint">Choose which sites may use this cookie. Leave empty to apply globally.</p>
         </div>
       )}
 
-      <div>
-        <label className="block text-zinc-400 mb-1 flex items-center gap-1.5">
-          <FileText className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Netscape Cookies Content (.txt format)</span>
-        </label>
+      <div className="space-y-1.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <label htmlFor={`${formId}-content`} className="admin-form-label flex items-center gap-1.5 font-medium">
+            <FileText className="h-3.5 w-3.5 text-emerald-500" />
+            <span>Cookie content</span>
+          </label>
+          <CurlParserBox onParsed={handleParsed} defaultDomain={defaultDomains} />
+        </div>
+        <p className="admin-form-hint">Paste Netscape cookie file content (.txt format).</p>
         <textarea 
+          id={`${formId}-content`}
           name="cookieContent" 
-          rows={6}
+          rows={7}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="# Netscape HTTP Cookie File..." 
           required
-          className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-100  text-[11px] focus:outline-none focus:border-emerald-500"
+          spellCheck={false}
+          className="admin-form-input w-full resize-y rounded-xl border px-3.5 py-3 font-mono text-xs leading-relaxed transition"
         ></textarea>
       </div>
     </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Puzzle, KeyRound, Plus, Trash2, Edit3, ShieldCheck, ChevronDown, ChevronUp, Terminal, Wand2, FileText, ShieldAlert } from "lucide-react";
+import { Puzzle, KeyRound, Plus, Trash2, Edit3, ShieldCheck, ChevronDown, ChevronUp, FileText, ShieldAlert } from "lucide-react";
+import { CookieSessionWarning } from "@/components/admin/CookieSessionWarning";
+import { CurlParserBox, type CookieParserResult } from "@/components/admin/CurlParserBox";
 
 interface ExtensionManifestItem {
   id: string;
@@ -45,91 +47,17 @@ export function ExtensionsClient({
   const [addModalProvider, setAddModalProvider] = useState<string | null>(null);
   const [editingCookie, setEditingCookie] = useState<CookieItem | null>(null);
 
-  // cURL parser helper logic
-  const [curlCommand, setCurlCommand] = useState("");
-  const [parseStatus, setParseStatus] = useState<string | null>(null);
+  const applyParsedCookie = (formId: string, result: CookieParserResult) => {
+    const form = document.getElementById(formId);
+    if (!(form instanceof HTMLFormElement)) return;
 
-  const handleParseCurl = (formId: string, defaultDomain: string) => {
-    if (!curlCommand.trim()) return;
-
-    try {
-      let cookiesStr = "";
-      let urlStr = "";
-      let nameGuess = "";
-
-      const urlMatch = curlCommand.match(/(?:['"])(https?:\/\/[^'"]+)(?:['"])|(https?:\/\/[^\s]+)/);
-      if (urlMatch) {
-        urlStr = urlMatch[1] || urlMatch[2] || "";
-        try {
-          const parsedUrl = new URL(urlStr);
-          nameGuess = `${parsedUrl.hostname} Session`;
-        } catch {
-          // ignore
-        }
-      }
-
-      const cookieHeaderMatch = curlCommand.match(/(?:-H|--header)\s+['"](?:[Cc][Oo][Oo][Kk][Ii][Ee]:\s*)([^'"]+)['"]/i) ||
-                                curlCommand.match(/(?:-H|--header)\s+(?:[Cc][Oo][Oo][Kk][Ii][Ee]:\s*)([^\s'"]+)/i) ||
-                                curlCommand.match(/(?:--cookie|-b)\s+['"]([^'"]+)['"]/i) ||
-                                curlCommand.match(/(?:--cookie|-b)\s+([^\s'"]+)/i);
-
-      if (cookieHeaderMatch) {
-        cookiesStr = cookieHeaderMatch[1];
-      } else {
-        setParseStatus("Could not find Cookie header in cURL command.");
-        return;
-      }
-
-      let netscapeOutput = "";
-      let hostname = defaultDomain;
-
-      if (urlStr) {
-        try {
-          hostname = new URL(urlStr).hostname.replace(/^www\./, "");
-        } catch {
-          // ignore
-        }
-      }
-
-      if (cookiesStr.includes("\t") || cookiesStr.includes("# Netscape")) {
-        netscapeOutput = cookiesStr;
-      } else {
-        if (!hostname) {
-          setParseStatus("Could not determine target domain. Please include URL in cURL.");
-          return;
-        }
-        const pairs = cookiesStr.split(";");
-        const lines = ["# Netscape HTTP Cookie File", `# Parsed from cURL on ${new Date().toISOString()}`];
-        for (const pair of pairs) {
-          const parts = pair.trim().split("=");
-          if (parts.length >= 2) {
-            const cName = parts[0].trim();
-            const cVal = parts.slice(1).join("=").trim();
-            lines.push(`${hostname}\tTRUE\t/\tTRUE\t2147483647\t${cName}\t${cVal}`);
-          }
-        }
-        netscapeOutput = lines.join("\n");
-      }
-
-      const form = document.getElementById(formId) as HTMLFormElement;
-      if (form) {
-        const nameInput = form.elements.namedItem("name") as HTMLInputElement;
-        const contentInput = form.elements.namedItem("cookieContent") as HTMLTextAreaElement;
-        const domainHiddenInput = form.elements.namedItem("domains") as HTMLInputElement;
-
-        if (nameInput && !nameInput.value && nameGuess) nameInput.value = nameGuess;
-        if (contentInput) contentInput.value = netscapeOutput;
-        if (domainHiddenInput && hostname) {
-          domainHiddenInput.value = hostname;
-          domainHiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
-        }
-      }
-
-      setParseStatus("Successfully parsed cURL!");
-      setTimeout(() => setParseStatus(null), 3000);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Invalid syntax";
-      setParseStatus(`Failed: ${msg}`);
+    const nameInput = form.elements.namedItem("name");
+    const contentInput = form.elements.namedItem("cookieContent");
+    if (nameInput instanceof HTMLInputElement && !nameInput.value && result.name) {
+      nameInput.value = result.name;
+    }
+    if (contentInput instanceof HTMLTextAreaElement) {
+      contentInput.value = result.netscapeOutput;
     }
   };
 
@@ -303,8 +231,8 @@ export function ExtensionsClient({
 
       {/* Add Cookie Modal for Extension */}
       {addModalProvider && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-zinc-100  shadow-2xl relative my-8 space-y-5">
+        <div className="admin-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="admin-dialog relative my-8 w-full max-w-2xl space-y-5 rounded-2xl border p-5 shadow-2xl sm:p-7">
             <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Plus className="w-5 h-5 text-indigo-400" />
@@ -318,85 +246,62 @@ export function ExtensionsClient({
               </button>
             </div>
 
-            {/* cURL Parser Box */}
-            <div className="p-4 bg-zinc-950 border border-indigo-500/30 rounded-xl space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-indigo-400 flex items-center gap-1.5">
-                  <Terminal className="w-4 h-4" />
-                  <span>⚡ Import from cURL (CLI)</span>
-                </label>
-                <span className="text-[10px] text-zinc-500">Paste browser cURL</span>
-              </div>
-              <textarea
-                value={curlCommand}
-                onChange={(e) => setCurlCommand(e.target.value)}
-                rows={3}
-                placeholder="curl 'https://...' -H 'cookie: ...'"
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200  focus:outline-none focus:border-indigo-500"
-              />
-              <div className="flex items-center justify-between">
-                {parseStatus ? (
-                  <span className={`text-[11px] ${parseStatus.includes("Successfully") ? "text-emerald-400" : "text-amber-400"}`}>
-                    {parseStatus}
-                  </span>
-                ) : <span />}
-                <button
-                  type="button"
-                  onClick={() => handleParseCurl("add-ext-cookie-form", "")}
-                  className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition cursor-pointer flex items-center gap-1.5 ml-auto"
-                >
-                  <Wand2 className="w-3.5 h-3.5" /> Parse cURL
-                </button>
-              </div>
-            </div>
-
             <form 
               id="add-ext-cookie-form"
               action={async (fd) => {
                 await addCookieAction(fd);
                 setAddModalProvider(null);
-                setCurlCommand("");
               }}
               className="space-y-4"
             >
               <input type="hidden" name="provider" value={addModalProvider} />
+              <CookieSessionWarning />
 
               <div>
-                <label className="block text-zinc-400 mb-1">Account Label / Name</label>
+                <label htmlFor="add-ext-cookie-name" className="admin-form-label mb-1.5 block font-medium">Account name</label>
                 <input 
+                  id="add-ext-cookie-name"
                   type="text" 
                   name="name" 
-                  placeholder="e.g. Account Burner 1" 
+                  placeholder="e.g. Personal account"
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-100 focus:outline-none focus:border-indigo-500"
+                  className="admin-form-input w-full rounded-xl border px-3.5 py-3 text-sm transition"
                 />
               </div>
 
               <div>
-                <label className="block text-zinc-400 mb-1 flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Netscape Cookies Content (.txt format)</span>
-                </label>
+                <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                  <label htmlFor="add-ext-cookie-content" className="admin-form-label flex items-center gap-1.5 font-medium">
+                    <FileText className="h-3.5 w-3.5 text-indigo-500" />
+                    <span>Cookie content</span>
+                  </label>
+                  <CurlParserBox
+                    onParsed={(result) => applyParsedCookie("add-ext-cookie-form", result)}
+                  />
+                </div>
+                <p className="admin-form-hint mb-1.5">Paste Netscape cookie file content (.txt format).</p>
                 <textarea 
+                  id="add-ext-cookie-content"
                   name="cookieContent" 
-                  rows={5}
+                  rows={7}
                   placeholder="# Netscape HTTP Cookie File..." 
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-100  text-[11px] focus:outline-none focus:border-indigo-500"
+                  spellCheck={false}
+                  className="admin-form-input w-full resize-y rounded-xl border px-3.5 py-3 font-mono text-xs leading-relaxed transition"
                 ></textarea>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
+              <div className="flex justify-end gap-3 border-t pt-5">
                 <button 
                   type="button"
                   onClick={() => setAddModalProvider(null)}
-                  className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl transition cursor-pointer"
+                  className="admin-secondary-button cursor-pointer rounded-xl border px-4 py-2.5 transition"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition cursor-pointer flex items-center gap-2"
+                  className="admin-primary-button flex cursor-pointer items-center gap-2 rounded-xl px-5 py-2.5 font-semibold transition"
                 >
                   <Plus className="w-4 h-4" /> Save Cookie
                 </button>
@@ -408,8 +313,8 @@ export function ExtensionsClient({
 
       {/* Edit Cookie Modal for Extension */}
       {editingCookie && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-zinc-100  shadow-2xl relative my-8 space-y-5">
+        <div className="admin-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="admin-dialog relative my-8 w-full max-w-2xl space-y-5 rounded-2xl border p-5 shadow-2xl sm:p-7">
             <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Edit3 className="w-5 h-5 text-indigo-400" />
@@ -423,86 +328,64 @@ export function ExtensionsClient({
               </button>
             </div>
 
-            {/* cURL Parser Box */}
-            <div className="p-4 bg-zinc-950 border border-indigo-500/30 rounded-xl space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-indigo-400 flex items-center gap-1.5">
-                  <Terminal className="w-4 h-4" />
-                  <span>⚡ Replace Content from cURL (CLI)</span>
-                </label>
-                <span className="text-[10px] text-zinc-500">Paste updated cURL</span>
-              </div>
-              <textarea
-                value={curlCommand}
-                onChange={(e) => setCurlCommand(e.target.value)}
-                rows={3}
-                placeholder="curl 'https://...' -H 'cookie: ...'"
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200  focus:outline-none focus:border-indigo-500"
-              />
-              <div className="flex items-center justify-between">
-                {parseStatus ? (
-                  <span className={`text-[11px] ${parseStatus.includes("Successfully") ? "text-emerald-400" : "text-amber-400"}`}>
-                    {parseStatus}
-                  </span>
-                ) : <span />}
-                <button
-                  type="button"
-                  onClick={() => handleParseCurl("edit-ext-cookie-form", editingCookie.domains || "")}
-                  className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition cursor-pointer flex items-center gap-1.5 ml-auto"
-                >
-                  <Wand2 className="w-3.5 h-3.5" /> Parse cURL
-                </button>
-              </div>
-            </div>
-
             <form 
               id="edit-ext-cookie-form"
               action={async (fd) => {
                 await updateCookieAction(fd);
                 setEditingCookie(null);
-                setCurlCommand("");
               }}
               className="space-y-4"
             >
               <input type="hidden" name="id" value={editingCookie.id} />
               <input type="hidden" name="provider" value={editingCookie.provider} />
+              <CookieSessionWarning />
 
               <div>
-                <label className="block text-zinc-400 mb-1">Account Label / Name</label>
+                <label htmlFor="edit-ext-cookie-name" className="admin-form-label mb-1.5 block font-medium">Account name</label>
                 <input 
+                  id="edit-ext-cookie-name"
                   type="text" 
                   name="name" 
                   defaultValue={editingCookie.name}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-100 focus:outline-none focus:border-indigo-500"
+                  className="admin-form-input w-full rounded-xl border px-3.5 py-3 text-sm transition"
                 />
               </div>
 
               <div>
-                <label className="block text-zinc-400 mb-1 flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Netscape Cookies Content (.txt format)</span>
-                </label>
+                <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                  <label htmlFor="edit-ext-cookie-content" className="admin-form-label flex items-center gap-1.5 font-medium">
+                    <FileText className="h-3.5 w-3.5 text-indigo-500" />
+                    <span>Cookie content</span>
+                  </label>
+                  <CurlParserBox
+                    defaultDomain={editingCookie.domains || ""}
+                    onParsed={(result) => applyParsedCookie("edit-ext-cookie-form", result)}
+                  />
+                </div>
+                <p className="admin-form-hint mb-1.5">Paste Netscape cookie file content (.txt format).</p>
                 <textarea 
+                  id="edit-ext-cookie-content"
                   name="cookieContent" 
-                  rows={5}
+                  rows={7}
                   defaultValue={editingCookie.cookieContent}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-100  text-[11px] focus:outline-none focus:border-indigo-500"
+                  spellCheck={false}
+                  className="admin-form-input w-full resize-y rounded-xl border px-3.5 py-3 font-mono text-xs leading-relaxed transition"
                 ></textarea>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
+              <div className="flex justify-end gap-3 border-t pt-5">
                 <button 
                   type="button"
                   onClick={() => setEditingCookie(null)}
-                  className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl transition cursor-pointer"
+                  className="admin-secondary-button cursor-pointer rounded-xl border px-4 py-2.5 transition"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition cursor-pointer flex items-center gap-2"
+                  className="admin-primary-button flex cursor-pointer items-center gap-2 rounded-xl px-5 py-2.5 font-semibold transition"
                 >
                   <Edit3 className="w-4 h-4" /> Save Changes
                 </button>

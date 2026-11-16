@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { KeyRound, Plus } from "lucide-react";
 import { CookieFormFields } from "@/components/admin/CookieFormFields";
 
 interface AddCookieModalProps {
@@ -13,18 +13,23 @@ export function AddCookieModal({ isOpen, onClose, onAdd }: AddCookieModalProps) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 text-zinc-100  shadow-2xl relative my-8">
-        <div className="flex items-center justify-between pb-4 border-b border-zinc-800 mb-6">
-          <div className="flex items-center gap-2">
-            <Plus className="w-5 h-5 text-emerald-400" />
-            <h2 className="text-lg font-bold text-white">Add New Cookie</h2>
+    <div className="admin-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="admin-dialog relative my-8 max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-2xl border p-5 shadow-2xl sm:p-7">
+        <div className="mb-6 flex items-start justify-between gap-4 border-b pb-5">
+          <div className="flex items-start gap-3">
+            <span className="admin-dialog-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+              <KeyRound className="h-5 w-5" />
+            </span>
+            <div>
+              <h2 className="text-lg font-bold">Add cookie profile</h2>
+              <p className="admin-muted mt-1 text-xs">Connect an account session for supported media sources.</p>
+            </div>
           </div>
           <button 
             onClick={onClose}
-            className="text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition text-xs cursor-pointer"
+            className="admin-secondary-button shrink-0 rounded-lg border px-3 py-1.5 text-xs transition"
           >
-            ✕ Close
+            Close
           </button>
         </div>
 
@@ -34,21 +39,21 @@ export function AddCookieModal({ isOpen, onClose, onAdd }: AddCookieModalProps) 
             await onAdd(fd);
             onClose();
           }} 
-          className="space-y-6"
+          className="space-y-5"
         >
           <CookieFormFields formId="add-cookie-form" />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-zinc-800">
+          <div className="flex items-center justify-end gap-3 border-t pt-5">
             <button 
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold rounded-xl transition cursor-pointer text-xs"
+              className="admin-secondary-button cursor-pointer rounded-xl border px-4 py-2.5 text-xs font-semibold transition"
             >
               Cancel
             </button>
             <button 
               type="submit"
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-black font-bold rounded-xl transition cursor-pointer flex items-center gap-2 text-xs"
+              className="admin-primary-button flex cursor-pointer items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold transition"
             >
               <Plus className="w-4 h-4" /> Save Cookie
             </button>

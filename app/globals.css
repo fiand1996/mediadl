@@ -368,8 +368,389 @@ body {
   }
 }
 
-@media (max-width: 640px) {
-  .admin-ui .admin-sidebar-footer {
-    padding-top: 0;
-  }
+.dark .admin-ui {
+  --admin-canvas: #09090b;
+  --admin-surface: #121215;
+  --admin-border: #27272a;
+  --admin-ink: #f4f4f5;
+  --admin-muted: #a1a1aa;
+  background-color: var(--admin-canvas);
+  color: var(--admin-ink);
+}
+
+.dark .admin-ui .admin-main {
+  background:
+    radial-gradient(ellipse at 92% 0%, rgb(16 185 129 / 8%), transparent 26rem),
+    var(--admin-canvas);
+}
+
+.dark .admin-ui .admin-brand-mark {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-version,
+.dark .admin-ui .admin-count-badge {
+  border-color: #27272a;
+  background: #18181b;
+  color: #d4d4d8;
+}
+
+.dark .admin-ui .admin-section-label,
+.dark .admin-ui .admin-eyebrow {
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-nav-link {
+  color: #a1a1aa;
+}
+
+.dark .admin-ui .admin-nav-link:hover,
+.dark .admin-ui .admin-quiet-link:hover {
+  background: #1e1e24;
+  color: #fafafa;
+}
+
+.dark .admin-ui .admin-nav-link.is-active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  box-shadow: inset 2px 0 #34d399;
+}
+
+.dark .admin-ui .admin-nav-link.is-active svg {
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-quiet-link {
+  color: #a1a1aa;
+}
+
+.dark .admin-ui .admin-logout {
+  color: #f87171;
+}
+
+.dark .admin-ui .admin-card,
+.dark .admin-ui .admin-metric {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 20%), 0 10px 30px rgb(0 0 0 / 10%);
+}
+
+.dark .admin-ui .admin-metric:hover {
+  box-shadow: 0 10px 32px rgb(0 0 0 / 20%);
+}
+
+.dark .admin-ui .admin-cell-strong {
+  color: #e2e8f0;
+}
+
+.dark .admin-ui .admin-date-pill {
+  background: #18181b;
+  color: #d4d4d8;
+}
+
+.dark .admin-ui .admin-status-dot,
+.dark .admin-ui .admin-status-success {
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-status-dot {
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+}
+
+.dark .admin-ui .admin-status-success {
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(52, 211, 153, 0.1);
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-status-error {
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+}
+
+.dark .admin-ui .admin-icon-tile {
+  background: #1e1e24;
+  color: #a1a1aa;
+}
+
+.dark .admin-ui .admin-icon-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-icon-red {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+}
+
+.dark .admin-ui .admin-icon-blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.dark .admin-ui .admin-primary-button {
+  border-color: #059669;
+  background: #059669;
+  color: #ffffff;
+}
+
+.dark .admin-ui .admin-primary-button:hover {
+  background: #047857;
+}
+
+.dark .admin-ui .admin-secondary-button {
+  background: #18181b;
+  color: #d4d4d8;
+}
+
+.dark .admin-ui .admin-secondary-button:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.dark .admin-ui .admin-danger-button {
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+}
+
+.dark .admin-ui .admin-danger-button:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.dark .admin-ui .admin-table thead {
+  background: #18181b;
+  color: #a1a1aa;
+  border-block: 1px solid #202024;
+}
+
+.dark .admin-ui .admin-table thead tr {
+  border-color: #202024;
+}
+
+.dark .admin-ui .admin-table tbody tr {
+  border-color: #27272a;
+}
+
+.dark .admin-ui .admin-table tbody tr:hover {
+  background: #18181b;
+}
+
+.dark .admin-ui :is(
+  [class~="bg-zinc-950"],
+  [class~="bg-zinc-900"],
+  [class~="bg-zinc-800"],
+  [class*="bg-zinc-950/"],
+  [class*="bg-zinc-900/"],
+  [class*="bg-zinc-800/"]
+) {
+  background-color: #121215;
+}
+
+.dark .admin-ui :is([class~="bg-zinc-800"], [class*="bg-zinc-800/"]) {
+  background-color: #27272a;
+}
+
+.dark .admin-ui :is(
+  [class~="text-white"],
+  [class~="text-zinc-100"],
+  [class~="text-zinc-200"],
+  [class~="text-zinc-300"],
+  [class~="text-slate-950"],
+  [class~="text-slate-900"]
+) {
+  color: #f4f4f5;
+}
+
+.dark .admin-ui :is(
+  [class~="text-zinc-400"],
+  [class~="text-zinc-500"],
+  [class~="text-zinc-600"]
+) {
+  color: #a1a1aa;
+}
+
+.dark .admin-ui :is(
+  [class~="text-emerald-400"],
+  [class~="text-emerald-500"],
+  [class~="text-teal-400"],
+  [class~="text-cyan-400"],
+  [class~="text-indigo-400"]
+) {
+  color: #34d399;
+}
+
+.dark .admin-ui :is([class~="text-red-300"], [class~="text-red-400"]) {
+  color: #f87171;
+}
+
+.dark .admin-ui :is([class~="text-amber-400"], [class~="text-amber-500"]) {
+  color: #fbbf24;
+}
+
+.dark .admin-ui :is(
+  [class~="border-zinc-800"],
+  [class~="border-zinc-700"],
+  [class~="border-zinc-900"],
+  [class*="border-zinc-800/"],
+  [class*="border-zinc-700/"]
+) {
+  border-color: #27272a;
+}
+
+.dark .admin-ui :is(
+  [class*="bg-emerald-500/"],
+  [class*="bg-emerald-600/"],
+  [class*="bg-teal-500/"],
+  [class*="bg-cyan-500/"],
+  [class*="bg-indigo-500/"]
+) {
+  background-color: rgba(16, 185, 129, 0.12);
+}
+
+.dark .admin-ui :is(
+  [class*="border-emerald-500/"],
+  [class*="border-teal-500/"],
+  [class*="border-cyan-500/"],
+  [class*="border-indigo-500/"]
+) {
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.dark .admin-ui :is([class*="bg-red-500/"], [class*="bg-red-900/"], [class*="bg-red-950/"]) {
+  background-color: rgba(248, 113, 113, 0.12);
+}
+
+.dark .admin-ui :is([class*="border-red-500/"], [class*="border-red-800/"]) {
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+.dark .admin-ui :is([class*="bg-amber-500/"], [class*="bg-amber-400/"]) {
+  background-color: rgba(251, 191, 36, 0.12);
+}
+
+.dark .admin-ui :is([class*="border-amber-500/"]) {
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.dark .admin-ui :is(
+  [class~="hover:bg-zinc-900"]:hover,
+  [class~="hover:bg-zinc-800"]:hover,
+  [class~="hover:bg-zinc-700"]:hover,
+  [class~="hover:bg-zinc-900/50"]:hover,
+  [class~="hover:bg-zinc-800/80"]:hover
+) {
+  background-color: #1e1e24;
+}
+
+.dark .admin-ui input:not([type="hidden"]),
+.dark .admin-ui textarea,
+.dark .admin-ui select {
+  border-color: #3f3f46;
+  background-color: #18181b;
+  color: #f4f4f5;
+}
+
+.dark .admin-ui input::placeholder,
+.dark .admin-ui textarea::placeholder {
+  color: #71717a;
+}
+
+.dark .admin-login-shell {
+  background:
+    radial-gradient(ellipse at 18% 20%, rgb(16 185 129 / 12%), transparent 28rem),
+    radial-gradient(ellipse at 85% 85%, rgb(59 130 246 / 8%), transparent 30rem),
+    #09090b;
+}
+
+.admin-ui .admin-modal-backdrop {
+  background: rgb(15 23 42 / 38%);
+}
+
+.admin-ui .admin-curl-backdrop {
+  background: rgb(15 23 42 / 46%);
+}
+
+.admin-ui .admin-dialog {
+  border-color: var(--admin-border);
+  background: var(--admin-surface);
+  color: var(--admin-ink);
+  backdrop-filter: none;
+}
+
+.admin-ui .admin-dialog-icon {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.admin-ui .admin-form-label {
+  color: #334155;
+}
+
+.admin-ui .admin-form-hint {
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.admin-ui input.admin-form-input,
+.admin-ui textarea.admin-form-input {
+  border-color: #dbe2ea;
+  background: #fff;
+  color: #1e293b;
+}
+
+.admin-ui .admin-cookie-warning {
+  border-color: #fde68a;
+  background: #fffbeb;
+  color: #854d0e;
+}
+
+.admin-ui .admin-cookie-warning svg {
+  color: #d97706;
+}
+
+.dark .admin-ui .admin-modal-backdrop {
+  background: rgb(0 0 0 / 78%);
+}
+
+.dark .admin-ui .admin-curl-backdrop {
+  background: rgb(0 0 0 / 84%);
+}
+
+.dark .admin-ui .admin-dialog {
+  border-color: #303036;
+  background: #18181b;
+  color: #f4f4f5;
+}
+
+.dark .admin-ui .admin-dialog-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.dark .admin-ui .admin-form-label {
+  color: #e4e4e7;
+}
+
+.dark .admin-ui .admin-form-hint {
+  color: #a1a1aa;
+}
+
+.dark .admin-ui input.admin-form-input,
+.dark .admin-ui textarea.admin-form-input {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #f4f4f5;
+}
+
+.dark .admin-ui .admin-cookie-warning {
+  border-color: rgba(251, 191, 36, 0.3);
+  background: rgba(251, 191, 36, 0.1);
+  color: #fde68a;
+}
+
+.dark .admin-ui .admin-cookie-warning svg {
+  color: #fbbf24;
 }
