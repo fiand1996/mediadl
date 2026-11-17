@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Puzzle, KeyRound, Plus, Trash2, Edit3, ShieldCheck, ChevronDown, ChevronUp, FileText, ShieldAlert } from "lucide-react";
 import { CookieSessionWarning } from "@/components/admin/CookieSessionWarning";
 import { CurlParserBox, type CookieParserResult } from "@/components/admin/CurlParserBox";
@@ -51,14 +51,22 @@ export function ExtensionsClient({
   const [editingCookie, setEditingCookie] = useState<CookieItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "disabled">("all");
+  const [extensionStates, setExtensionStates] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(extensions.map((ext) => [ext.id, ext.isEnabled]))
+  );
+
+  useEffect(() => {
+    setExtensionStates(Object.fromEntries(extensions.map((ext) => [ext.id, ext.isEnabled])));
+  }, [extensions]);
 
   const filteredExtensions = extensions.filter((ext) => {
+    const isEnabled = extensionStates[ext.id] ?? ext.isEnabled;
     const matchesSearch = ext.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           ext.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           (ext.description && ext.description.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    if (statusFilter === "active") return matchesSearch && ext.isEnabled;
-    if (statusFilter === "disabled") return matchesSearch && !ext.isEnabled;
+    if (statusFilter === "active") return matchesSearch && isEnabled;
+    if (statusFilter === "disabled") return matchesSearch && !isEnabled;
     return matchesSearch;
   });
 
@@ -116,13 +124,13 @@ export function ExtensionsClient({
             onClick={() => setStatusFilter("active")}
             className={`px-3.5 py-2 rounded-xl font-medium transition cursor-pointer border ${statusFilter === "active" ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" : "bg-zinc-900 text-zinc-400 border-zinc-800"}`}
           >
-            Active ({extensions.filter(e => e.isEnabled).length})
+            Active ({extensions.filter(e => (extensionStates[e.id] ?? e.isEnabled)).length})
           </button>
           <button
             onClick={() => setStatusFilter("disabled")}
             className={`px-3.5 py-2 rounded-xl font-medium transition cursor-pointer border ${statusFilter === "disabled" ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" : "bg-zinc-900 text-zinc-400 border-zinc-800"}`}
           >
-            Disabled ({extensions.filter(e => !e.isEnabled).length})
+            Disabled ({extensions.filter(e => !(extensionStates[e.id] ?? e.isEnabled)).length})
           </button>
         </div>
       </div>
@@ -137,23 +145,24 @@ export function ExtensionsClient({
           filteredExtensions.map((ext) => {
             const extCookies = allCookies.filter((c) => c.provider === ext.id);
             const isExpanded = expandedId === ext.id;
+            const isEnabled = extensionStates[ext.id] ?? ext.isEnabled;
 
             return (
               <div 
                 key={ext.id}
-                className={`admin-card space-y-4 rounded-2xl border p-5 transition-all ${!ext.isEnabled ? 'opacity-60 bg-zinc-950/20' : ''}`}
+                className={`admin-card space-y-4 rounded-2xl border p-5 transition-all ${!isEnabled ? 'opacity-60 bg-zinc-950/20' : ''}`}
               >
                 {/* Row Summary Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3.5">
-                    <div className={`admin-icon-tile flex h-10 w-10 items-center justify-center rounded-xl border font-bold text-sm ${ext.isEnabled ? 'admin-icon-green' : 'bg-zinc-800 text-zinc-500 border-zinc-700'}`}>
+                    <div className={`admin-icon-tile flex h-10 w-10 items-center justify-center rounded-xl border font-bold text-sm ${isEnabled ? 'admin-icon-green' : 'bg-zinc-800 text-zinc-500 border-zinc-700'}`}>
                       {ext.name.slice(0, 2).toUpperCase()}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-white text-sm">{ext.name}</span>
                         <span className="admin-count-badge rounded-full px-2 py-0.5 text-[10px] font-medium">v{ext.version}</span>
-                        {ext.isEnabled ? (
+                        {isEnabled ? (
                           <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1">
                             <ShieldCheck className="w-3 h-3" /> Active
                           </span>
@@ -168,15 +177,34 @@ export function ExtensionsClient({
                   </div>
 
                   <div className="flex items-center gap-3 self-end sm:self-center">
-                    <form action={toggleExtensionAction}>
+                    <form
+                      action={async (formData) => {
+                        await toggleExtensionAction(formData);
+                      }}
+                      className="flex items-center"
+                    >
                       <input type="hidden" name="id" value={ext.id} />
-                      <input type="hidden" name="isEnabled" value={ext.isEnabled ? "false" : "true"} />
-                      <button
-                        type="submit"
-                        className={`px-3.5 py-2 rounded-xl font-semibold transition cursor-pointer border text-xs ${ext.isEnabled ? 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'}`}
-                      >
-                        {ext.isEnabled ? "Disable" : "Enable"}
-                      </button>
+                      <input type="hidden" name="isEnabled" value={extensionStates[ext.id] ? "true" : "false"} />
+                      <label className="relative inline-flex cursor-pointer items-center">
+                        <input
+                          type="checkbox"
+                          role="switch"
+                          checked={isEnabled}
+                          aria-label={`${isEnabled ? "Disable" : "Enable"} ${ext.name}`}
+                          className="peer sr-only"
+                          onChange={(event) => {
+                            const isEnabled = event.currentTarget.checked;
+                            setExtensionStates((current) => ({ ...current, [ext.id]: isEnabled }));
+                            const form = event.currentTarget.form;
+                            const hiddenInput = form?.elements.namedItem("isEnabled");
+                            if (hiddenInput instanceof HTMLInputElement) {
+                              hiddenInput.value = isEnabled ? "true" : "false";
+                            }
+                            form?.requestSubmit();
+                          }}
+                        />
+                        <span className="h-6 w-11 rounded-full border border-zinc-700 bg-zinc-800 transition-colors peer-checked:border-emerald-500/40 peer-checked:bg-emerald-500 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-emerald-400 after:absolute after:left-[3px] after:top-[3px] after:h-[18px] after:w-[18px] after:rounded-full after:bg-white after:shadow-sm after:transition-transform peer-checked:after:translate-x-5" />
+                      </label>
                     </form>
 
                     {ext.cookies.support && (

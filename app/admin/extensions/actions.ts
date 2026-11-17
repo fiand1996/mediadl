@@ -5,7 +5,6 @@ import { extensionStates } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
-import { invalidateExtensionStatusCache } from "@/lib/extensionManager";
 
 export async function toggleExtensionAction(formData: FormData) {
   const session = await auth();
@@ -30,7 +29,6 @@ export async function toggleExtensionAction(formData: FormData) {
         .values({ id, isEnabled, updatedAt: new Date() })
         .run();
     }
-    invalidateExtensionStatusCache();
     revalidatePath("/admin/extensions");
   }
 }
