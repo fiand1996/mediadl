@@ -12,6 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## 🧩 Core Architecture Rules
 1. **Extension Boundary (Priority 1)**: All platform-specific scrapers must live inside `extensions/` as isolated modules implementing `DownloaderExtension`. **Never import anything from outside `extensions/` into an extension module.**
+   - **Exclusive Authority & Terminating Fallback**: When a URL matches an extension's `urlPatterns`, the extension has exclusive ownership of that URL. If extraction fails, **never fall back to gallery-dl or yt-dlp**. Immediately return an error response to avoid masking extension issues, silent degradation, or cookie confusion.
 2. **gallery-dl Integration (Priority 2)**:
    - For all image hosts, boorus, manga, comics, and art communities, routing is dynamically determined by `lib/galleryDlMatcher.ts` using `lib/metadata/galleryDlSupportedSites.json`.
    - **Terminating Fallback**: If a URL belongs to a gallery site recognized by `galleryDlSupportedSites.json` and extraction fails, **never fall back to yt-dlp**. Immediately return an error response to avoid latency and resource waste.

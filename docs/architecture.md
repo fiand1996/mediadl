@@ -18,16 +18,16 @@ Incoming Request (URL)
  │  Registry │ ────────────────────────> │ Priority 1: Extensions   │
  └───────────┘                           │ (Instagram, Pixiv, etc.) │
        │                                 └──────────────────────────┘
-       │ No match / Platform error
-       ▼
- ┌───────────────────────────┐     Domain in JSON     ┌──────────────────────────────┐
- │ galleryDlMatcher          │ ─────────────────────> │ Priority 2: gallery-dl       │
- └───────────────────────────┘                        │ (350+ Photo / Art / Boorus)  │
-       │                                              └──────────────────────────────┘
-       │ Not a gallery site                                          │
-       │                                                             │ (If fails: STOP,
-       ▼                                                             │  no fallback)
- ┌─────────────────────────────────────────────────────────────┐     │
+       │ No extension matched                          │
+       ▼                                               │ (If fails: STOP,
+ ┌───────────────────────────┐     Domain in JSON     │  no fallback)
+ │ galleryDlMatcher          │ ─────────────────────> ┌──────────────────────────────┐
+ └───────────────────────────┘                        │ Priority 2: gallery-dl       │
+       │                                              │ (350+ Photo / Art / Boorus)  │
+       │ Not a gallery site                           └──────────────────────────────┘
+       │                                                             │
+       ▼                                                             │ (If fails: STOP,
+ ┌─────────────────────────────────────────────────────────────┐     │  no fallback)
  │ Priority 3: yt-dlp Universal Fallback                       │ <───┘ (Excluded)
  │ (Universal Video/Audio Streaming Platforms)                 │
  └─────────────────────────────────────────────────────────────┘
@@ -44,6 +44,7 @@ Instead of monolithic platform scrapers, MediaDL treats core platforms as isolat
 - **Base Extension (`extensions/core/base.ts`)**: Provides standardized HTTP request methods, automated cookie injection, sanitization, and **Smart Auto-Detect Cloudflare Challenge (Lazy Fallback)**.
 - **Platform Modules (`extensions/instagram/`, `extensions/pixiv/`, etc.)**: Implement platform-specific parsing (e.g., mobile API extraction for Instagram, AJAX JSON parsing for Pixiv).
 - **Extension Registry (`extensions/registry.ts`)**: Automatically discovers registered modules and maps incoming URLs against regex patterns (`urlPatterns`).
+- **Exclusive Authority & Terminating Fallback**: Extensions take strict Priority 1. If an incoming URL matches an extension, that extension alone processes the request. If extraction fails, the pipeline immediately returns an error response without falling back to `gallery-dl` or `yt-dlp`.
 
 ### 2. `gallery-dl` Gallery & Image Engine (`lib/galleryDlCore.ts` & `lib/galleryDlMatcher.ts`)
 
@@ -88,7 +89,7 @@ Powered by SQLite (`better-sqlite3`) and Drizzle ORM:
 ## 🔄 Request Lifecycle (`/api/download` & `/api/stream`)
 
 1. **Rate Limiting & Anti-Bot Protection**: Incoming requests are fingerprinted and rate-limited. Automated scrapers (Python requests, Postman) are blocked.
-2. **Priority 1 (Registry Dispatch)**: The backend asks `ExtensionRegistry` if any platform extension owns the target URL. If matched, it extracts media using extension cookies.
+2. **Priority 1 (Registry Dispatch)**: The backend asks `ExtensionRegistry` if any platform extension owns the target URL. If matched, it extracts media using extension cookies. If extraction fails, execution halts immediately with an error response (terminating, never falling back to `gallery-dl` or `yt-dlp`).
 3. **Priority 2 (gallery-dl Match & Extraction)**: If no extension matched, `galleryDlMatcher` checks if the domain belongs to any of the 350+ supported gallery sites. If matched, `gallery-dl` processes the media. Any failure here terminates immediately with an error response.
 4. **Priority 3 (yt-dlp Fallback)**: If the URL is neither an extension nor a gallery site, it falls back to the `yt-dlp` universal engine.
 5. **Format Parsing & Response**: Media metadata and multi-resolution format options (including Audio Only, progressive streams, or carousel galleries) are returned to the `ResultCard` component.

@@ -143,11 +143,29 @@ export async function GET(request: Request) {
         attempts++;
       }
     }
+
+    // Terminating Fallback: If an extension owns this URL, it has exclusive authority.
+    // Never fall back to gallery-dl or yt-dlp on failure to prevent silent degradation and cookie confusion.
+    if (!successResult) {
+      db.insert(fetchLogs).values({
+        url: targetUrl,
+        provider: primaryProviderId,
+        status: "error",
+        statusCode: 500,
+        errorMessage: lastError,
+        cookieUsed: activeCookie?.name || null,
+      }).run();
+
+      return NextResponse.json(
+        { success: false, error: lastError || `${extension.manifest.name} extraction failed.` },
+        { status: 500 }
+      );
+    }
   }
 
-  // 4. Priority 2: gallery-dl fallback (if target site is in galleryDlSupportedSites.json)
+  // 4. Priority 2: gallery-dl (only if no extension claimed the URL and domain is in galleryDlSupportedSites.json)
   let activeGdlCookie: { id: number; name: string; cookieContent: string } | null = null;
-  if (!successResult && isGalleryDlSupported(targetUrl)) {
+  if (!extension && isGalleryDlSupported(targetUrl)) {
     try {
       activeGdlCookie = getActiveGalleryDlCookieForUrl(targetUrl);
       const gdlCookie = activeGdlCookie?.cookieContent || null;
@@ -178,9 +196,9 @@ export async function GET(request: Request) {
     }
   }
 
-  // 5. Priority 3: yt-dlp universal engine fallback (only for general video/audio not claimed by gallery-dl)
+  // 5. Priority 3: yt-dlp universal engine fallback (only for URLs not handled by extensions and not claimed by gallery-dl)
   let activeCookieManager: { id: number; name: string; cookieContent: string } | null = null;
-  if (!successResult && !isGalleryDlSupported(targetUrl)) {
+  if (!extension && !isGalleryDlSupported(targetUrl)) {
     try {
       activeCookieManager = getActiveCookieManagerForUrl(targetUrl);
       const ytCookie = activeCookieManager?.cookieContent || null;
