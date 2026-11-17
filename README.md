@@ -8,13 +8,16 @@
 
 ## ✨ Key Features
 
-- **Multi-Platform Extensibility**: Modular extension system supporting **Instagram**, **Pixiv**, adult media galleries, and universal fallback to **yt-dlp** for all video platforms (YouTube, Twitter/X, TikTok, etc.).
+- **3-Tier Smart Resolution Engine**:
+  - **Priority 1: Dedicated Extensions**: Handcrafted high-performance scrapers for complex platforms (**Instagram**, **Pixiv**, adult manga/galleries).
+  - **Priority 2: `gallery-dl` Integration**: Native support for **350+ image hosts, boorus, manga, and art communities** (DeviantArt, Danbooru, Flickr, etc.) with automatic domain matching via `galleryDlSupportedSites.json`.
+  - **Priority 3: `yt-dlp` Universal Fallback**: Robust fallback for all universal video/audio streaming platforms (YouTube, Twitter/X, TikTok, etc.).
 - **Smart Anti-CORS Binary Streaming**: Direct streaming engine (`/api/stream`) delivering binary video and audio files with native browser download triggers and zero CORS blocking.
-- **Bulk ZIP Downloads**: Automatically package multiple media items (carousels, multi-page manga) into a single `.ZIP` archive with full binary files.
+- **Bulk ZIP Downloads**: Automatically package multiple media items (carousels, multi-page manga, albums) into a single `.ZIP` archive with full binary files.
 - **Audio Only Extraction**: Extract pure audio tracks (`.m4a`) from music videos and reels.
 - **Dark, Light & System Theme**: Theme engine with system default auto-detection, instant switcher, and zero FOUC.
 - **Multi-Language Support**: Instant UI language switcher supporting **English (EN)** and **Bahasa Indonesia (ID)**.
-- **Admin Dashboard & Cookie Management**: Database-driven session storage (SQLite via Drizzle ORM) with salted `scrypt` authentication and automated cookie rotation.
+- **Admin Dashboard & Cookie Management**: Database-driven session storage (SQLite via Drizzle ORM) with automated cookie rotation across extensions, `yt-dlp`, and `gallery-dl`.
 - **Ad-Free & Zero-Log**: Direct CDN fetching with no intrusive ads, pop-ups, or server-side media retention.
 
 ---
@@ -49,7 +52,7 @@ Or use Docker Compose (see [Running & Environment Guide](./docs/running-and-env.
 
 ### Option 2: Local Development
 
-Make sure you have [Node.js](https://nodejs.org/) (v18+), [pnpm](https://pnpm.io/), and `yt-dlp` installed.
+Make sure you have [Node.js](https://nodejs.org/) (v18+), [pnpm](https://pnpm.io/), and optionally `yt-dlp` and `gallery-dl` installed.
 
 1. Clone the repository and install dependencies:
 
@@ -75,8 +78,14 @@ Make sure you have [Node.js](https://nodejs.org/) (v18+), [pnpm](https://pnpm.io
 For comprehensive guides and architecture details, check out the `docs/` directory:
 
 - [Running and Environment Configuration Guide](./docs/running-and-env.md) - Detailed setup, environment variables reference, and Docker deployment.
-- [Architecture & System Design](./docs/architecture.md) - Decoupled extension registry, core `yt-dlp` engine, and streaming proxy.
+- [Architecture & System Design](./docs/architecture.md) - Decoupled extension registry, `gallery-dl` engine, `yt-dlp` fallback, and streaming proxy.
 - [Cookie Management & Rotation Guide](./docs/cookie.md) - Platform burner cookies and Netscape cookie rotation.
+
+---
+
+## ⚠️ Disclaimer
+
+This tool is intended for personal use only. Please respect copyright laws and the terms of service of the platforms you download from. The developers are not responsible for any misuse of this tool.
 
 ---
 

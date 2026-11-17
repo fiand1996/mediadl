@@ -14,17 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install architecture-aware yt-dlp binary
-RUN ARCH=$(dpkg --print-architecture) \
-    && if [ "$ARCH" = "amd64" ]; then \
-        YTDLP_URL="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"; \
-       elif [ "$ARCH" = "arm64" ]; then \
-        YTDLP_URL="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux_aarch64"; \
-       else \
-        YTDLP_URL="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"; \
-       fi \
-    && curl -L "$YTDLP_URL" -o /usr/local/bin/yt-dlp \
-    && chmod a+rx /usr/local/bin/yt-dlp
+# Install yt-dlp & gallery-dl (universal multi-arch: amd64 & arm64 via pip)
+RUN pip3 install --no-cache-dir --break-system-packages "yt-dlp[default]" gallery-dl
 
 # Install pnpm via corepack
 ENV PNPM_HOME="/pnpm"

@@ -1,0 +1,2494 @@
+[
+  {
+    "id": "2ch",
+    "name": "2ch",
+    "url": "https://2ch.org/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "35photo",
+    "name": "35PHOTO",
+    "url": "https://35photo.pro/",
+    "capabilities": "Genres, individual Images, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "3dbooru",
+    "name": "3dbooru",
+    "url": "http://behoimi.org/",
+    "capabilities": "Pools, Popular Images, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "4archive",
+    "name": "4archive",
+    "url": "https://4archive.org/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "4chan",
+    "name": "4chan",
+    "url": "https://www.4chan.org/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "4chanarchives",
+    "name": "4chanarchives",
+    "url": "https://4chanarchives.com/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "500px",
+    "name": "500px",
+    "url": "https://500px.com/",
+    "capabilities": "Favorites, Galleries, individual Images, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "8chan",
+    "name": "8chan",
+    "url": "https://8chan.moe/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "8muses",
+    "name": "8muses",
+    "url": "https://comics.8muses.com/",
+    "capabilities": "Albums",
+    "authentication": ""
+  },
+  {
+    "id": "myportfolio",
+    "name": "Adobe Portfolio",
+    "url": "https://www.myportfolio.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "adultempire",
+    "name": "Adult Empire",
+    "url": "https://www.adultempire.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "agnph",
+    "name": "AGNPH",
+    "url": "https://agn.ph/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "ahottie",
+    "name": "AHottie",
+    "url": "https://ahottie.top/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "allporncomic",
+    "name": "AllPornComic",
+    "url": "https://allporncomic.com/",
+    "capabilities": "Chapters, Manga, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "arcalive",
+    "name": "Arcalive",
+    "url": "https://arca.live/",
+    "capabilities": "Boards, Posts, User Posts",
+    "authentication": ""
+  },
+  {
+    "id": "architizer",
+    "name": "Architizer",
+    "url": "https://architizer.com/",
+    "capabilities": "Firms, Projects",
+    "authentication": ""
+  },
+  {
+    "id": "ao3",
+    "name": "Archive of Our Own",
+    "url": "https://archiveofourown.org/",
+    "capabilities": "Search Results, Series, Subscriptions, Tag Searches, User Profiles, User Bookmarks, User Series, User Works, Works",
+    "authentication": "Supported"
+  },
+  {
+    "id": "arena",
+    "name": "Are.na",
+    "url": "https://are.na/",
+    "capabilities": "Channels",
+    "authentication": ""
+  },
+  {
+    "id": "artstation",
+    "name": "ArtStation",
+    "url": "https://www.artstation.com/",
+    "capabilities": "Albums, Artwork Listings, Challenges, Collections, Followed Users, individual Images, Likes, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "audiochan",
+    "name": "Audiochan",
+    "url": "https://audiochan.com/",
+    "capabilities": "Audios, Collections, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "bbc",
+    "name": "BBC",
+    "url": "https://bbc.co.uk/",
+    "capabilities": "Galleries, Programmes",
+    "authentication": ""
+  },
+  {
+    "id": "behance",
+    "name": "Behance",
+    "url": "https://www.behance.net/",
+    "capabilities": "Collections, Galleries, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "bellazon",
+    "name": "Bellazon",
+    "url": "https://www.bellazon.com/",
+    "capabilities": "Forums, Posts, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "bilibili",
+    "name": "Bilibili",
+    "url": "https://www.bilibili.com/",
+    "capabilities": "Articles, User Articles, User Article Favorites",
+    "authentication": ""
+  },
+  {
+    "id": "bluesky",
+    "name": "Bluesky",
+    "url": "https://bsky.app/",
+    "capabilities": "Avatars, Backgrounds, Bookmarks, Feeds, Followed Users, Hashtags, User Profile Information, Likes, Lists, Media Files, Posts, Replies, Search Results, User Profiles, Videos",
+    "authentication": "Supported"
+  },
+  {
+    "id": "boosty",
+    "name": "Boosty",
+    "url": "https://www.boosty.to/",
+    "capabilities": "DMs, Subscriptions Feed, Followed Users, Media Files, Posts, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "booth",
+    "name": "BOOTH",
+    "url": "https://booth.pm/",
+    "capabilities": "Item Categories, Items, Shops",
+    "authentication": ""
+  },
+  {
+    "id": "bunkr",
+    "name": "Bunkr",
+    "url": "https://bunkr.si/",
+    "capabilities": "Albums, Media Files",
+    "authentication": ""
+  },
+  {
+    "id": "catbox",
+    "name": "Catbox",
+    "url": "https://catbox.moe/",
+    "capabilities": "Albums, Files",
+    "authentication": ""
+  },
+  {
+    "id": "cfake",
+    "name": "Celebrity Fakes",
+    "url": "https://cfake.com/",
+    "capabilities": "Categories, Celebrities, Countries, Created",
+    "authentication": ""
+  },
+  {
+    "id": "naver-chzzk",
+    "name": "CHZZK",
+    "url": "https://chzzk.naver.com/",
+    "capabilities": "Comments, Communities",
+    "authentication": ""
+  },
+  {
+    "id": "cien",
+    "name": "Ci-en",
+    "url": "https://ci-en.net/",
+    "capabilities": "Articles, Creators, Followed Users, Recent Images",
+    "authentication": ""
+  },
+  {
+    "id": "civitai",
+    "name": "Civitai",
+    "url": "https://www.civitai.com/",
+    "capabilities": "Collections, Generated Files, individual Images, Image Listings, Models, Model Listings, Posts, Post Listings, Image Searches, Model Searches, Tag Searches, User Profiles, User Collections, User Images, Image Reactions, User Models, User Posts, User Videos, Video Reactions, Video Listings",
+    "authentication": ""
+  },
+  {
+    "id": "comedywildlifephoto",
+    "name": "Comedy Wildlife Photography Awards",
+    "url": "https://www.comedywildlifephoto.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "comicvine",
+    "name": "Comic Vine",
+    "url": "https://comicvine.gamespot.com/",
+    "capabilities": "Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "comick",
+    "name": "Comick",
+    "url": "https://comick.io/",
+    "capabilities": "Chapters, Covers, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "coomer",
+    "name": "Coomer",
+    "url": "https://coomer.st/",
+    "capabilities": "Artists, Favorites, Posts, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "cyberdrop",
+    "name": "Cyberdrop",
+    "url": "https://cyberdrop.cr/",
+    "capabilities": "Albums, Media Files",
+    "authentication": ""
+  },
+  {
+    "id": "cyberfile",
+    "name": "CyberFile",
+    "url": "https://cyberfile.me/",
+    "capabilities": "Files, Folders, Shares",
+    "authentication": ""
+  },
+  {
+    "id": "dandadan",
+    "name": "Dandadan",
+    "url": "https://dandadan.net/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "dankefuerslesen",
+    "name": "Danke fürs Lesen",
+    "url": "https://danke.moe/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "desktopography",
+    "name": "Desktopography",
+    "url": "https://desktopography.net/",
+    "capabilities": "Entries, Exhibitions",
+    "authentication": ""
+  },
+  {
+    "id": "deviantart",
+    "name": "DeviantArt",
+    "url": "https://www.deviantart.com/",
+    "capabilities": "Avatars, Backgrounds, Collections, Deviations, Favorites, Folders, Followed Users, Galleries, Gallery Searches, Journals, Scraps, Search Results, Sta.sh, Status Updates, Tag Searches, User Profiles, Watches",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "discord",
+    "name": "Discord",
+    "url": "https://discord.com/",
+    "capabilities": "Channels, DMs, Messages, Servers, Server Assets, Server Searches",
+    "authentication": ""
+  },
+  {
+    "id": "dynastyscans",
+    "name": "Dynasty Reader",
+    "url": "https://dynasty-scans.com/",
+    "capabilities": "Anthologies, Chapters, individual Images, Manga, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "aryion",
+    "name": "Eka's Portal",
+    "url": "https://aryion.com/",
+    "capabilities": "Favorites, Galleries, Posts, Search Results, Tag Searches, Watches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "eporner",
+    "name": "EPORNER",
+    "url": "https://www.eporner.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "erome",
+    "name": "EroMe",
+    "url": "https://www.erome.com/",
+    "capabilities": "Albums, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "everia",
+    "name": "EVERIA.CLUB",
+    "url": "https://everia.club",
+    "capabilities": "Categories, Dates, Posts, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "facebook",
+    "name": "Facebook",
+    "url": "https://www.facebook.com/",
+    "capabilities": "Albums, Avatars, User Profile Information, Photos, Profile Photos, Sets, User Profiles, Videos",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "fansly",
+    "name": "Fansly",
+    "url": "https://fansly.com/",
+    "capabilities": "Creator Media, Creator Posts, Home Feed, Lists, Account Lists, Posts",
+    "authentication": ""
+  },
+  {
+    "id": "fantia",
+    "name": "Fantia",
+    "url": "https://fantia.jp/",
+    "capabilities": "Creators, Posts, Supported Creators",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "fapachi",
+    "name": "Fapachi",
+    "url": "https://fapachi.com/",
+    "capabilities": "Posts, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "fapello",
+    "name": "Fapello",
+    "url": "https://fapello.com/",
+    "capabilities": "Models, Videos, Trending Posts, Popular Videos, Top Models, Posts",
+    "authentication": ""
+  },
+  {
+    "id": "fikfap",
+    "name": "FikFap",
+    "url": "https://fikfap.com/",
+    "capabilities": "Hashtags, Posts, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "filester",
+    "name": "filester.me",
+    "url": "https://filester.me/",
+    "capabilities": "Files, Folders",
+    "authentication": ""
+  },
+  {
+    "id": "fitnakedgirls",
+    "name": "FitNakedGirls",
+    "url": "https://fitnakedgirls.com/",
+    "capabilities": "Blogs, Categories, Galleries, Tag Searches, Videos",
+    "authentication": ""
+  },
+  {
+    "id": "flickr",
+    "name": "Flickr",
+    "url": "https://www.flickr.com/",
+    "capabilities": "Albums, Favorites, Galleries, Groups, individual Images, Search Results, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "foriio",
+    "name": "foriio",
+    "url": "https://foriio.com/",
+    "capabilities": "User Profiles, Works",
+    "authentication": ""
+  },
+  {
+    "id": "furaffinity",
+    "name": "Fur Affinity",
+    "url": "https://www.furaffinity.net/",
+    "capabilities": "Favorites, Folders, Followed Users, Galleries, Posts, Scraps, Search Results, New Submissions, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "furry34",
+    "name": "Furry 34 com",
+    "url": "https://furry34.com/",
+    "capabilities": "Playlists, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "fuskator",
+    "name": "Fuskator",
+    "url": "https://fuskator.com/",
+    "capabilities": "Galleries, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "2chan",
+    "name": "Futaba Channel",
+    "url": "https://www.2chan.net/",
+    "capabilities": "Threads",
+    "authentication": ""
+  },
+  {
+    "id": "gelbooru",
+    "name": "Gelbooru",
+    "url": "https://gelbooru.com/",
+    "capabilities": "Favorites, Pools, Posts, Redirects, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "girlswithmuscle",
+    "name": "Girls with Muscle",
+    "url": "https://www.girlswithmuscle.com/",
+    "capabilities": "Posts, Search Results",
+    "authentication": "Supported"
+  },
+  {
+    "id": "girlsreleased",
+    "name": "Girlsreleased",
+    "url": "https://girlsreleased.com/",
+    "capabilities": "Models, Sets, Sites",
+    "authentication": ""
+  },
+  {
+    "id": "gofile",
+    "name": "Gofile",
+    "url": "https://gofile.io/",
+    "capabilities": "Folders",
+    "authentication": ""
+  },
+  {
+    "id": "hatenablog",
+    "name": "HatenaBlog",
+    "url": "https://hatenablog.com",
+    "capabilities": "Archive, Individual Posts, Home Feed, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "hentai2read",
+    "name": "Hentai2Read",
+    "url": "https://hentai2read.com/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "hentaihere",
+    "name": "HentaiHere",
+    "url": "https://hentaihere.com/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "hiperdex",
+    "name": "HiperDEX",
+    "url": "https://hiperdex.com/",
+    "capabilities": "Artists, Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "hotleak",
+    "name": "Hotleak",
+    "url": "https://hotleak.vip/",
+    "capabilities": "Categories, Creators, Posts, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "idolcomplex",
+    "name": "Idol Complex",
+    "url": "https://www.idolcomplex.com/",
+    "capabilities": "Pools, Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "imagebam",
+    "name": "ImageBam",
+    "url": "https://www.imagebam.com/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imagechest",
+    "name": "ImageChest",
+    "url": "https://imgchest.com/",
+    "capabilities": "Galleries, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "imagefap",
+    "name": "ImageFap",
+    "url": "https://www.imagefap.com/",
+    "capabilities": "Folders, Galleries, individual Images, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "imagepond",
+    "name": "ImagePond",
+    "url": "https://www.imagepond.net/",
+    "capabilities": "Albums, Files, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "imageshack",
+    "name": "ImageShack",
+    "url": "https://imageshack.com/",
+    "capabilities": "Galleries, individual Images, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "imgbb",
+    "name": "ImgBB",
+    "url": "https://imgbb.com/",
+    "capabilities": "Albums, individual Images, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "imgbox",
+    "name": "imgbox",
+    "url": "https://imgbox.com/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgpile",
+    "name": "imgpile",
+    "url": "https://imgpile.com/",
+    "capabilities": "Posts, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "imgth",
+    "name": "imgth",
+    "url": "https://imgth.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "imgur",
+    "name": "imgur",
+    "url": "https://imgur.com/",
+    "capabilities": "Albums, Favorites, Favorites Folders, Galleries, individual Images, Personal Posts, Search Results, Subreddits, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "inkbunny",
+    "name": "Inkbunny",
+    "url": "https://inkbunny.net/",
+    "capabilities": "Favorites, Followed Users, Pools, Posts, Search Results, Unread Submissions, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "instagram",
+    "name": "Instagram",
+    "url": "https://www.instagram.com/",
+    "capabilities": "Avatars, Collections, Followers, Followed Users, Guides, Highlights, User Profile Information, Posts, Reels, Saved Posts, Stories, Stories Home Tray, Tag Searches, Tagged Posts, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "issuu",
+    "name": "Issuu",
+    "url": "https://issuu.com/",
+    "capabilities": "Publications, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "itaku",
+    "name": "Itaku",
+    "url": "https://itaku.ee/",
+    "capabilities": "Bookmarks, Followers, Followed Users, Galleries, individual Images, Posts, Search Results, Stars, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "itchio",
+    "name": "itch.io",
+    "url": "https://itch.io/",
+    "capabilities": "Games",
+    "authentication": ""
+  },
+  {
+    "id": "iwara",
+    "name": "Iwara",
+    "url": "https://www.iwara.tv/",
+    "capabilities": "Favorites, Followers, Followed Users, individual Images, Playlists, Search Results, Tag Searches, User Profiles, User Images, User Playlists, User Videos, Videos",
+    "authentication": "Supported"
+  },
+  {
+    "id": "joyreactor",
+    "name": "JoyReactor",
+    "url": "https://joyreactor.com/",
+    "capabilities": "Posts, Search Results, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "kaliscan",
+    "name": "KaliScan",
+    "url": "https://kaliscan.me/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "keenspot",
+    "name": "Keenspot",
+    "url": "http://www.keenspot.com/",
+    "capabilities": "Comics",
+    "authentication": ""
+  },
+  {
+    "id": "kemono",
+    "name": "Kemono",
+    "url": "https://kemono.cr/",
+    "capabilities": "Artists, Discord Servers, Favorites, Posts, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "khinsider",
+    "name": "Khinsider",
+    "url": "https://downloads.khinsider.com/",
+    "capabilities": "Soundtracks",
+    "authentication": ""
+  },
+  {
+    "id": "komikcast",
+    "name": "Komikcast",
+    "url": "https://komikcast.li/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "koofr",
+    "name": "Koofr",
+    "url": "https://koofr.net/",
+    "capabilities": "Shared Links",
+    "authentication": ""
+  },
+  {
+    "id": "leakgallery",
+    "name": "Leak Gallery",
+    "url": "https://leakgallery.com",
+    "capabilities": "Most Liked Posts, Posts, Trending Medias, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "lensdump",
+    "name": "Lensdump",
+    "url": "https://lensdump.com/",
+    "capabilities": "Albums, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "lexica",
+    "name": "Lexica",
+    "url": "https://lexica.art/",
+    "capabilities": "Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "lightroom",
+    "name": "Lightroom",
+    "url": "https://lightroom.adobe.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "listal",
+    "name": "Listal",
+    "url": "https://listal.com",
+    "capabilities": "individual Images, People",
+    "authentication": ""
+  },
+  {
+    "id": "livedoor",
+    "name": "livedoor Blog",
+    "url": "http://blog.livedoor.jp/",
+    "capabilities": "Blogs, Posts",
+    "authentication": ""
+  },
+  {
+    "id": "lofter",
+    "name": "LOFTER",
+    "url": "https://www.lofter.com/",
+    "capabilities": "Blog Posts, Posts",
+    "authentication": ""
+  },
+  {
+    "id": "luscious",
+    "name": "Luscious",
+    "url": "https://members.luscious.net/",
+    "capabilities": "Albums, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "madokami",
+    "name": "Madokami",
+    "url": "https://manga.madokami.al/",
+    "capabilities": "Manga",
+    "authentication": "Required"
+  },
+  {
+    "id": "mangafox",
+    "name": "Manga Fox",
+    "url": "https://fanfox.net/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangahere",
+    "name": "Manga Here",
+    "url": "https://www.mangahere.cc/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangadex",
+    "name": "MangaDex",
+    "url": "https://mangadex.org/",
+    "capabilities": "Authors, Chapters, Covers, Updates Feed, Library, MDLists, Manga",
+    "authentication": "Supported"
+  },
+  {
+    "id": "mangafire",
+    "name": "MangaFire",
+    "url": "https://mangafire.to/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangafreak",
+    "name": "MangaFreak",
+    "url": "https://ww2.mangafreak.me/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangapark",
+    "name": "MangaPark",
+    "url": "https://mangapark.net/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangaread",
+    "name": "MangaRead",
+    "url": "https://mangaread.org/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangareader",
+    "name": "MangaReader",
+    "url": "https://mangareader.to/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangataro",
+    "name": "MangaTaro",
+    "url": "https://mangataro.org/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangatown",
+    "name": "MangaTown",
+    "url": "https://www.mangatown.com/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangoxo",
+    "name": "Mangoxo",
+    "url": "https://www.mangoxo.com/",
+    "capabilities": "Albums, Channels",
+    "authentication": "Supported"
+  },
+  {
+    "id": "mixdrop",
+    "name": "MixDrop",
+    "url": "https://mixdrop.ag/",
+    "capabilities": "Files",
+    "authentication": ""
+  },
+  {
+    "id": "motherless",
+    "name": "Motherless",
+    "url": "https://motherless.com/",
+    "capabilities": "Galleries, Groups, Media Files",
+    "authentication": ""
+  },
+  {
+    "id": "myhentaigallery",
+    "name": "My Hentai Gallery",
+    "url": "https://myhentaigallery.com/",
+    "capabilities": "Galleries, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "naver-blog",
+    "name": "Naver Blog",
+    "url": "https://blog.naver.com/",
+    "capabilities": "Blogs, Posts",
+    "authentication": ""
+  },
+  {
+    "id": "naver-webtoon",
+    "name": "Naver Webtoon",
+    "url": "https://comic.naver.com/",
+    "capabilities": "Comics, Episodes",
+    "authentication": ""
+  },
+  {
+    "id": "nekohouse",
+    "name": "Nekohouse",
+    "url": "https://nekohouse.su/",
+    "capabilities": "Posts, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "newgrounds",
+    "name": "Newgrounds",
+    "url": "https://www.newgrounds.com/",
+    "capabilities": "Art, Audio, Favorites, Followed Users, Games, individual Images, Media Files, Movies, Search Results, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "seiga",
+    "name": "Niconico Seiga",
+    "url": "https://seiga.nicovideo.jp/",
+    "capabilities": "individual Images, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "nozomi",
+    "name": "Nozomi.la",
+    "url": "https://nozomi.la/",
+    "capabilities": "Site Index, Posts, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "nsfwalbum",
+    "name": "NSFWalbum.com",
+    "url": "https://nsfwalbum.com/",
+    "capabilities": "Albums",
+    "authentication": ""
+  },
+  {
+    "id": "nudostar",
+    "name": "NudoStar.TV",
+    "url": "https://nudostar.tv/",
+    "capabilities": "individual Images, Models",
+    "authentication": ""
+  },
+  {
+    "id": "okporn",
+    "name": "OK.PORN",
+    "url": "https://ok.porn/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "patreon",
+    "name": "Patreon",
+    "url": "https://www.patreon.com/",
+    "capabilities": "Collections, Creators, Posts, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "pexels",
+    "name": "Pexels",
+    "url": "https://pexels.com/",
+    "capabilities": "Collections, individual Images, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "pholder",
+    "name": "pholder",
+    "url": "https://pholder.com/",
+    "capabilities": "Search Results, Subreddits, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "photovogue",
+    "name": "PhotoVogue",
+    "url": "https://www.vogue.com/photovogue/",
+    "capabilities": "User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "picarto",
+    "name": "Picarto",
+    "url": "https://picarto.tv/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "picazor",
+    "name": "Picazor",
+    "url": "https://picazor.com/",
+    "capabilities": "User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "pictoa",
+    "name": "Pictoa",
+    "url": "https://pictoa.com/",
+    "capabilities": "Albums, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "piczel",
+    "name": "Piczel",
+    "url": "https://piczel.tv/",
+    "capabilities": "Folders, individual Images, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "pillowfort",
+    "name": "Pillowfort",
+    "url": "https://www.pillowfort.social/",
+    "capabilities": "Posts, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "pinterest",
+    "name": "Pinterest",
+    "url": "https://www.pinterest.com/",
+    "capabilities": "All Pins, Created Pins, Pins, pin.it Links, related Pins, Search Results, Sections, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "pixeldrain",
+    "name": "pixeldrain",
+    "url": "https://pixeldrain.com/",
+    "capabilities": "Albums, Files, Filesystems",
+    "authentication": ""
+  },
+  {
+    "id": "pixiv",
+    "name": "[pixiv]",
+    "url": "https://www.pixiv.net/",
+    "capabilities": "Artworks, Avatars, Backgrounds, Favorites, Follows, pixiv.me Links, pixivision, Rankings, Search Results, Series, Sketch, Unlisted Works, User Profiles, individual Images",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "pixiv-novel",
+    "name": "[pixiv] Novels",
+    "url": "https://www.pixiv.net/novel",
+    "capabilities": "Bookmarks, Novels, Series, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "fanbox",
+    "name": "pixivFANBOX",
+    "url": "https://www.fanbox.cc/",
+    "capabilities": "Creators, Home Feed, Posts, Pixiv Redirects, Supported User Feed, Tag Searches",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "pixnet",
+    "name": "Pixnet",
+    "url": "https://www.pixnet.net/",
+    "capabilities": "Folders, individual Images, Sets, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "plurk",
+    "name": "Plurk",
+    "url": "https://www.plurk.com/",
+    "capabilities": "Posts, Timelines",
+    "authentication": ""
+  },
+  {
+    "id": "poipiku",
+    "name": "Poipiku",
+    "url": "https://poipiku.com/",
+    "capabilities": "Posts, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "poringa",
+    "name": "Poringa",
+    "url": "http://www.poringa.net/",
+    "capabilities": "Posts Images, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "pornhub",
+    "name": "Pornhub",
+    "url": "https://www.pornhub.com/",
+    "capabilities": "Galleries, Gifs, Photos, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "pornpics",
+    "name": "PornPics.com",
+    "url": "https://www.pornpics.com/",
+    "capabilities": "Categories, Galleries, Listings, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "pornstarstube",
+    "name": "PORNSTARS.TUBE",
+    "url": "https://pornstars.tube/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "rule34vault",
+    "name": "R34 Vault",
+    "url": "https://rule34vault.com/",
+    "capabilities": "Playlists, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "rawkuma",
+    "name": "Rawkuma",
+    "url": "https://rawkuma.net/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "readcomiconline",
+    "name": "Read Comic Online",
+    "url": "https://readcomiconline.li/",
+    "capabilities": "Comic Issues, Comics, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "realbooru",
+    "name": "Realbooru",
+    "url": "https://realbooru.com/",
+    "capabilities": "Favorites, Pools, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit",
+    "url": "https://www.reddit.com/",
+    "capabilities": "Home Feed, individual Images, Redirects, Submissions, Subreddits, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "redgifs",
+    "name": "RedGIFs",
+    "url": "https://redgifs.com/",
+    "capabilities": "Collections, individual Images, Niches, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "paheal",
+    "name": "Rule 34",
+    "url": "https://rule34.paheal.net/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "rule34us",
+    "name": "Rule 34",
+    "url": "https://rule34.us/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "rule34world",
+    "name": "Rule 34 World",
+    "url": "https://rule34.world/",
+    "capabilities": "Playlists, Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "rule34xyz",
+    "name": "Rule 34 XYZ",
+    "url": "https://rule34.xyz/",
+    "capabilities": "Playlists, Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "s3ndpics",
+    "name": "S3ND",
+    "url": "https://s3nd.pics/",
+    "capabilities": "Posts, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "sankaku",
+    "name": "Sankaku Channel",
+    "url": "https://sankaku.app/",
+    "capabilities": "Book Searches, Pools, Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "sankakucomplex",
+    "name": "Sankaku Complex",
+    "url": "https://news.sankakucomplex.com/",
+    "capabilities": "Articles, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "scatbooru",
+    "name": "Scatbooru",
+    "url": "https://scatbooru.co.uk/",
+    "capabilities": "Favorites, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "scrolller",
+    "name": "Scrolller",
+    "url": "https://scrolller.com/",
+    "capabilities": "Followed Subreddits, Posts, Subreddits, Reddit Users",
+    "authentication": "Supported"
+  },
+  {
+    "id": "senmanga",
+    "name": "Sen Manga",
+    "url": "https://raw.senmanga.com/",
+    "capabilities": "Chapters",
+    "authentication": ""
+  },
+  {
+    "id": "sexcom",
+    "name": "Sex.com",
+    "url": "https://www.sex.com/",
+    "capabilities": "Boards, Feed, Likes, Pins, User Pins, related Pins, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "simplyhentai",
+    "name": "Simply Hentai",
+    "url": "https://www.simply-hentai.com/",
+    "capabilities": "Galleries, Languages, Manga, Series, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "sizebooru",
+    "name": "Size Booru",
+    "url": "https://sizebooru.com/",
+    "capabilities": "Favorites, Galleries, Posts, Tag Searches, User Uploads",
+    "authentication": ""
+  },
+  {
+    "id": "skeb",
+    "name": "Skeb",
+    "url": "https://skeb.jp/",
+    "capabilities": "Followed Creators, Followed Users, Posts, Search Results, Sent Requests, User Profiles, Works",
+    "authentication": ""
+  },
+  {
+    "id": "slickpic",
+    "name": "SlickPic",
+    "url": "https://www.slickpic.com/",
+    "capabilities": "Albums, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "slideshare",
+    "name": "SlideShare",
+    "url": "https://www.slideshare.net/",
+    "capabilities": "Presentations",
+    "authentication": ""
+  },
+  {
+    "id": "smugmug",
+    "name": "SmugMug",
+    "url": "https://www.smugmug.com/",
+    "capabilities": "Albums, individual Images, Images from Users and Folders",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "soundgasm",
+    "name": "Soundgasm",
+    "url": "https://soundgasm.net/",
+    "capabilities": "Audio, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "speakerdeck",
+    "name": "Speaker Deck",
+    "url": "https://speakerdeck.com/",
+    "capabilities": "Presentations",
+    "authentication": ""
+  },
+  {
+    "id": "steamgriddb",
+    "name": "SteamGridDB",
+    "url": "https://www.steamgriddb.com",
+    "capabilities": "Individual Assets, Grids, Heroes, Icons, Logos",
+    "authentication": ""
+  },
+  {
+    "id": "subscribestar",
+    "name": "SubscribeStar",
+    "url": "https://www.subscribestar.com/",
+    "capabilities": "Posts, User Profiles",
+    "authentication": "Supported"
+  },
+  {
+    "id": "sxypix",
+    "name": "Sxypix",
+    "url": "https://sxypix.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "tapas",
+    "name": "Tapas",
+    "url": "https://tapas.io/",
+    "capabilities": "Creators, Episodes, Series",
+    "authentication": "Supported"
+  },
+  {
+    "id": "tcbscans",
+    "name": "TCB Scans",
+    "url": "https://tcbscans.me/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "telegraph",
+    "name": "Telegraph",
+    "url": "https://telegra.ph/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "tenor",
+    "name": "Tenor",
+    "url": "https://tenor.com/",
+    "capabilities": "individual Images, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "thehentaiworld",
+    "name": "The Hentai World",
+    "url": "https://thehentaiworld.com/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "thefap",
+    "name": "TheFap",
+    "url": "https://thefap.net/",
+    "capabilities": "Models, Posts",
+    "authentication": ""
+  },
+  {
+    "id": "tiktok",
+    "name": "TikTok",
+    "url": "https://www.tiktok.com/",
+    "capabilities": "Avatars, Followed Users (Stories Only), Likes, Posts, User Posts, Reposts, Saved Posts, Stories, User Profiles, VM Posts",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "tmohentai",
+    "name": "TMOHentai",
+    "url": "https://tmohentai.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "toyhouse",
+    "name": "Toyhouse",
+    "url": "https://toyhou.se/",
+    "capabilities": "Art, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "tumblr",
+    "name": "Tumblr",
+    "url": "https://www.tumblr.com/",
+    "capabilities": "Days, Followers, Followed Users, Likes, Posts, Search Results, Tag Searches, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "tumblrgallery",
+    "name": "TumblrGallery",
+    "url": "https://tumblrgallery.xyz/",
+    "capabilities": "Posts, Search Results, Tumblrblogs",
+    "authentication": ""
+  },
+  {
+    "id": "tungsten",
+    "name": "Tungsten",
+    "url": "https://tungsten.run/",
+    "capabilities": "Models, Posts, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "turbo",
+    "name": "turbo.cr",
+    "url": "https://turbo.cr/",
+    "capabilities": "Albums, Media Files",
+    "authentication": ""
+  },
+  {
+    "id": "twibooru",
+    "name": "Twibooru",
+    "url": "https://twibooru.org/",
+    "capabilities": "Galleries, Posts, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "twitter",
+    "name": "Twitter",
+    "url": "https://x.com/",
+    "capabilities": "Avatars, Backgrounds, Bookmarks, Communities, Events, Followers, Followed Users, Hashtags, Highlights, Home Feed, individual Images, User Profile Information, Likes, Lists, List Members, Media Timelines, Notifications, Quotes, Search Results, Timelines, Tweets, User Profiles",
+    "authentication": "Cookies"
+  },
+  {
+    "id": "unsplash",
+    "name": "Unsplash",
+    "url": "https://unsplash.com/",
+    "capabilities": "Collections, Favorites, individual Images, Search Results, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "uploadir",
+    "name": "Uploadir",
+    "url": "https://uploadir.com/",
+    "capabilities": "Files",
+    "authentication": ""
+  },
+  {
+    "id": "urlgalleries",
+    "name": "Urlgalleries",
+    "url": "https://urlgalleries.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "vipergirls",
+    "name": "Vipergirls",
+    "url": "https://vipergirls.to/",
+    "capabilities": "Posts, Threads",
+    "authentication": "Supported"
+  },
+  {
+    "id": "vk",
+    "name": "VK",
+    "url": "https://vk.com/",
+    "capabilities": "Albums, Photos, Tagged Photos, individual Wall Posts",
+    "authentication": ""
+  },
+  {
+    "id": "vsco",
+    "name": "VSCO",
+    "url": "https://vsco.co/",
+    "capabilities": "Avatars, Collections, Galleries, individual Images, Spaces, User Profiles, Videos",
+    "authentication": ""
+  },
+  {
+    "id": "wallhaven",
+    "name": "Wallhaven",
+    "url": "https://wallhaven.cc/",
+    "capabilities": "Collections, individual Images, Search Results, User Profiles",
+    "authentication": "API Key"
+  },
+  {
+    "id": "wallpapercave",
+    "name": "Wallpaper Cave",
+    "url": "https://wallpapercave.com/",
+    "capabilities": "individual Images, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "warosu",
+    "name": "Warosu",
+    "url": "https://warosu.org/",
+    "capabilities": "Threads",
+    "authentication": ""
+  },
+  {
+    "id": "weasyl",
+    "name": "Weasyl",
+    "url": "https://www.weasyl.com/",
+    "capabilities": "Favorites, Folders, Journals, Submissions",
+    "authentication": "API Key"
+  },
+  {
+    "id": "webmshare",
+    "name": "webmshare",
+    "url": "https://webmshare.com/",
+    "capabilities": "Videos",
+    "authentication": ""
+  },
+  {
+    "id": "webtoons",
+    "name": "WEBTOON",
+    "url": "https://www.webtoons.com/",
+    "capabilities": "Artists, Comics, Episodes",
+    "authentication": ""
+  },
+  {
+    "id": "weebcentral",
+    "name": "Weeb Central",
+    "url": "https://weebcentral.com/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "weebdex",
+    "name": "WeebDex",
+    "url": "https://weebdex.org/",
+    "capabilities": "Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "weibo",
+    "name": "Weibo",
+    "url": "https://www.weibo.com/",
+    "capabilities": "Albums, Articles, Feeds, Images from Statuses, User Profiles, Videos",
+    "authentication": ""
+  },
+  {
+    "id": "whyp",
+    "name": "Whyp",
+    "url": "https://whyp.it/",
+    "capabilities": "Audio, Collections, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "wikiart",
+    "name": "WikiArt.org",
+    "url": "https://www.wikiart.org/",
+    "capabilities": "Artists, Artist Listings, Artworks, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "wikifeet",
+    "name": "Wikifeet",
+    "url": "https://www.wikifeet.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "wikifeetx",
+    "name": "Wikifeetx",
+    "url": "https://www.wikifeetx.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "xasiat",
+    "name": "Xasiat",
+    "url": "https://www.xasiat.com",
+    "capabilities": "Albums, Categories, Models, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "xfolio",
+    "name": "Xfolio",
+    "url": "https://xfolio.jp/",
+    "capabilities": "Series, User Profiles, Works",
+    "authentication": ""
+  },
+  {
+    "id": "xhamster",
+    "name": "xHamster",
+    "url": "https://xhamster.com/",
+    "capabilities": "Galleries, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "xvideos",
+    "name": "XVideos",
+    "url": "https://www.xvideos.com/",
+    "capabilities": "Galleries, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "yiffverse",
+    "name": "Yiff verse",
+    "url": "https://yiffverse.com/",
+    "capabilities": "Playlists, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "yourlesbians",
+    "name": "YourLesbians",
+    "url": "https://yourlesbians.com/",
+    "capabilities": "Albums",
+    "authentication": ""
+  },
+  {
+    "id": "zerochan",
+    "name": "Zerochan",
+    "url": "https://www.zerochan.net/",
+    "capabilities": "individual Images, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "kabeuchi",
+    "name": "かべうち",
+    "url": "https://kabe-uchiroom.com/",
+    "capabilities": "User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "vanillarock",
+    "name": "もえぴりあ",
+    "url": "https://vanilla-rock.com/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "2chen",
+    "name": "Sturdychan",
+    "url": "https://sturdychan.help/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "schan",
+    "name": "Schan",
+    "url": "https://schan.help/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "blogger",
+    "name": "Blogspot",
+    "url": "https://www.blogger.com/",
+    "capabilities": "Blogs, Labels, Posts, Search Results",
+    "authentication": ""
+  },
+  {
+    "id": "chevereto",
+    "name": "JPG Fish",
+    "url": "https://jpg7.cr/",
+    "capabilities": "Albums, Categories, Files, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "imglike",
+    "name": "Nude Celeb",
+    "url": "https://imglike.com/",
+    "capabilities": "Albums, Categories, Files, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "putmega",
+    "name": "Putmega",
+    "url": "https://putmega.com/",
+    "capabilities": "Albums, Categories, Files, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "Danbooru",
+    "name": "Danbooru",
+    "url": "https://danbooru.donmai.us/",
+    "capabilities": "Artists, Artist Searches, Favorite Groups, Media Assets, Pools, Popular Images, Posts, Random Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "atfbooru",
+    "name": "ATFBooru",
+    "url": "https://booru.allthefallen.moe/",
+    "capabilities": "Artists, Artist Searches, Favorite Groups, Media Assets, Pools, Popular Images, Posts, Random Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "aibooru",
+    "name": "AIBooru",
+    "url": "https://aibooru.online/",
+    "capabilities": "Artists, Artist Searches, Favorite Groups, Media Assets, Pools, Popular Images, Posts, Random Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "booruvar",
+    "name": "Booruvar",
+    "url": "https://booru.borvar.art/",
+    "capabilities": "Artists, Artist Searches, Favorite Groups, Media Assets, Pools, Popular Images, Posts, Random Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "E621",
+    "name": "e621",
+    "url": "https://e621.net/",
+    "capabilities": "Artists, Artist Searches, Favorites, Pools, Popular Images, Posts, Tag Searches, Frontends",
+    "authentication": "Supported"
+  },
+  {
+    "id": "e926",
+    "name": "e926",
+    "url": "https://e926.net/",
+    "capabilities": "Artists, Artist Searches, Favorites, Pools, Popular Images, Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "e6ai",
+    "name": "e6AI",
+    "url": "https://e6ai.net/",
+    "capabilities": "Artists, Artist Searches, Favorites, Pools, Popular Images, Posts, Tag Searches",
+    "authentication": "Supported"
+  },
+  {
+    "id": "gelbooru_v01",
+    "name": "The /co/llection",
+    "url": "https://the-collection.booru.org/",
+    "capabilities": "Favorites, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "illusioncardsbooru",
+    "name": "Illusion Game Cards",
+    "url": "https://illusioncards.booru.org/",
+    "capabilities": "Favorites, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "allgirlbooru",
+    "name": "All girl",
+    "url": "https://allgirl.booru.org/",
+    "capabilities": "Favorites, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "drawfriends",
+    "name": "Draw Friends",
+    "url": "https://drawfriends.booru.org/",
+    "capabilities": "Favorites, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "vidyart2",
+    "name": "/v/idyart2",
+    "url": "https://vidyart2.booru.org/",
+    "capabilities": "Favorites, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "gelbooru_v02",
+    "name": "Rule 34",
+    "url": "https://rule34.xxx/",
+    "capabilities": "Favorites, Pools, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "safebooru",
+    "name": "Safebooru",
+    "url": "https://safebooru.org/",
+    "capabilities": "Favorites, Pools, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "tbib",
+    "name": "The Big ImageBoard",
+    "url": "https://tbib.org/",
+    "capabilities": "Favorites, Pools, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hypnohub",
+    "name": "Hypnohub",
+    "url": "https://hypnohub.net/",
+    "capabilities": "Favorites, Pools, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "xbooru",
+    "name": "Xbooru",
+    "url": "https://xbooru.com/",
+    "capabilities": "Favorites, Pools, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hentaicosplays",
+    "name": "Hentai Cosplay",
+    "url": "https://hentai-cosplay-xxx.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "hentaiimg",
+    "name": "Hentai Image",
+    "url": "https://hentai-img-xxx.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "pornimage",
+    "name": "Porn Image",
+    "url": "https://porn-image.com/",
+    "capabilities": "Galleries",
+    "authentication": ""
+  },
+  {
+    "id": "IMHentai",
+    "name": "IMHentai",
+    "url": "https://imhentai.xxx/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hentaiera",
+    "name": "HentaiEra",
+    "url": "https://hentaiera.com/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hentairox",
+    "name": "HentaiRox",
+    "url": "https://hentairox.com/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hentaifox",
+    "name": "HentaiFox",
+    "url": "https://hentaifox.com/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hentaienvy",
+    "name": "HentaiEnvy",
+    "url": "https://hentaienvy.com/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "hentaizap",
+    "name": "HentaiZap",
+    "url": "https://hentaizap.com/",
+    "capabilities": "Galleries, Search Results, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "jschan",
+    "name": "94chan",
+    "url": "https://94chan.org/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "lynxchan",
+    "name": "Bbw-chan",
+    "url": "https://bbw-chan.link/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "kohlchan",
+    "name": "Kohlchan",
+    "url": "https://kohlchan.net/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "endchan",
+    "name": "Endchan",
+    "url": "https://endchan.org/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "manganelo",
+    "name": "MangaNelo",
+    "url": "https://www.nelomanga.net/",
+    "capabilities": "Bookmarks, Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "natomanga",
+    "name": "MangaNato",
+    "url": "https://www.natomanga.com/",
+    "capabilities": "Bookmarks, Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "manganato",
+    "name": "MangaNato",
+    "url": "https://www.manganato.gg/",
+    "capabilities": "Bookmarks, Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "mangakakalot",
+    "name": "MangaKakalot",
+    "url": "https://www.mangakakalot.gg/",
+    "capabilities": "Bookmarks, Chapters, Manga",
+    "authentication": ""
+  },
+  {
+    "id": "misskey",
+    "name": "Misskey.io",
+    "url": "https://misskey.io/",
+    "capabilities": "Avatars, Backgrounds, Favorites, Followed Users, User Profile Information, Notes, User Notes, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "misskey.design",
+    "name": "Misskey.design",
+    "url": "https://misskey.design/",
+    "capabilities": "Avatars, Backgrounds, Favorites, Followed Users, User Profile Information, Notes, User Notes, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "misskey.art",
+    "name": "Misskey.art",
+    "url": "https://misskey.art/",
+    "capabilities": "Avatars, Backgrounds, Favorites, Followed Users, User Profile Information, Notes, User Notes, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "lesbian.energy",
+    "name": "Lesbian.energy",
+    "url": "https://lesbian.energy/",
+    "capabilities": "Avatars, Backgrounds, Favorites, Followed Users, User Profile Information, Notes, User Notes, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "sushi.ski",
+    "name": "Sushi.ski",
+    "url": "https://sushi.ski/",
+    "capabilities": "Avatars, Backgrounds, Favorites, Followed Users, User Profile Information, Notes, User Notes, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "Nijie",
+    "name": "nijie",
+    "url": "https://nijie.info/",
+    "capabilities": "Doujin, Favorites, Feeds, Followed Users, Illustrations, individual Images, Nuita History, User Profiles",
+    "authentication": "Required"
+  },
+  {
+    "id": "horne",
+    "name": "horne",
+    "url": "https://horne.red/",
+    "capabilities": "Doujin, Favorites, Feeds, Followeds, Illustrations, individual Images, Nuitas, User Profiles",
+    "authentication": "Required"
+  },
+  {
+    "id": "nitter",
+    "name": "Nitter.net",
+    "url": "https://nitter.net/",
+    "capabilities": "Media Files, Replies, Search Results, Tweets",
+    "authentication": ""
+  },
+  {
+    "id": "nitter.space",
+    "name": "Nitter.space",
+    "url": "https://nitter.space/",
+    "capabilities": "Media Files, Replies, Search Results, Tweets",
+    "authentication": ""
+  },
+  {
+    "id": "nitter.tiekoetter",
+    "name": "Nitter.tiekoetter",
+    "url": "https://nitter.tiekoetter/",
+    "capabilities": "Media Files, Replies, Search Results, Tweets",
+    "authentication": ""
+  },
+  {
+    "id": "xcancel",
+    "name": "Xcancel",
+    "url": "https://xcancel.com/",
+    "capabilities": "Media Files, Replies, Search Results, Tweets",
+    "authentication": ""
+  },
+  {
+    "id": "lightbrd",
+    "name": "Lightbrd",
+    "url": "https://lightbrd.com/",
+    "capabilities": "Media Files, Replies, Search Results, Tweets",
+    "authentication": ""
+  },
+  {
+    "id": "philomena",
+    "name": "Derpibooru",
+    "url": "https://derpibooru.org/",
+    "capabilities": "Galleries, Posts, Search Results",
+    "authentication": "API Key"
+  },
+  {
+    "id": "ponybooru",
+    "name": "Ponybooru",
+    "url": "https://ponybooru.org/",
+    "capabilities": "Galleries, Posts, Search Results",
+    "authentication": "API Key"
+  },
+  {
+    "id": "furbooru",
+    "name": "Furbooru",
+    "url": "https://furbooru.org/",
+    "capabilities": "Galleries, Posts, Search Results",
+    "authentication": "API Key"
+  },
+  {
+    "id": "postmill",
+    "name": "Raddle",
+    "url": "https://raddle.me/",
+    "capabilities": "Forums, Home Feed, Individual Posts, Search Results, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "reactor",
+    "name": "Reactor",
+    "url": "http://reactor.cc/",
+    "capabilities": "Posts, Search Results, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "pornreactor",
+    "name": "PornReactor",
+    "url": "http://pornreactor.cc/",
+    "capabilities": "Posts, Search Results, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "thatpervert",
+    "name": "ThatPervert",
+    "url": "http://thatpervert.com/",
+    "capabilities": "Posts, Search Results, Tag Searches, User Profiles",
+    "authentication": ""
+  },
+  {
+    "id": "shimmie2",
+    "name": "Cavemanon",
+    "url": "https://booru.cavemanon.xyz/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "rule34hentai",
+    "name": "Rule34Hentai",
+    "url": "https://rule34hentai.net/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "vidyapics",
+    "name": "Vidya Booru",
+    "url": "https://vidya.pics/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "nozrip",
+    "name": "GaryC Booru",
+    "url": "https://noz.rip/booru/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "thecollectionS",
+    "name": "The /co/llection",
+    "url": "https://co.llection.pics/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "soybooru",
+    "name": "Soybooru",
+    "url": "https://soybooru.com/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "szurubooru",
+    "name": "Bcbnsfw",
+    "url": "https://booru.bcbnsfw.space/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "snootbooru",
+    "name": "Snootbooru",
+    "url": "https://snootbooru.com/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "visuabusters",
+    "name": "VISUABUSTERS",
+    "url": "https://www.visuabusters.com/booru/",
+    "capabilities": "Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "urlshortener",
+    "name": "Bitly",
+    "url": "https://bit.ly/",
+    "capabilities": "Links",
+    "authentication": ""
+  },
+  {
+    "id": "tco",
+    "name": "Twitter t.co",
+    "url": "https://t.co/",
+    "capabilities": "Links",
+    "authentication": ""
+  },
+  {
+    "id": "vichan",
+    "name": "8kun",
+    "url": "https://8kun.top/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "smugloli",
+    "name": "Smugloli",
+    "url": "https://smuglo.li/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "gurochan",
+    "name": "Gurochan",
+    "url": "https://boards.guro.cx/",
+    "capabilities": "Boards, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "wikimedia",
+    "name": "Wikimedia",
+    "url": "https://www.wikimedia.org/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "wikispecies",
+    "name": "Wikispecies",
+    "url": "https://species.wikimedia.org/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "wikimediacommons",
+    "name": "Wikimedia Commons",
+    "url": "https://commons.wikimedia.org/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "mediawiki",
+    "name": "MediaWiki",
+    "url": "https://www.mediawiki.org/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "fandom",
+    "name": "Fandom",
+    "url": "https://www.fandom.com/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "wikigg",
+    "name": "wiki.gg",
+    "url": "https://www.wiki.gg/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "mariowiki",
+    "name": "Super Mario Wiki",
+    "url": "https://www.mariowiki.com/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "bulbapedia",
+    "name": "Bulbapedia",
+    "url": "https://bulbapedia.bulbagarden.net/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "pidgiwiki",
+    "name": "PidgiWiki",
+    "url": "https://www.pidgi.net/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "azurlanewiki",
+    "name": "Azur Lane Wiki",
+    "url": "https://azurlane.koumakan.jp/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "mgewiki",
+    "name": "Monster Girl Encyclopedia Wiki",
+    "url": "https://mgewiki.moe/",
+    "capabilities": "Articles, Categories, Files, Wikis",
+    "authentication": ""
+  },
+  {
+    "id": "xenforo",
+    "name": "SimpCity Forums",
+    "url": "https://simpcity.cr/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": "Supported"
+  },
+  {
+    "id": "nudostarforum",
+    "name": "NudoStar Forums",
+    "url": "https://nudostar.com/forum/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": "Supported"
+  },
+  {
+    "id": "atfforum",
+    "name": "All The Fallen",
+    "url": "https://allthefallen.moe/forum/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "celebforum",
+    "name": "celebforum",
+    "url": "https://celebforum.to/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "titsintops",
+    "name": "Tits In Tops Forum",
+    "url": "https://titsintops.com/phpBB2/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "socialmediagirlsforum",
+    "name": "Social Media Girls Forums",
+    "url": "https://forums.socialmediagirls.com/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "blacktowhite",
+    "name": "BlacktoWhite",
+    "url": "https://www.blacktowhite.net/",
+    "capabilities": "Forums, Albums, Media Categories, Media Files, User Media, Posts, Profiles, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "moebooru",
+    "name": "yande.re",
+    "url": "https://yande.re/",
+    "capabilities": "Pools, Popular Images, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "konachan",
+    "name": "Konachan",
+    "url": "https://konachan.com/",
+    "capabilities": "Pools, Popular Images, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "sakugabooru",
+    "name": "Sakugabooru",
+    "url": "https://www.sakugabooru.com/",
+    "capabilities": "Pools, Popular Images, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "lolibooru",
+    "name": "Lolibooru",
+    "url": "https://lolibooru.moe/",
+    "capabilities": "Pools, Popular Images, Posts, Tag Searches",
+    "authentication": ""
+  },
+  {
+    "id": "foolfuuka",
+    "name": "4plebs",
+    "url": "https://archive.4plebs.org/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "archivedmoe",
+    "name": "Archived.Moe",
+    "url": "https://archived.moe/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "archiveofsins",
+    "name": "Archive of Sins",
+    "url": "https://archiveofsins.com/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "b4k",
+    "name": "arch.b4k.dev",
+    "url": "https://arch.b4k.dev/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "desuarchive",
+    "name": "Desuarchive",
+    "url": "https://desuarchive.org/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "fireden",
+    "name": "Fireden",
+    "url": "https://boards.fireden.net/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "palanq",
+    "name": "Palanq",
+    "url": "https://archive.palanq.win/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "rbt",
+    "name": "RebeccaBlackTech",
+    "url": "https://rbt.asia/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "thebarchive",
+    "name": "The /b/ Archive",
+    "url": "https://thebarchive.com/",
+    "capabilities": "Boards, Galleries, Search Results, Threads",
+    "authentication": ""
+  },
+  {
+    "id": "mastodon",
+    "name": "mastodon.social",
+    "url": "https://mastodon.social/",
+    "capabilities": "Bookmarks, Favorites, Followed Users, Hashtags, Lists, Images from Statuses, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "pawoo",
+    "name": "Pawoo",
+    "url": "https://pawoo.net/",
+    "capabilities": "Bookmarks, Favorites, Followed Users, Hashtags, Lists, Images from Statuses, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "baraag",
+    "name": "baraag",
+    "url": "https://baraag.net/",
+    "capabilities": "Bookmarks, Favorites, Followed Users, Hashtags, Lists, Images from Statuses, User Profiles",
+    "authentication": "OAuth"
+  },
+  {
+    "id": "shopify",
+    "name": "Chelseacrew",
+    "url": "https://chelseacrew.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "fashionnova",
+    "name": "Fashion Nova",
+    "url": "https://www.fashionnova.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "loungeunderwear",
+    "name": "Loungeunderwear",
+    "url": "https://loungeunderwear.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "michaelscameras",
+    "name": "Michaelscameras",
+    "url": "https://michaels.com.au/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "modcloth",
+    "name": "Modcloth",
+    "url": "https://modcloth.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "ohpolly",
+    "name": "Oh Polly",
+    "url": "https://www.ohpolly.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "omgmiamiswimwear",
+    "name": "Omg Miami Swimwear",
+    "url": "https://www.omgmiamiswimwear.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "pinupgirlclothing",
+    "name": "Pinupgirlclothing",
+    "url": "https://pinupgirlclothing.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "raidlondon",
+    "name": "Raidlondon",
+    "url": "https://www.raidlondon.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "unique-vintage",
+    "name": "Unique-vintage",
+    "url": "https://www.unique-vintage.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "windsorstore",
+    "name": "Windsorstore",
+    "url": "https://www.windsorstore.com/",
+    "capabilities": "Collections, Products",
+    "authentication": ""
+  },
+  {
+    "id": "imagehost",
+    "name": "Acidimg",
+    "url": "https://acidimg.cc/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "fappic",
+    "name": "Fappic.com",
+    "url": "https://fappic.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imagetwist",
+    "name": "ImageTwist",
+    "url": "https://imagetwist.com/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imagevenue",
+    "name": "Imagevenue",
+    "url": "https://www.imagevenue.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgadult",
+    "name": "ImgAdult",
+    "url": "https://imgadult.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgclick",
+    "name": "Imgclick",
+    "url": "http://imgclick.net/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgdrive",
+    "name": "ImgDrive.net",
+    "url": "https://imgdrive.net/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgpv",
+    "name": "IMGPV",
+    "url": "https://imgpv.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgspice",
+    "name": "Imgspice",
+    "url": "https://imgspice.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgtaxi",
+    "name": "ImgTaxi.com",
+    "url": "https://imgtaxi.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imgwallet",
+    "name": "ImgWallet.com",
+    "url": "https://imgwallet.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "imxto",
+    "name": "IMX.to",
+    "url": "https://imx.to/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "picstate",
+    "name": "PicState",
+    "url": "https://picstate.com/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "pixhost",
+    "name": "PiXhost",
+    "url": "https://pixhost.to/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "postimg",
+    "name": "Postimages",
+    "url": "https://postimages.org/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "silverpic",
+    "name": "SilverPic.com",
+    "url": "https://silverpic.net/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "turboimagehost",
+    "name": "TurboImageHost.com",
+    "url": "https://www.turboimagehost.com/",
+    "capabilities": "Galleries, individual Images",
+    "authentication": ""
+  },
+  {
+    "id": "vipr",
+    "name": "Vipr.im",
+    "url": "https://vipr.im/",
+    "capabilities": "individual Images",
+    "authentication": ""
+  }
+]

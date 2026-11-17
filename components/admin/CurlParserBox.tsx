@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { Terminal, Wand2, Globe, FileText, CheckCircle2 } from "lucide-react";
-import { DomainTagInput } from "@/components/admin/DomainTagInput";
+import { useId, useState } from "react";
+import { Terminal, Wand2, X } from "lucide-react";
 
 export interface CookieParserResult {
   name: string;
@@ -10,11 +9,14 @@ export interface CookieParserResult {
 
 export interface CurlParserBoxProps {
   onParsed: (result: CookieParserResult) => void;
+  defaultDomain?: string;
 }
 
-export function CurlParserBox({ onParsed }: CurlParserBoxProps) {
+export function CurlParserBox({ onParsed, defaultDomain = "" }: CurlParserBoxProps) {
+  const dialogTitleId = useId();
   const [curlCommand, setCurlCommand] = useState("");
   const [parseStatus, setParseStatus] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleParseCurl = () => {
     if (!curlCommand.trim()) return;
@@ -48,7 +50,7 @@ export function CurlParserBox({ onParsed }: CurlParserBoxProps) {
       }
 
       let netscapeOutput = "";
-      let hostname = "";
+      let hostname = defaultDomain;
 
       if (urlStr) {
         try {
@@ -91,44 +93,95 @@ export function CurlParserBox({ onParsed }: CurlParserBoxProps) {
         netscapeOutput,
       });
 
-      setParseStatus("Successfully parsed cURL command!");
-      setTimeout(() => setParseStatus(null), 4000);
-    } catch (err: any) {
-      setParseStatus(`Failed to parse cURL: ${err.message || "Invalid syntax"}`);
+      setParseStatus(null);
+      setCurlCommand("");
+      setIsOpen(false);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Invalid syntax";
+      setParseStatus(`Failed to parse cURL: ${message}`);
     }
   };
 
   return (
-    <div className="p-4 bg-zinc-950 border border-emerald-500/30 rounded-xl space-y-3">
-      <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-          <Terminal className="w-4 h-4" />
-          <span>⚡ Import from cURL (CLI)</span>
-        </label>
-        <span className="text-[10px] text-zinc-500">Paste your browser cURL request</span>
-      </div>
-      <textarea
-        value={curlCommand}
-        onChange={(e) => setCurlCommand(e.target.value)}
-        rows={3}
-        placeholder="curl 'https://...' -H 'cookie: ...'"
-        className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200  focus:outline-none focus:border-emerald-500"
-      />
-      <div className="flex items-center justify-between">
-        {parseStatus ? (
-          <span className={`text-[11px] flex items-center gap-1 ${parseStatus.includes("Successfully") ? "text-emerald-400" : "text-amber-400"}`}>
-            {parseStatus.includes("Successfully") && <CheckCircle2 className="w-3.5 h-3.5" />}
-            {parseStatus}
-          </span>
-        ) : <span />}
-        <button
-          type="button"
-          onClick={handleParseCurl}
-          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-black font-bold rounded-lg text-xs transition cursor-pointer flex items-center gap-1.5 ml-auto"
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          setParseStatus(null);
+          setIsOpen(true);
+        }}
+        className="admin-secondary-button inline-flex cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition"
+      >
+        <Terminal className="h-3.5 w-3.5" />
+        Import from cURL
+      </button>
+
+      {isOpen && (
+        <div
+          className="admin-curl-backdrop fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto p-4"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setIsOpen(false);
+          }}
         >
-          <Wand2 className="w-3.5 h-3.5" /> Parse cURL
-        </button>
-      </div>
-    </div>
+          <section
+            aria-labelledby={dialogTitleId}
+            aria-modal="true"
+            className="admin-dialog my-8 w-full max-w-xl rounded-2xl border p-5 shadow-2xl sm:p-6"
+            role="dialog"
+          >
+            <header className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <h3 id={dialogTitleId} className="flex items-center gap-2 text-sm font-bold">
+                  <Terminal className="h-4 w-4 text-emerald-600" />
+                  Import cookies from cURL
+                </h3>
+                <p className="admin-muted mt-1 text-xs">
+                  Paste a browser cURL command containing a Cookie header.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close cURL import"
+                className="admin-secondary-button rounded-lg border p-2 transition"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </header>
+
+            <textarea
+              autoFocus
+              value={curlCommand}
+              onChange={(e) => setCurlCommand(e.target.value)}
+              rows={5}
+              placeholder="curl 'https://example.com/...' -H 'cookie: ...'"
+              className="admin-form-input w-full resize-y rounded-xl border px-3.5 py-3 font-mono text-xs leading-relaxed transition"
+            />
+            {parseStatus && (
+              <p className="mt-2 text-xs text-amber-600">{parseStatus}</p>
+            )}
+
+            <footer className="mt-5 flex justify-end gap-2 border-t pt-4">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="admin-secondary-button cursor-pointer rounded-xl border px-4 py-2.5 text-xs font-medium transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleParseCurl}
+                disabled={!curlCommand.trim()}
+                className="admin-primary-button flex cursor-pointer items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Wand2 className="h-3.5 w-3.5" />
+                Parse and import
+              </button>
+            </footer>
+          </section>
+        </div>
+      )}
+    </>
   );
 }

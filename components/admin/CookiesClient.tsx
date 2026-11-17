@@ -32,30 +32,34 @@ export function CookiesClient({
   const [editingCookie, setEditingCookie] = useState<CookieItem | null>(null);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="admin-page mx-auto max-w-5xl space-y-8">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white  flex items-center gap-2">
-            <KeyRound className="w-6 h-6 text-emerald-400" />
+          <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">Configuration</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-950 flex items-center gap-2">
+            <KeyRound className="w-6 h-6 text-emerald-600" />
             <span>Cookie Manager</span>
           </h1>
-          <p className="text-sm text-zinc-400  mt-1">Manage global burner cookies and target domains for universal yt-dlp extractions.</p>
+          <p className="admin-muted mt-2 text-sm">Manage cookie profiles and target domains for extractions.</p>
         </div>
 
         <button
           onClick={() => setIsAddOpen(true)}
-          className="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-black font-bold rounded-xl transition cursor-pointer flex items-center gap-2  text-xs shadow-lg shadow-emerald-900/20"
+          className="admin-primary-button flex cursor-pointer items-center gap-2 rounded-xl px-5 py-3 text-xs font-semibold shadow-lg transition"
         >
           <Plus className="w-4 h-4" /> Add New Cookie
         </button>
       </div>
 
       {/* List Saved Cookies */}
-      <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-6 backdrop-blur space-y-4">
-        <h2 className="text-base font-bold text-white  flex items-center gap-2">
-          <KeyRound className="w-4 h-4 text-emerald-400" />
+      <div className="admin-card space-y-4 rounded-2xl border p-5 sm:p-6">
+        <div className="flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-slate-900">
+          <KeyRound className="h-4 w-4 text-emerald-600" />
           <span>Active Cookies ({cookieManagers.length})</span>
-        </h2>
+          </h2>
+          <span className="admin-count-badge rounded-full px-2.5 py-1 text-[11px] font-semibold">{cookieManagers.length} total</span>
+        </div>
 
         {cookieManagers.length === 0 ? (
           <div className="text-center py-12 space-y-3">
@@ -74,6 +78,9 @@ export function CookiesClient({
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2.5">
                     <span className="font-bold text-white text-sm">{cookie.name}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border ${cookie.provider === "gallery-dl" ? "bg-purple-500/20 text-purple-400 border-purple-500/30" : "bg-sky-500/20 text-sky-400 border-sky-500/30"}`}>
+                      {cookie.provider}
+                    </span>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${cookie.isActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                       {cookie.isActive ? 'Active' : 'Disabled'}
                     </span>
