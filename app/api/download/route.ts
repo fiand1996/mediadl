@@ -5,6 +5,7 @@ import { getActiveCookieForProvider, markCookieFail, markCookieSuccess } from "@
 import { getActiveCookieManagerForUrl } from "@/lib/ytdlpCookieRotator";
 import { getActiveGalleryDlCookieForUrl } from "@/lib/galleryDlCookieRotator";
 import { registry } from "@/extensions/registry";
+import { getExtensionStatusMap } from "@/lib/extensionManager";
 import { fetchYtDlpMetadataWithCookies, extractAllFormats } from "@/lib/ytdlpCore";
 import { isGalleryDlSupported } from "@/lib/galleryDlMatcher";
 import { fetchGalleryDlMetadataWithCookies } from "@/lib/galleryDlCore";
@@ -102,7 +103,9 @@ export async function GET(request: Request) {
   }
 
   // 3. Find extension from Registry or fallback to yt-dlp
-  const extension = registry.findExtension(targetUrl);
+  const statusMap = getExtensionStatusMap();
+  const disabledIds = new Set(Object.keys(statusMap).filter(k => !statusMap[k]));
+  const extension = registry.findExtension(targetUrl, disabledIds);
   let successResult = null;
   const primaryProviderId = extension ? extension.manifest.id : "yt-dlp";
   let resolvedProviderId = primaryProviderId;

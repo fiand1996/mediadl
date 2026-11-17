@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { createReadStream, promises as fsPromises } from "node:fs";
 import { registry } from "@/extensions/registry";
+import { getExtensionStatusMap } from "@/lib/extensionManager";
 import { detectYtDlpBinary } from "@/lib/ytdlpCore";
 import { getFFmpegPath } from "@/lib/ffmpeg";
 import { getActiveCookieManagerForUrl } from "@/lib/ytdlpCookieRotator";
@@ -208,7 +209,9 @@ export async function GET(request: Request) {
     }
 
     const customReferer = searchParams.get("referer");
-    const extension = registry.findExtensionByDomain(parsed.hostname);
+    const statusMap = getExtensionStatusMap();
+    const disabledIds = new Set(Object.keys(statusMap).filter(k => !statusMap[k]));
+    const extension = registry.findExtensionByDomain(parsed.hostname, disabledIds);
     const resolvedReferer = customReferer || extension?.manifest?.imageReferer;
 
     const headers: Record<string, string> = {

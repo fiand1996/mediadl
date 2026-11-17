@@ -2,10 +2,11 @@ import { db } from "@/db";
 import { cookiesConfig } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { registry } from "@/extensions/registry";
+import { getManagedExtensions } from "@/lib/extensionManager";
 import { ExtensionsClient } from "@/components/admin/ExtensionsClient";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
+import { toggleExtensionAction } from "./actions";
 
 // Server action to add cookie
 async function addCookieAction(formData: FormData) {
@@ -77,13 +78,14 @@ async function deleteCookieAction(formData: FormData) {
 }
 
 export default function AdminExtensionsPage() {
-  const extensions = registry.getAllExtensions().map(ext => ({
+  const extensions = getManagedExtensions().map(ext => ({
     id: ext.id,
     name: ext.name,
     version: ext.version,
     description: ext.description,
     urlPatterns: ext.urlPatterns.map(p => p.toString()),
     cookies: ext.cookies,
+    isEnabled: ext.isEnabled,
   }));
 
   const allCookies = db.select().from(cookiesConfig).orderBy(desc(cookiesConfig.createdAt)).all();
@@ -99,6 +101,7 @@ export default function AdminExtensionsPage() {
           addCookieAction={addCookieAction}
           updateCookieAction={updateCookieAction}
           deleteCookieAction={deleteCookieAction}
+          toggleExtensionAction={toggleExtensionAction}
         />
       </main>
     </div>

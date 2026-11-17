@@ -25,6 +25,13 @@ export const cookiesConfig = sqliteTable("cookies_config", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
+// Table to store extension status (enabled/disabled)
+export const extensionStates = sqliteTable("extension_states", {
+  id: text("id").primaryKey(), // extension id e.g. 'instagram', 'pixiv'
+  isEnabled: integer("is_enabled", { mode: "boolean" }).notNull().default(true),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
 // Table for rate limiting tracking (Client IP + Fingerprint)
 export const rateLimits = sqliteTable("rate_limits", {
   clientKey: text("client_key").primaryKey(),
