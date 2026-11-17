@@ -118,7 +118,7 @@ export async function GET(request: Request) {
 
       // Execute yt-dlp to download and mux into a valid MP4 file with faststart
       await new Promise<void>((resolve, reject) => {
-        const child = spawn(command.executable, args, {
+        const child = spawn(/*turbopackIgnore: true*/ command.executable, args, {
           env: process.env,
         });
 

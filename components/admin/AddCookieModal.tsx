@@ -41,7 +41,7 @@ export function AddCookieModal({ isOpen, onClose, onAdd }: AddCookieModalProps) 
           }} 
           className="space-y-5"
         >
-          <CookieFormFields formId="add-cookie-form" />
+          <CookieFormFields formId="add-cookie-form" showProviderSelector={true} />
 
           <div className="flex items-center justify-end gap-3 border-t pt-5">
             <button 

@@ -3,8 +3,11 @@ import { db } from "@/db";
 import { fetchLogs, rateLimits } from "@/db/schema";
 import { getActiveCookieForProvider, markCookieFail, markCookieSuccess } from "@/lib/cookieRotator";
 import { getActiveCookieManagerForUrl } from "@/lib/ytdlpCookieRotator";
+import { getActiveGalleryDlCookieForUrl } from "@/lib/galleryDlCookieRotator";
 import { registry } from "@/extensions/registry";
 import { fetchYtDlpMetadataWithCookies, extractAllFormats } from "@/lib/ytdlpCore";
+import { isGalleryDlSupported } from "@/lib/galleryDlMatcher";
+import { fetchGalleryDlMetadataWithCookies } from "@/lib/galleryDlCore";
 import { lt } from "drizzle-orm";
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
@@ -142,9 +145,42 @@ export async function GET(request: Request) {
     }
   }
 
-  // If no extension matched or extension extraction failed, try yt-dlp engine fallback
+  // 4. Priority 2: gallery-dl fallback (if target site is in galleryDlSupportedSites.json)
+  let activeGdlCookie: { id: number; name: string; cookieContent: string } | null = null;
+  if (!successResult && isGalleryDlSupported(targetUrl)) {
+    try {
+      activeGdlCookie = getActiveGalleryDlCookieForUrl(targetUrl);
+      const gdlCookie = activeGdlCookie?.cookieContent || null;
+
+      successResult = await fetchGalleryDlMetadataWithCookies(targetUrl, gdlCookie);
+
+      if (activeGdlCookie) {
+        markCookieSuccess(activeGdlCookie.id);
+      }
+      resolvedProviderId = "gallery-dl";
+    } catch (gdlErr: unknown) {
+      if (activeGdlCookie) {
+        markCookieFail(activeGdlCookie.id);
+      }
+      lastError = gdlErr instanceof Error ? gdlErr.message : String(gdlErr);
+
+      // Do NOT fall back to yt-dlp if gallery-dl failed on a recognized gallery site
+      db.insert(fetchLogs).values({
+        url: targetUrl,
+        provider: "gallery-dl",
+        status: "error",
+        statusCode: 500,
+        errorMessage: lastError,
+        cookieUsed: activeGdlCookie?.name || null,
+      }).run();
+
+      return NextResponse.json({ success: false, error: lastError || "gallery-dl extraction failed." }, { status: 500 });
+    }
+  }
+
+  // 5. Priority 3: yt-dlp universal engine fallback (only for general video/audio not claimed by gallery-dl)
   let activeCookieManager: { id: number; name: string; cookieContent: string } | null = null;
-  if (!successResult) {
+  if (!successResult && !isGalleryDlSupported(targetUrl)) {
     try {
       activeCookieManager = getActiveCookieManagerForUrl(targetUrl);
       const ytCookie = activeCookieManager?.cookieContent || null;
@@ -201,6 +237,8 @@ export async function GET(request: Request) {
     }
   }
 
+  const resolvedCookieName = activeCookie?.name || activeGdlCookie?.name || activeCookieManager?.name || null;
+
   if (!successResult) {
     db.insert(fetchLogs).values({
       url: targetUrl,
@@ -208,7 +246,7 @@ export async function GET(request: Request) {
       status: "error",
       statusCode: 500,
       errorMessage: lastError,
-      cookieUsed: activeCookie?.name || activeCookieManager?.name || null,
+      cookieUsed: resolvedCookieName,
     }).run();
 
     return NextResponse.json({ success: false, error: lastError || "Extraction failed." }, { status: 500 });
@@ -219,12 +257,12 @@ export async function GET(request: Request) {
     provider: resolvedProviderId,
     status: "success",
     statusCode: 200,
-    cookieUsed: activeCookie?.name || activeCookieManager?.name || null,
+    cookieUsed: resolvedCookieName,
   }).run();
 
   return NextResponse.json({
     success: true,
     result: successResult,
-    cookieUsed: activeCookie?.name || activeCookieManager?.name,
+    cookieUsed: resolvedCookieName,
   });
 }

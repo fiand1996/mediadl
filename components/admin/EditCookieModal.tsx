@@ -56,8 +56,10 @@ export function EditCookieModal({ cookie, isOpen, onClose, onUpdate }: EditCooki
           <CookieFormFields 
             formId="edit-cookie-form" 
             defaultName={cookie.name}
+            defaultProvider={cookie.provider}
             defaultDomains={cookie.domains || ""}
             defaultContent={cookie.cookieContent}
+            showProviderSelector={cookie.provider === "yt-dlp" || cookie.provider === "gallery-dl"}
           />
 
           <div className="flex items-center justify-end gap-3 border-t pt-5">

@@ -26,6 +26,10 @@ RUN ARCH=$(dpkg --print-architecture) \
     && curl -L "$YTDLP_URL" -o /usr/local/bin/yt-dlp \
     && chmod a+rx /usr/local/bin/yt-dlp
 
+# Install gallery-dl binary
+RUN curl -L "https://github.com/mikf/gallery-dl/releases/latest/download/gallery-dl.bin" -o /usr/local/bin/gallery-dl \
+    && chmod a+rx /usr/local/bin/gallery-dl
+
 # Install pnpm via corepack
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"

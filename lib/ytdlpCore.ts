@@ -209,7 +209,7 @@ export async function detectYtDlpBinary(): Promise<YtDlpCommandConfig | null> {
 
   for (const candidate of ["yt-dlp", "yt-dlp.exe"]) {
     try {
-      await execFileAsync(candidate, ["--version"], { timeout: 15000 });
+      await execFileAsync(/*turbopackIgnore: true*/ candidate, ["--version"], { timeout: 15000 });
       return { executable: candidate };
     } catch {
       // Try next candidate.
@@ -248,7 +248,7 @@ function runYtDlpProcess(
   timeoutMs: number = YTDLP_TIMEOUT_MS
 ): Promise<YtDlpMetadata> {
   return new Promise((resolve, reject) => {
-    const child = spawn(command.executable, commandArgs, {
+    const child = spawn(/*turbopackIgnore: true*/ command.executable, commandArgs, {
       env: process.env,
     });
 

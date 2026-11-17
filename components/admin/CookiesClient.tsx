@@ -40,7 +40,7 @@ export function CookiesClient({
             <KeyRound className="w-6 h-6 text-emerald-600" />
             <span>Cookie Manager</span>
           </h1>
-          <p className="admin-muted mt-2 text-sm">Manage cookie profiles and target domains for universal yt-dlp extractions.</p>
+          <p className="admin-muted mt-2 text-sm">Manage cookie profiles and target domains for extractions.</p>
         </div>
 
         <button
@@ -78,6 +78,9 @@ export function CookiesClient({
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2.5">
                     <span className="font-bold text-white text-sm">{cookie.name}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border ${cookie.provider === "gallery-dl" ? "bg-purple-500/20 text-purple-400 border-purple-500/30" : "bg-sky-500/20 text-sky-400 border-sky-500/30"}`}>
+                      {cookie.provider}
+                    </span>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${cookie.isActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                       {cookie.isActive ? 'Active' : 'Disabled'}
                     </span>

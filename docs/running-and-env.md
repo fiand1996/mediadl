@@ -23,6 +23,10 @@ Create a `.env` file in the root directory (you can copy from `.env.example`). H
 | `APP_URL`                   | String  | **Required**                     | The public base URL of your MediaDL instance. Used for server-side redirects and callbacks.                                    |
 | `FFMPEG_PATH`               | String  | _Optional_                       | Absolute path to the FFmpeg binary. If provided, enables high-resolution 1080p/4K audio+video merging for `yt-dlp`.             |
 | `YTDLP_PATH`                | String  | **Required (if outside Docker)** | Absolute path to the `yt-dlp` binary (required if `yt-dlp` is not available in system `PATH`).                                  |
+| `GALLERY_DL_PATH`           | String  | _Optional_                       | Absolute path to the `gallery-dl` binary (required if `gallery-dl` is not available in system `PATH`).                          |
+| `GALLERY_DL_MAX_ITEMS`      | Number  | `50`                             | Maximum number of media items extracted from a single gallery, album, or post.                                                 |
+| `GALLERY_DL_TIMEOUT_MS`     | Number  | `45000`                          | Execution timeout for `gallery-dl` CLI in milliseconds.                                                                         |
+| `GALLERY_DL_TEMP_DIR`       | String  | _Optional_                       | Directory for transient cookie files during `gallery-dl` execution. Defaults to system temp directory (`os.tmpdir()`).        |
 | `AUTH_SECRET`               | String  | **Required**                     | Secret key used to encrypt Auth.js/NextAuth tokens and session data (generate with `openssl rand -base64 32`).                  |
 | `AUTH_URL`                  | String  | **Required**                     | Base URL of the authentication server. Must match `APP_URL` in production.                                                      |
 | `OIDC_PROVIDER`             | String  | _Optional_                       | External OIDC authentication provider: choose `"github"`, `"google"`, or `"custom"`. Leave empty for database credentials only. |
@@ -168,5 +172,6 @@ MediaDL uses SQLite with Drizzle ORM. Database files are persisted in the `/app/
 
 ## 🔗 Related Documentation
 
-- [Architecture & System Design](./architecture.md) - Learn about the decoupled extension registry, core `yt-dlp` engine, and streaming proxy.
+- [Architecture & System Design](./architecture.md) - Learn about the decoupled extension registry, `gallery-dl` engine, and streaming proxy.
+- [Cookie Management & Rotation Guide](./cookie.md) - Learn how platform burner cookies and Netscape cookie rotation work.
 - [Cookie Management & Rotation Guide](./cookie.md) - Learn how to configure platform burner cookies and Netscape cookie rotation.

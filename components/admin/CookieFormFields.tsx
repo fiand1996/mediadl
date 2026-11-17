@@ -9,19 +9,24 @@ import { CookieSessionWarning } from "@/components/admin/CookieSessionWarning";
 interface CookieFormFieldsProps {
   formId: string;
   defaultName?: string;
+  defaultProvider?: string;
   defaultDomains?: string;
   defaultContent?: string;
   showDomains?: boolean;
+  showProviderSelector?: boolean;
 }
 
 export function CookieFormFields({
   formId,
   defaultName = "",
+  defaultProvider = "yt-dlp",
   defaultDomains = "",
   defaultContent = "",
   showDomains = true,
+  showProviderSelector = false,
 }: CookieFormFieldsProps) {
   const [name, setName] = useState(defaultName);
+  const [provider, setProvider] = useState(defaultProvider);
   const [domains, setDomains] = useState(defaultDomains);
   const [content, setContent] = useState(defaultContent);
 
@@ -42,6 +47,23 @@ export function CookieFormFields({
   return (
     <div className="space-y-5 text-xs">
       <CookieSessionWarning />
+
+      {showProviderSelector && (
+        <div className="space-y-1.5">
+          <label htmlFor={`${formId}-provider`} className="admin-form-label block font-medium">Engine / Provider</label>
+          <select
+            id={`${formId}-provider`}
+            name="provider"
+            value={provider}
+            onChange={(e) => setProvider(e.target.value)}
+            className="admin-form-input w-full rounded-xl border px-3.5 py-3 text-sm transition"
+          >
+            <option value="yt-dlp">yt-dlp (Universal Video & Audio)</option>
+            <option value="gallery-dl">gallery-dl (Galleries, Boorus, & Images)</option>
+          </select>
+          <p className="admin-form-hint">Select the execution engine that will use this cookie profile.</p>
+        </div>
+      )}
 
       <div className="space-y-1.5">
         <label htmlFor={`${formId}-name`} className="admin-form-label block font-medium">Account name</label>
