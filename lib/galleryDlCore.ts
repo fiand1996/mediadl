@@ -63,82 +63,122 @@ interface ParsedGalleryItem {
 
 /**
  * Parse stdout produced by `gallery-dl -j`
- * Format:
- * [1, "directory_name"]
- * [2, "direct_file_url", { ...metadata }]
- * [3, "direct_file_url", { ...metadata }]
- * or direct JSON objects
+ * Format is either a multi-line JSON array of entries:
+ * [
+ *   [1, "directory_name"],
+ *   [2, "direct_file_url", { ...metadata }],
+ *   [-1, { "error": "...", "message": "..." }]
+ * ]
+ * or JSON Lines (jsonl).
  */
-export function parseGalleryDlJsonOutput(stdout: string): { items: ParsedGalleryItem[]; globalMeta: Record<string, unknown> } {
-  const lines = stdout.split("\n");
+export function parseGalleryDlJsonOutput(stdout: string): {
+  items: ParsedGalleryItem[];
+  globalMeta: Record<string, unknown>;
+  error?: string;
+} {
   const items: ParsedGalleryItem[] = [];
   let globalMeta: Record<string, unknown> = {};
+  let caughtError: string | undefined;
 
+  const processEntry = (parsed: unknown) => {
+    if (Array.isArray(parsed)) {
+      const typeId = parsed[0];
+
+      // Error marker from gallery-dl: [-1, { error, message }]
+      if (typeId === -1 && parsed[1] && typeof parsed[1] === "object") {
+        const errObj = parsed[1] as { error?: string; message?: string };
+        const msg = errObj.message || errObj.error || "Extraction failed in gallery-dl";
+        caughtError = errObj.error ? `${errObj.error}: ${msg.trim()}` : msg.trim();
+        return;
+      }
+
+      // Type 1: Directory or Category
+      if (typeId === 1 && typeof parsed[1] === "string") {
+        if (!globalMeta.title) {
+          globalMeta.title = parsed[1];
+        }
+        return;
+      }
+
+      // Type 2 or 3: Media File
+      if ((typeId === 2 || typeId === 3) && typeof parsed[1] === "string") {
+        const directUrl = parsed[1];
+        const meta = (parsed[2] && typeof parsed[2] === "object" ? parsed[2] : {}) as Record<string, unknown>;
+
+        if (Object.keys(globalMeta).length === 0) {
+          globalMeta = meta;
+        }
+
+        const author = (meta.author || meta.artist || meta.user || meta.username || meta.uploader || meta.channel || "") as string;
+        const title = (meta.title || meta.name || meta.caption || meta.description || "") as string;
+        const thumbnail = (meta.thumbnail || meta.preview || directUrl) as string;
+        const date = (meta.date || meta.timestamp || "") as string;
+        const ext = (meta.extension || meta.ext || "") as string;
+
+        items.push({
+          url: directUrl,
+          thumbnail,
+          title,
+          author,
+          date,
+          ext,
+        });
+        return;
+      }
+    } else if (typeof parsed === "object" && parsed !== null) {
+      // Raw dictionary format
+      const dict = parsed as Record<string, unknown>;
+      const directUrl = (dict.url || dict.file_url || dict.src || "") as string;
+      if (directUrl) {
+        if (Object.keys(globalMeta).length === 0) {
+          globalMeta = dict;
+        }
+        items.push({
+          url: directUrl,
+          thumbnail: (dict.thumbnail || dict.preview || directUrl) as string,
+          title: (dict.title || dict.caption || dict.description || "") as string,
+          author: (dict.author || dict.artist || dict.username || "") as string,
+          ext: (dict.extension || dict.ext || "") as string,
+        });
+      }
+    }
+  };
+
+  const trimmed = stdout.trim();
+  if (!trimmed) {
+    return { items, globalMeta };
+  }
+
+  // 1. Try parsing full output as a single top-level JSON array
+  try {
+    const fullParsed = JSON.parse(trimmed);
+    if (Array.isArray(fullParsed)) {
+      for (const entry of fullParsed) {
+        processEntry(entry);
+      }
+      return { items, globalMeta, error: caughtError };
+    } else {
+      processEntry(fullParsed);
+      return { items, globalMeta, error: caughtError };
+    }
+  } catch {
+    // If whole string parse failed, fallback to line-by-line (e.g. if jsonl mode)
+  }
+
+  // 2. Fallback: Parse line-by-line (for jsonl output)
+  const lines = trimmed.split("\n");
   for (const rawLine of lines) {
     const line = rawLine.trim();
     if (!line) continue;
-
     try {
       const parsed = JSON.parse(line);
-
-      // Tuple format: [type_id, data, meta]
-      if (Array.isArray(parsed)) {
-        const typeId = parsed[0];
-
-        // Type 1: Directory or Category
-        if (typeId === 1 && typeof parsed[1] === "string") {
-          if (!globalMeta.title) {
-            globalMeta.title = parsed[1];
-          }
-          continue;
-        }
-
-        // Type 2 or 3: Media File
-        if ((typeId === 2 || typeId === 3) && typeof parsed[1] === "string") {
-          const directUrl = parsed[1];
-          const meta = (parsed[2] && typeof parsed[2] === "object" ? parsed[2] : {}) as Record<string, unknown>;
-
-          if (Object.keys(globalMeta).length === 0) {
-            globalMeta = meta;
-          }
-
-          const author = (meta.author || meta.artist || meta.user || meta.username || meta.uploader || meta.channel || "") as string;
-          const title = (meta.title || meta.name || meta.caption || meta.description || "") as string;
-          const thumbnail = (meta.thumbnail || meta.preview || directUrl) as string;
-          const date = (meta.date || meta.timestamp || "") as string;
-          const ext = (meta.extension || meta.ext || "") as string;
-
-          items.push({
-            url: directUrl,
-            thumbnail,
-            title,
-            author,
-            date,
-            ext,
-          });
-        }
-      } else if (typeof parsed === "object" && parsed !== null) {
-        // Raw dictionary format
-        const directUrl = (parsed.url || parsed.file_url || parsed.src || "") as string;
-        if (directUrl) {
-          if (Object.keys(globalMeta).length === 0) {
-            globalMeta = parsed;
-          }
-          items.push({
-            url: directUrl,
-            thumbnail: (parsed.thumbnail || parsed.preview || directUrl) as string,
-            title: (parsed.title || parsed.caption || parsed.description || "") as string,
-            author: (parsed.author || parsed.artist || parsed.username || "") as string,
-            ext: (parsed.extension || parsed.ext || "") as string,
-          });
-        }
-      }
+      processEntry(parsed);
     } catch {
-      // Ignore individual malformed lines
+      // Ignore non-json line
     }
   }
 
-  return { items, globalMeta };
+  return { items, globalMeta, error: caughtError };
 }
 
 function isVideoExtension(urlOrExt: string): boolean {
@@ -195,7 +235,7 @@ export async function fetchGalleryDlMetadataWithCookies(
 
     args.push(targetUrl);
 
-    const stdout = await new Promise<string>((resolve, reject) => {
+    const stdout = await new Promise<{ out: string; err: string }>((resolve, reject) => {
       const child = spawn(/*turbopackIgnore: true*/ command.executable, args, {
         env: process.env,
       });
@@ -238,18 +278,23 @@ export async function fetchGalleryDlMetadataWithCookies(
         clearTimeout(timer);
 
         if (code !== 0 && !out.trim()) {
-          reject(new Error(err || `gallery-dl exited with status code ${code}`));
+          reject(new Error(err.trim() || `gallery-dl exited with status code ${code}`));
           return;
         }
 
-        resolve(out);
+        resolve({ out, err });
       });
     });
 
-    const { items: parsedItems, globalMeta } = parseGalleryDlJsonOutput(stdout);
+    const { items: parsedItems, globalMeta, error: caughtError } = parseGalleryDlJsonOutput(stdout.out);
+
+    if (caughtError) {
+      throw new Error(`gallery-dl: ${caughtError}`);
+    }
 
     if (parsedItems.length === 0) {
-      throw new Error("gallery-dl found no downloadable media items for this URL.");
+      const stderrMsg = stdout.err.trim();
+      throw new Error(stderrMsg || "gallery-dl found no downloadable media items for this URL.");
     }
 
     // Limit to configured max items
