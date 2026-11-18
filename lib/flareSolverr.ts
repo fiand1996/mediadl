@@ -228,3 +228,66 @@ export async function fetchImageViaFlareSolverr(imageUrl: string): Promise<{ buf
 
   return { buffer: bytes.buffer, contentType };
 }
+
+/**
+ * Host-managed fetch helper for extensions.
+ * Performs a standard fetch and transparently routes through FlareSolverr
+ * if a Cloudflare challenge is encountered.
+ */
+export async function smartFetchWithFlareSolverr(
+  url: string,
+  options: RequestInit = {}
+): Promise<Response> {
+  const config = getFlareSolverrConfig();
+  let initialResponse: Response | null = null;
+  let fetchError: unknown = null;
+
+  try {
+    initialResponse = await fetch(url, options);
+  } catch (err) {
+    fetchError = err;
+  }
+
+  if (!config.enabled) {
+    if (fetchError) throw fetchError;
+    return initialResponse!;
+  }
+
+  // Determine if FlareSolverr is required
+  let needsFlare = false;
+  if (fetchError) {
+    const errMsg = fetchError instanceof Error ? fetchError.message : String(fetchError);
+    if (/cloudflare|cf-turnstile|challenges\.cloudflare/i.test(errMsg)) {
+      needsFlare = true;
+    }
+  } else if (initialResponse) {
+    let bodyText: string | undefined;
+    const contentType = initialResponse.headers.get("content-type")?.toLowerCase() || "";
+    if (!contentType.includes("application/json")) {
+      try {
+        const cloned = initialResponse.clone();
+        bodyText = await cloned.text();
+      } catch {
+        // ignore clone error
+      }
+    }
+    if (isAntiBotChallenge(initialResponse, bodyText)) {
+      needsFlare = true;
+    }
+  }
+
+  if (needsFlare) {
+    try {
+      const flareRes = await fetchWithFlareSolverr(url);
+      return new Response(flareRes.text, {
+        status: flareRes.status || 200,
+        headers: flareRes.headers || {},
+      });
+    } catch {
+      // Fallback to initial response or error
+    }
+  }
+
+  if (fetchError) throw fetchError;
+  return initialResponse!;
+}

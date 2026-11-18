@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Plus, Trash2, KeyRound, Globe, Edit3, ShieldAlert } from "lucide-react";
 import { AddCookieModal } from "@/components/admin/AddCookieModal";
 import { EditCookieModal } from "@/components/admin/EditCookieModal";
+import { ConfirmModal } from "@/components/admin/ConfirmModal";
 
 interface CookieItem {
   id: number;
@@ -30,6 +31,8 @@ export function CookiesClient({
 }: CookiesClientProps) {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingCookie, setEditingCookie] = useState<CookieItem | null>(null);
+  const [cookieToDelete, setCookieToDelete] = useState<CookieItem | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   return (
     <div className="admin-page mx-auto max-w-5xl space-y-8">
@@ -110,20 +113,14 @@ export function CookiesClient({
                     <Edit3 className="w-3.5 h-3.5 text-emerald-400" /> Edit
                   </button>
 
-                  <form action={deleteCookieManagerAction} onSubmit={(e) => {
-                    if (!confirm(`Are you sure you want to delete "${cookie.name}"?`)) {
-                      e.preventDefault();
-                    }
-                  }}>
-                    <input type="hidden" name="id" value={cookie.id} />
-                    <button 
-                      type="submit"
-                      className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg transition cursor-pointer"
-                      title="Delete Cookie"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </form>
+                  <button 
+                    type="button"
+                    onClick={() => setCookieToDelete(cookie)}
+                    className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg transition cursor-pointer"
+                    title="Delete Cookie"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             ))}
@@ -143,6 +140,28 @@ export function CookiesClient({
         isOpen={Boolean(editingCookie)} 
         onClose={() => setEditingCookie(null)} 
         onUpdate={updateCookieManagerAction} 
+      />
+
+      <ConfirmModal
+        isOpen={Boolean(cookieToDelete)}
+        title="Delete Cookie Profile"
+        description={`Are you sure you want to delete "${cookieToDelete?.name}"? Any active extractions relying on this cookie may fail or lose access.`}
+        confirmText="Delete Cookie"
+        variant="danger"
+        isLoading={isDeleting}
+        onClose={() => setCookieToDelete(null)}
+        onConfirm={async () => {
+          if (!cookieToDelete) return;
+          setIsDeleting(true);
+          try {
+            const formData = new FormData();
+            formData.set("id", String(cookieToDelete.id));
+            await deleteCookieManagerAction(formData);
+            setCookieToDelete(null);
+          } finally {
+            setIsDeleting(false);
+          }
+        }}
       />
     </div>
   );

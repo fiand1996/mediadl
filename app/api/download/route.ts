@@ -5,9 +5,11 @@ import { getActiveCookieForProvider, markCookieFail, markCookieSuccess } from "@
 import { getActiveCookieManagerForUrl } from "@/lib/ytdlpCookieRotator";
 import { getActiveGalleryDlCookieForUrl } from "@/lib/galleryDlCookieRotator";
 import { registry } from "@/extensions/registry";
+import { getExtensionStatusMap } from "@/lib/extensionManager";
 import { fetchYtDlpMetadataWithCookies, extractAllFormats } from "@/lib/ytdlpCore";
 import { isGalleryDlSupported } from "@/lib/galleryDlMatcher";
 import { fetchGalleryDlMetadataWithCookies } from "@/lib/galleryDlCore";
+import { smartFetchWithFlareSolverr } from "@/lib/flareSolverr";
 import { lt } from "drizzle-orm";
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
@@ -102,7 +104,9 @@ export async function GET(request: Request) {
   }
 
   // 3. Find extension from Registry or fallback to yt-dlp
-  const extension = registry.findExtension(targetUrl);
+  const statusMap = getExtensionStatusMap();
+  const disabledIds = new Set(Object.keys(statusMap).filter(k => !statusMap[k]));
+  const extension = registry.findExtension(targetUrl, disabledIds);
   let successResult = null;
   const primaryProviderId = extension ? extension.manifest.id : "yt-dlp";
   let resolvedProviderId = primaryProviderId;
@@ -122,6 +126,7 @@ export async function GET(request: Request) {
             if (!activeCookie) return null;
             return activeCookie.cookieContent;
           },
+          fetch: smartFetchWithFlareSolverr,
         });
 
         if (activeCookie) {
@@ -143,11 +148,29 @@ export async function GET(request: Request) {
         attempts++;
       }
     }
+
+    // Terminating Fallback: If an extension owns this URL, it has exclusive authority.
+    // Never fall back to gallery-dl or yt-dlp on failure to prevent silent degradation and cookie confusion.
+    if (!successResult) {
+      db.insert(fetchLogs).values({
+        url: targetUrl,
+        provider: primaryProviderId,
+        status: "error",
+        statusCode: 500,
+        errorMessage: lastError,
+        cookieUsed: activeCookie?.name || null,
+      }).run();
+
+      return NextResponse.json(
+        { success: false, error: lastError || `${extension.manifest.name} extraction failed.` },
+        { status: 500 }
+      );
+    }
   }
 
-  // 4. Priority 2: gallery-dl fallback (if target site is in galleryDlSupportedSites.json)
+  // 4. Priority 2: gallery-dl (only if no extension claimed the URL and domain is in galleryDlSupportedSites.json)
   let activeGdlCookie: { id: number; name: string; cookieContent: string } | null = null;
-  if (!successResult && isGalleryDlSupported(targetUrl)) {
+  if (!extension && isGalleryDlSupported(targetUrl)) {
     try {
       activeGdlCookie = getActiveGalleryDlCookieForUrl(targetUrl);
       const gdlCookie = activeGdlCookie?.cookieContent || null;
@@ -178,9 +201,9 @@ export async function GET(request: Request) {
     }
   }
 
-  // 5. Priority 3: yt-dlp universal engine fallback (only for general video/audio not claimed by gallery-dl)
+  // 5. Priority 3: yt-dlp universal engine fallback (only for URLs not handled by extensions and not claimed by gallery-dl)
   let activeCookieManager: { id: number; name: string; cookieContent: string } | null = null;
-  if (!successResult && !isGalleryDlSupported(targetUrl)) {
+  if (!extension && !isGalleryDlSupported(targetUrl)) {
     try {
       activeCookieManager = getActiveCookieManagerForUrl(targetUrl);
       const ytCookie = activeCookieManager?.cookieContent || null;

@@ -52,7 +52,7 @@ Or use Docker Compose (see [Running & Environment Guide](./docs/running-and-env.
 
 ### Option 2: Local Development
 
-Make sure you have [Node.js](https://nodejs.org/) (v18+), [pnpm](https://pnpm.io/), and optionally `yt-dlp` and `gallery-dl` installed.
+Make sure you have [Node.js](https://nodejs.org/) (v20.9+), [pnpm](https://pnpm.io/) 12.18.0, and optionally `yt-dlp` and `gallery-dl` installed.
 
 1. Clone the repository and install dependencies:
 

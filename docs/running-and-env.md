@@ -23,6 +23,7 @@ Create a `.env` file in the root directory (you can copy from `.env.example`). H
 | `APP_URL`                   | String  | **Required**                     | The public base URL of your MediaDL instance. Used for server-side redirects and callbacks.                                    |
 | `FFMPEG_PATH`               | String  | _Optional_                       | Absolute path to the FFmpeg binary. If provided, enables high-resolution 1080p/4K audio+video merging for `yt-dlp`.             |
 | `YTDLP_PATH`                | String  | **Required (if outside Docker)** | Absolute path to the `yt-dlp` binary (required if `yt-dlp` is not available in system `PATH`).                                  |
+| `YTDLP_TIMEOUT_MS`         | Number  | `45000`                          | Execution timeout for `yt-dlp` CLI in milliseconds.                                                                            |
 | `GALLERY_DL_PATH`           | String  | _Optional_                       | Absolute path to the `gallery-dl` binary (required if `gallery-dl` is not available in system `PATH`).                          |
 | `GALLERY_DL_MAX_ITEMS`      | Number  | `50`                             | Maximum number of media items extracted from a single gallery, album, or post.                                                 |
 | `GALLERY_DL_TIMEOUT_MS`     | Number  | `45000`                          | Execution timeout for `gallery-dl` CLI in milliseconds.                                                                         |
@@ -40,7 +41,8 @@ Create a `.env` file in the root directory (you can copy from `.env.example`). H
 | `FLARESOLVERR_ENABLED`      | Boolean | `false`                          | Enable or disable FlareSolverr integration for bypassing Cloudflare bot protections (`true` or `false`).                        |
 | `FLARESOLVERR_URL`          | String  | _Optional_                       | FlareSolverr server endpoint URL (e.g., `http://flaresolverr:8191`).                                                            |
 | `FLARESOLVERR_TIMEOUT`      | Number  | `60000`                          | Request timeout for FlareSolverr in milliseconds.                                                                               |
-| `FLARESOLVERR_SESSION_NAME` | String  | `mediadl-session`               | Persistent session name for FlareSolverr.                                                                                       |
+| `FLARESOLVERR_SESSION_NAME` | String  | `default`                        | Persistent session name for FlareSolverr.                                                                                       |
+| `NEXT_PUBLIC_EXTENSIONS_REPO_URL` | String | _Optional_                  | URL for a custom public extension catalog. Defaults to the official MediaDL extension repository.                               |
 
 ---
 
@@ -48,8 +50,8 @@ Create a `.env` file in the root directory (you can copy from `.env.example`). H
 
 ### Prerequisites
 
-- **Node.js**: v18.0.0 or higher
-- **pnpm**: v8.0.0 or higher (recommended package manager)
+- **Node.js**: v20.9.0 or higher
+- **pnpm**: v12.18.0 (package-manager version pinned in `package.json`)
 - **FFmpeg**: Optional, required if you want local video+audio format merging.
 
 ### Steps
@@ -79,7 +81,7 @@ Create a `.env` file in the root directory (you can copy from `.env.example`). H
    Run Drizzle migrations to set up the SQLite database (`db/sqlite.db`):
 
    ```bash
-   pnpm dlx drizzle-kit push
+   pnpm db:push
    ```
 
 4. **Start the Development Server**:
@@ -174,4 +176,3 @@ MediaDL uses SQLite with Drizzle ORM. Database files are persisted in the `/app/
 
 - [Architecture & System Design](./architecture.md) - Learn about the decoupled extension registry, `gallery-dl` engine, and streaming proxy.
 - [Cookie Management & Rotation Guide](./cookie.md) - Learn how platform burner cookies and Netscape cookie rotation work.
-- [Cookie Management & Rotation Guide](./cookie.md) - Learn how to configure platform burner cookies and Netscape cookie rotation.

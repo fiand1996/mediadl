@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { registry } from "@/extensions/registry";
+import { getExtensionStatusMap } from "@/lib/extensionManager";
 import { getFlareSolverrConfig, getFlareSolverrSessionCookies, fetchImageViaFlareSolverr, isAntiBotChallenge } from "@/lib/flareSolverr";
 
 export async function GET(request: Request) {
@@ -25,7 +26,9 @@ export async function GET(request: Request) {
     const hostname = parsed.hostname;
 
     // Fully dynamic lookup: ask the ExtensionRegistry if any registered extension owns this image domain
-    const extension = registry.findExtensionByDomain(hostname);
+    const statusMap = getExtensionStatusMap();
+    const disabledIds = new Set(Object.keys(statusMap).filter(k => !statusMap[k]));
+    const extension = registry.findExtensionByDomain(hostname, disabledIds);
 
     if (!extension || !extension.manifest.imageReferer) {
       return NextResponse.json({ error: "Invalid or unauthorized domain" }, { status: 403 });
