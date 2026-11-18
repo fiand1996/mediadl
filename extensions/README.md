@@ -1,6 +1,6 @@
 # MediaDL Decoupled Extensions Architecture
 
-In MediaDL, platform-specific scrapers and extractors are **decoupled** from the core application and maintained in the external repository: [`mediadl-extensions`](https://github.com/vian/mediadl-extensions).
+In MediaDL, platform-specific scrapers and extractors are **decoupled** from the core application and maintained in the external repository: [`mediadl-extensions`](https://github.com/fiand1996/mediadl-extensions).
 
 ---
 
