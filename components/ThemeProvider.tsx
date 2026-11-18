@@ -14,17 +14,16 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("system");
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "system";
+    const savedTheme = localStorage.getItem("mediadl_theme");
+    return savedTheme === "light" ||
+      savedTheme === "dark" ||
+      savedTheme === "system"
+      ? savedTheme
+      : "system";
+  });
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("dark");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("mediadl_theme") as Theme | null;
-    if (savedTheme && (savedTheme === "light" || savedTheme === "dark" || savedTheme === "system")) {
-      setThemeState(savedTheme);
-    }
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -72,7 +71,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, cycleTheme }}>
+    <ThemeContext.Provider
+      value={{ theme, resolvedTheme, setTheme, cycleTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );

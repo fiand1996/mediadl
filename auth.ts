@@ -20,7 +20,10 @@ function verifyPassword(password: string, storedHash: string): boolean {
     const [, salt, originalHash] = parts;
     const derivedKey = crypto.scryptSync(password, salt, 64).toString("hex");
     try {
-      return crypto.timingSafeEqual(Buffer.from(derivedKey, "hex"), Buffer.from(originalHash, "hex"));
+      return crypto.timingSafeEqual(
+        Buffer.from(derivedKey, "hex"),
+        Buffer.from(originalHash, "hex"),
+      );
     } catch {
       return false;
     }
@@ -30,7 +33,10 @@ function verifyPassword(password: string, storedHash: string): boolean {
   const legacyHash = crypto.createHash("sha256").update(password).digest("hex");
   if (storedHash.length === 64) {
     try {
-      return crypto.timingSafeEqual(Buffer.from(legacyHash, "hex"), Buffer.from(storedHash, "hex"));
+      return crypto.timingSafeEqual(
+        Buffer.from(legacyHash, "hex"),
+        Buffer.from(storedHash, "hex"),
+      );
     } catch {
       return false;
     }
@@ -44,8 +50,12 @@ const getProviders = (): Provider[] => {
     Credentials({
       name: "Admin Database Credentials",
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "admin@example.com" },
-        password: { label: "Password", type: "password" }
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "admin@example.com",
+        },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
@@ -59,14 +69,20 @@ const getProviders = (): Provider[] => {
 
         const allAdmins = db.select().from(adminUsers).all();
         if (allAdmins.length === 0) {
-          db.insert(adminUsers).values({
-            email: "admin@example.com",
-            passwordHash: hashPassword("admin123"),
-            name: "Super Admin",
-          }).run();
+          db.insert(adminUsers)
+            .values({
+              email: "admin@example.com",
+              passwordHash: hashPassword("admin123"),
+              name: "Super Admin",
+            })
+            .run();
         }
 
-        const admin = db.select().from(adminUsers).where(eq(adminUsers.email, email)).get();
+        const admin = db
+          .select()
+          .from(adminUsers)
+          .where(eq(adminUsers.email, email))
+          .get();
 
         if (admin && verifyPassword(password, admin.passwordHash)) {
           // If stored hash is still legacy SHA-256, seamlessly upgrade to salted scrypt
@@ -86,8 +102,8 @@ const getProviders = (): Provider[] => {
         }
 
         return null;
-      }
-    })
+      },
+    }),
   ];
 
   if (oidcProviderType === "github") {
@@ -122,14 +138,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const admins = db.select().from(adminUsers).all();
         if (admins.length === 0) {
-          db.insert(adminUsers).values({
-            email: user.email,
-            passwordHash: hashPassword(crypto.randomBytes(32).toString("hex")),
-            name: user.name || "OIDC Admin",
-          }).run();
+          db.insert(adminUsers)
+            .values({
+              email: user.email,
+              passwordHash: hashPassword(
+                crypto.randomBytes(32).toString("hex"),
+              ),
+              name: user.name || "OIDC Admin",
+            })
+            .run();
           return true;
         }
-        return admins.some(a => a.email === user.email);
+        return admins.some((a) => a.email === user.email);
       }
       return true;
     },
@@ -138,7 +158,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.email = token.email as string;
       }
       return session;
-    }
+    },
   },
   pages: {
     signIn: "/admin/login",

@@ -5,11 +5,16 @@ import buffer from "node:buffer";
 import stream from "node:stream";
 import { DownloaderExtension } from "@/extensions/types";
 
-const allowedModules: Record<string, any> = {
+const allowedModules: Record<string, unknown> = {
   crypto,
   url,
   buffer,
   stream,
+};
+
+type ExtensionLike = {
+  extract?: unknown;
+  manifest?: unknown;
 };
 
 /**
@@ -20,11 +25,14 @@ const allowedModules: Record<string, any> = {
  * - NO access to filesystem (`fs`), `child_process`, or arbitrary networking (`net`).
  * - Whitelists standard Web APIs (fetch, Response, Request, Headers, URL) and safe Node builtins (crypto, buffer, stream).
  */
-export function executeExtensionBundle(bundleCode: string, extensionId?: string): DownloaderExtension {
-  const sandboxModule = { exports: {} as Record<string, any> };
-  const sandboxExports = {};
+export function executeExtensionBundle(
+  bundleCode: string,
+  extensionId?: string,
+): DownloaderExtension {
+  const sandboxModule = { exports: {} as Record<string, unknown> };
+  const sandboxExports: Record<string, unknown> = {};
 
-  const sandbox: Record<string, any> = {
+  const sandbox: Record<string, unknown> = {
     module: sandboxModule,
     exports: sandboxExports,
     console,
@@ -45,7 +53,9 @@ export function executeExtensionBundle(bundleCode: string, extensionId?: string)
       if (moduleName in allowedModules) {
         return allowedModules[moduleName];
       }
-      throw new Error(`Module '${moduleName}' is not permitted in extension sandbox.`);
+      throw new Error(
+        `Module '${moduleName}' is not permitted in extension sandbox.`,
+      );
     },
   };
 
@@ -58,15 +68,24 @@ export function executeExtensionBundle(bundleCode: string, extensionId?: string)
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    throw new Error(`Failed to evaluate extension bundle${extensionId ? ` [${extensionId}]` : ""}: ${message}`);
+    throw new Error(
+      `Failed to evaluate extension bundle${extensionId ? ` [${extensionId}]` : ""}: ${message}`,
+    );
   }
 
   const exported = sandboxModule.exports.default || sandboxModule.exports;
-  const instance = exported && typeof exported === "object" ? exported : null;
+  const instance =
+    exported && typeof exported === "object"
+      ? (exported as ExtensionLike)
+      : null;
 
-  if (!instance || typeof instance.extract !== "function" || !instance.manifest) {
+  if (
+    !instance ||
+    typeof instance.extract !== "function" ||
+    !instance.manifest
+  ) {
     throw new Error(
-      `Invalid extension bundle${extensionId ? ` [${extensionId}]` : ""}: must export an instance conforming to DownloaderExtension interface with 'manifest' and 'extract' method.`
+      `Invalid extension bundle${extensionId ? ` [${extensionId}]` : ""}: must export an instance conforming to DownloaderExtension interface with 'manifest' and 'extract' method.`,
     );
   }
 

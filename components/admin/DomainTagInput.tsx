@@ -1,37 +1,53 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, X, Trash2 } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { Plus, X } from "lucide-react";
 
 interface DomainTagInputProps {
   name: string;
   defaultValue?: string;
 }
 
-export function DomainTagInput({ name, defaultValue = "" }: DomainTagInputProps) {
-  const [domains, setDomains] = useState<string[]>(
-    defaultValue ? defaultValue.split(",").map(d => d.trim()).filter(Boolean) : []
+export function DomainTagInput({
+  name,
+  defaultValue = "",
+}: DomainTagInputProps) {
+  const baseDomains = useMemo(
+    () =>
+      defaultValue
+        ? defaultValue
+            .split(",")
+            .map((d) => d.trim())
+            .filter(Boolean)
+        : [],
+    [defaultValue],
   );
+  const [addedDomains, setAddedDomains] = useState<string[]>([]);
+  const [removedDomains, setRemovedDomains] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  useEffect(() => {
-    if (defaultValue) {
-      const newDomains = defaultValue.split(",").map(d => d.trim()).filter(Boolean);
-      setDomains(prev => {
-        const combined = Array.from(new Set([...prev, ...newDomains]));
-        return combined;
-      });
-    }
-  }, [defaultValue]);
+  const domains = useMemo(() => {
+    const combined = new Set(baseDomains);
+    for (const domain of addedDomains) combined.add(domain);
+    for (const domain of removedDomains) combined.delete(domain);
+    return Array.from(combined);
+  }, [baseDomains, addedDomains, removedDomains]);
 
   // Listen to external change events on hidden input
   useEffect(() => {
-    const hiddenInput = document.getElementById(`hidden-domain-${name}`) as HTMLInputElement;
+    const hiddenInput = document.getElementById(
+      `hidden-domain-${name}`,
+    ) as HTMLInputElement;
     if (!hiddenInput) return;
     const handleChange = () => {
       const val = hiddenInput.value;
       if (val) {
-        setDomains(val.split(",").map(d => d.trim()).filter(Boolean));
+        const parsed = val
+          .split(",")
+          .map((d) => d.trim())
+          .filter(Boolean);
+        setAddedDomains(parsed);
+        setRemovedDomains([]);
       }
     };
     hiddenInput.addEventListener("change", handleChange);
@@ -39,23 +55,36 @@ export function DomainTagInput({ name, defaultValue = "" }: DomainTagInputProps)
   }, [name]);
 
   const handleAddDomain = (e: React.KeyboardEvent | React.MouseEvent) => {
-    if ('key' in e && e.key !== 'Enter') return;
+    if ("key" in e && e.key !== "Enter") return;
     e.preventDefault();
     const trimmed = inputValue.trim().toLowerCase();
     if (trimmed && !domains.includes(trimmed)) {
-      setDomains([...domains, trimmed]);
+      setAddedDomains((prev) => [...prev, trimmed]);
+      setRemovedDomains((prev) => prev.filter((domain) => domain !== trimmed));
       setInputValue("");
     }
   };
 
   const handleRemoveDomain = (domainToRemove: string) => {
-    setDomains(domains.filter(d => d !== domainToRemove));
+    if (baseDomains.includes(domainToRemove)) {
+      setRemovedDomains((prev) =>
+        prev.includes(domainToRemove) ? prev : [...prev, domainToRemove],
+      );
+    }
+    setAddedDomains((prev) =>
+      prev.filter((domain) => domain !== domainToRemove),
+    );
   };
 
   return (
     <div className="space-y-2">
-      <input id={`hidden-domain-${name}`} type="hidden" name={name} value={domains.join(",")} />
-      
+      <input
+        id={`hidden-domain-${name}`}
+        type="hidden"
+        name={name}
+        value={domains.join(",")}
+      />
+
       <div className="flex gap-2">
         <input
           type="text"
@@ -91,7 +120,9 @@ export function DomainTagInput({ name, defaultValue = "" }: DomainTagInputProps)
           </span>
         ))}
         {domains.length === 0 && (
-          <span className="text-zinc-500 text-[11px] italic ">No target domains added (applies globally or default)</span>
+          <span className="text-zinc-500 text-[11px] italic ">
+            No target domains added (applies globally or default)
+          </span>
         )}
       </div>
     </div>
