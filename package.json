@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
     "update:gallery-sites": "tsx scripts/update-gallery-dl-sites.ts"
   },
   "dependencies": {
