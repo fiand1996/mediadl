@@ -9,6 +9,7 @@ import { getExtensionStatusMap } from "@/lib/extensionManager";
 import { fetchYtDlpMetadataWithCookies, extractAllFormats } from "@/lib/ytdlpCore";
 import { isGalleryDlSupported } from "@/lib/galleryDlMatcher";
 import { fetchGalleryDlMetadataWithCookies } from "@/lib/galleryDlCore";
+import { smartFetchWithFlareSolverr } from "@/lib/flareSolverr";
 import { lt } from "drizzle-orm";
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
@@ -125,6 +126,7 @@ export async function GET(request: Request) {
             if (!activeCookie) return null;
             return activeCookie.cookieContent;
           },
+          fetch: smartFetchWithFlareSolverr,
         });
 
         if (activeCookie) {

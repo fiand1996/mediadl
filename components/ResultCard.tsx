@@ -7,6 +7,7 @@ import {
   Loader2,
   ChevronDown,
   ChevronUp,
+  AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -61,6 +62,7 @@ interface ResultCardProps {
 export function ResultCard({ result, labels }: ResultCardProps) {
   const [downloadingZip, setDownloadingZip] = useState(false);
   const [zipSuccess, setZipSuccess] = useState(false);
+  const [zipError, setZipError] = useState<string | null>(null);
   const [avatarError, setAvatarError] = useState(false);
   const [loadedMedia, setLoadedMedia] = useState<Record<number, boolean>>({});
 
@@ -161,7 +163,8 @@ export function ResultCard({ result, labels }: ResultCardProps) {
     } catch (error) {
       console.error("Failed to generate ZIP:", error);
       setDownloadingZip(false);
-      alert(labels.zipError);
+      setZipError(labels.zipError);
+      setTimeout(() => setZipError(null), 5000);
     }
   };
 
@@ -236,6 +239,14 @@ export function ResultCard({ result, labels }: ResultCardProps) {
           </Button>
         )}
       </div>
+
+      {/* ZIP Error Alert */}
+      {zipError && (
+        <div className="w-full my-3 p-3 bg-red-500/10 border border-red-500/20 text-red-500 dark:text-red-400 text-xs rounded-xl flex items-center gap-2 animate-in fade-in duration-200">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>{zipError}</span>
+        </div>
+      )}
 
       {/* Caption with dynamic truncation & expand/collapse */}
       {result.caption &&

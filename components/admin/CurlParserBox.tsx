@@ -1,5 +1,6 @@
-import { useId, useState } from "react";
-import { Terminal, Wand2, X } from "lucide-react";
+import { useState } from "react";
+import { Terminal, Wand2 } from "lucide-react";
+import { Modal } from "@/components/ui/modal";
 
 export interface CookieParserResult {
   name: string;
@@ -13,7 +14,6 @@ export interface CurlParserBoxProps {
 }
 
 export function CurlParserBox({ onParsed, defaultDomain = "" }: CurlParserBoxProps) {
-  const dialogTitleId = useId();
   const [curlCommand, setCurlCommand] = useState("");
   const [parseStatus, setParseStatus] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -116,72 +116,49 @@ export function CurlParserBox({ onParsed, defaultDomain = "" }: CurlParserBoxPro
         Import from cURL
       </button>
 
-      {isOpen && (
-        <div
-          className="admin-curl-backdrop fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto p-4"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setIsOpen(false);
-          }}
-        >
-          <section
-            aria-labelledby={dialogTitleId}
-            aria-modal="true"
-            className="admin-dialog my-8 w-full max-w-xl rounded-2xl border p-5 shadow-2xl sm:p-6"
-            role="dialog"
-          >
-            <header className="mb-5 flex items-start justify-between gap-4">
-              <div>
-                <h3 id={dialogTitleId} className="flex items-center gap-2 text-sm font-bold">
-                  <Terminal className="h-4 w-4 text-emerald-600" />
-                  Import cookies from cURL
-                </h3>
-                <p className="admin-muted mt-1 text-xs">
-                  Paste a browser cURL command containing a Cookie header.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close cURL import"
-                className="admin-secondary-button rounded-lg border p-2 transition"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </header>
-
-            <textarea
-              autoFocus
-              value={curlCommand}
-              onChange={(e) => setCurlCommand(e.target.value)}
-              rows={5}
-              placeholder="curl 'https://example.com/...' -H 'cookie: ...'"
-              className="admin-form-input w-full resize-y rounded-xl border px-3.5 py-3 font-mono text-xs leading-relaxed transition"
-            />
-            {parseStatus && (
-              <p className="mt-2 text-xs text-amber-600">{parseStatus}</p>
-            )}
-
-            <footer className="mt-5 flex justify-end gap-2 border-t pt-4">
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="admin-secondary-button cursor-pointer rounded-xl border px-4 py-2.5 text-xs font-medium transition"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleParseCurl}
-                disabled={!curlCommand.trim()}
-                className="admin-primary-button flex cursor-pointer items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <Wand2 className="h-3.5 w-3.5" />
-                Parse and import
-              </button>
-            </footer>
-          </section>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        maxWidth="xl"
+        zIndex="z-[60]"
+        icon={<Terminal className="h-5 w-5 text-emerald-400" />}
+        title="Import cookies from cURL"
+        description="Paste a browser cURL command containing a Cookie header."
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="admin-secondary-button cursor-pointer rounded-xl border px-4 py-2 text-xs font-medium transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleParseCurl}
+              disabled={!curlCommand.trim()}
+              className="admin-primary-button flex cursor-pointer items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Wand2 className="h-3.5 w-3.5" />
+              Parse and import
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-3">
+          <textarea
+            autoFocus
+            value={curlCommand}
+            onChange={(e) => setCurlCommand(e.target.value)}
+            rows={5}
+            placeholder="curl 'https://example.com/...' -H 'cookie: ...'"
+            className="admin-form-input w-full resize-y rounded-xl border px-3.5 py-3 font-mono text-xs leading-relaxed transition"
+          />
+          {parseStatus && (
+            <p className="text-xs text-amber-500">{parseStatus}</p>
+          )}
         </div>
-      )}
+      </Modal>
     </>
   );
 }

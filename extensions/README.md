@@ -1,22 +1,19 @@
-# Extensions Architecture & Registry System
+# MediaDL Decoupled Extensions Architecture
 
-This directory houses the modular extension architecture of **Mediahub**. Each supported social media or media platform is implemented as an independent extension plugin.
-
----
-
-## 1. Core Concepts & Architecture
-
-Instead of monolithically hardcoding platform scrapers into the backend, **Mediahub** uses an extensible plugin registry pattern:
-- **Base Extension (`extensions/core/base.ts`)**: Provides standardized HTTP request helpers, cookie injection, and proxy wrapping capabilities.
-- **Extension Interface (`extensions/types.ts`)**: Enforces a strict contract (`manifest`, `extract()`, and optional header overrides) for every plugin.
-- **Registry (`extensions/registry.ts`)**: Automatically discovers and dispatches incoming download requests to the correct platform extension based on URL regex patterns.
+In MediaDL, platform-specific scrapers and extractors are **decoupled** from the core application and maintained in the external repository: [`mediadl-extensions`](https://github.com/vian/mediadl-extensions).
 
 ---
 
-## 2. Directory Structure
+## 1. How It Works
 
-- `core/`: Base abstract classes and shared utilities for network requests and error handling.
-- `instagram/`: Dedicated plugin for parsing Instagram Reels, Stories, Posts, and Carousels via internal mobile APIs.
-- `pixiv/`: Dedicated plugin for parsing Pixiv illustrations and multi-page manga galleries via Pixiv JSON AJAX endpoints.
-- `registry.ts`: Central routing registry matching URLs to corresponding extensions.
-- `types.ts`: TypeScript interfaces defining manifests, context, and post result payloads.
+1. **External Repository (`mediadl-extensions`)**:
+   - Community and official scrapers are developed, tested, and compiled into standalone JavaScript bundles (`dist/<id>.js`) with a repository catalog (`dist/index.json`).
+2. **Admin Marketplace & Dynamic Management**:
+   - Administrators can browse, install, toggle, update, and uninstall extensions with 1-click in the Admin Dashboard (`/admin/extensions`).
+   - Custom third-party repository URLs are supported (Mihon-style).
+3. **Sandboxed Runtime Execution (`lib/extensionRuntime.ts`)**:
+   - Installed extensions are stored in the database (`installed_extensions`) and executed inside an isolated Node.js VM context without access to `process.env` or server files.
+4. **Dynamic Registry (`lib/extensionRegistry.ts`)**:
+   - Dynamically routes incoming download requests to the matching active extension based on URL regex patterns.
+5. **Contract Interfaces (`extensions/types.ts`)**:
+   - Defines the standard `DownloaderExtension`, `ExtensionManifest`, and `ExtensionContext` interfaces.

@@ -51,6 +51,7 @@ export interface ExtensionManifest {
 export interface ExtensionContext {
   getCookie?: () => Promise<string | null>;
   proxyUrl?: string;
+  fetch?: (url: string, init?: RequestInit) => Promise<Response>;
 }
 
 export interface DownloaderExtension {

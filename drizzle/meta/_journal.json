@@ -15,6 +15,13 @@
       "when": 1794948517249,
       "tag": "0001_add_extension_states",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1794954153060,
+      "tag": "0002_installed_extensions_and_repositories",
+      "breakpoints": true
     }
   ]
 }

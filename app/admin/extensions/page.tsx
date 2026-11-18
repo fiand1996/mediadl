@@ -3,10 +3,19 @@ import { cookiesConfig } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { getManagedExtensions } from "@/lib/extensionManager";
-import { ExtensionsClient } from "@/components/admin/ExtensionsClient";
+import { fetchRepositoryIndex, getExtensionRepositoriesList } from "@/lib/extensionLoader";
+import { ExtensionsClient, MarketplaceItem } from "@/components/admin/ExtensionsClient";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
-import { toggleExtensionAction } from "./actions";
+import { Suspense } from "react";
+import {
+  toggleExtensionAction,
+  installExtensionAction,
+  uninstallExtensionAction,
+  addRepositoryAction,
+  toggleRepositoryAction,
+  deleteRepositoryAction,
+} from "./actions";
 
 // Server action to add cookie
 async function addCookieAction(formData: FormData) {
@@ -77,32 +86,62 @@ async function deleteCookieAction(formData: FormData) {
   }
 }
 
-export default function AdminExtensionsPage() {
-  const extensions = getManagedExtensions().map(ext => ({
+async function ExtensionsContent() {
+  const extensions = getManagedExtensions().map((ext) => ({
     id: ext.id,
     name: ext.name,
     version: ext.version,
-    description: ext.description,
-    urlPatterns: ext.urlPatterns.map(p => p.toString()),
+    description: ext.description || undefined,
+    urlPatterns: ext.urlPatterns.map((p) => p.toString()),
     cookies: ext.cookies,
     isEnabled: ext.isEnabled,
   }));
 
+  const repoData = await fetchRepositoryIndex();
+  const marketplaceExtensions: MarketplaceItem[] = repoData.extensions.map((ext) => ({
+    id: ext.id,
+    name: ext.name,
+    version: ext.version,
+    description: ext.description,
+    urlPatterns: ext.urlPatterns,
+    bundleFile: ext.bundleFile,
+    downloadUrl: ext.downloadUrl,
+    size: ext.size,
+    sha256: ext.sha256,
+    repoName: ext.repoName,
+  }));
+
+  const repositories = getExtensionRepositoriesList();
   const allCookies = db.select().from(cookiesConfig).orderBy(desc(cookiesConfig.createdAt)).all();
 
+  return (
+    <ExtensionsClient 
+      extensions={extensions}
+      marketplaceExtensions={marketplaceExtensions}
+      repositories={repositories}
+      allCookies={allCookies}
+      addCookieAction={addCookieAction}
+      updateCookieAction={updateCookieAction}
+      deleteCookieAction={deleteCookieAction}
+      toggleExtensionAction={toggleExtensionAction}
+      installExtensionAction={installExtensionAction}
+      uninstallExtensionAction={uninstallExtensionAction}
+      addRepositoryAction={addRepositoryAction}
+      toggleRepositoryAction={toggleRepositoryAction}
+      deleteRepositoryAction={deleteRepositoryAction}
+    />
+  );
+}
+
+export default function AdminExtensionsPage() {
   return (
     <div className="admin-ui min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row font-sans">
       <AdminSidebar />
 
       <main className="admin-main min-w-0 flex-1 p-4 sm:p-6 lg:p-9">
-        <ExtensionsClient 
-          extensions={extensions}
-          allCookies={allCookies}
-          addCookieAction={addCookieAction}
-          updateCookieAction={updateCookieAction}
-          deleteCookieAction={deleteCookieAction}
-          toggleExtensionAction={toggleExtensionAction}
-        />
+        <Suspense fallback={<div className="text-zinc-500 text-xs p-8">Loading extensions & marketplace...</div>}>
+          <ExtensionsContent />
+        </Suspense>
       </main>
     </div>
   );

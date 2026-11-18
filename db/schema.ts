@@ -32,6 +32,34 @@ export const extensionStates = sqliteTable("extension_states", {
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
+// Table for dynamically installed extensions
+export const installedExtensions = sqliteTable("installed_extensions", {
+  id: text("id").primaryKey(), // extension id e.g. 'instagram', 'pixiv'
+  name: text("name").notNull(),
+  version: text("version").notNull(),
+  description: text("description"),
+  urlPatterns: text("url_patterns").notNull(), // JSON array of string regex
+  cookiesSupport: integer("cookies_support", { mode: "boolean" }).notNull().default(false),
+  cookiesRequired: integer("cookies_required", { mode: "boolean" }).notNull().default(false),
+  cookiesDescription: text("cookies_description"),
+  allowedImageDomains: text("allowed_image_domains"), // JSON array of string domains
+  imageReferer: text("image_referer"),
+  bundleCode: text("bundle_code").notNull(), // compiled javascript bundle code
+  bundleSha256: text("bundle_sha256"),
+  isEnabled: integer("is_enabled", { mode: "boolean" }).notNull().default(true),
+  installedAt: integer("installed_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
+// Table for extension repositoriesi
+export const extensionRepositories = sqliteTable("extension_repositories", {
+  id: text("id").primaryKey(), // e.g. 'official'
+  name: text("name").notNull(),
+  url: text("url").notNull(), // e.g. 'https://.../index.json'
+  isEnabled: integer("is_enabled", { mode: "boolean" }).notNull().default(true),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
 // Table for rate limiting tracking (Client IP + Fingerprint)
 export const rateLimits = sqliteTable("rate_limits", {
   clientKey: text("client_key").primaryKey(),
