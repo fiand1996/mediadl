@@ -62,10 +62,13 @@ jobs:
         with:
           node-version: 24
 
-      - name: Enable Corepack (pnpm from packageManager)
+      - name: Install pnpm
+        run: npm install -g pnpm@12.18.0
+
+      - name: Verify toolchain
         run: |
-          corepack enable
-          corepack prepare pnpm@12.18.0 --activate
+          node -v
+          pnpm -v
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
