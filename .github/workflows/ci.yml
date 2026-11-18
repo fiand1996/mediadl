@@ -62,8 +62,8 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install pnpm
-        run: npm install -g pnpm@12.18.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
 
       - name: Verify toolchain
         run: |
