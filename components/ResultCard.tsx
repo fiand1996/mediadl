@@ -15,6 +15,7 @@ import { PostResult, MediaItem, MediaFormatOption } from "@/lib/types";
 import { useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import Image from "next/image";
 import { FormatSelector } from "@/components/FormatSelector";
 
 function sanitizeCaption(text: string): string {
@@ -184,9 +185,12 @@ export function ResultCard({ result, labels }: ResultCardProps) {
       <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-3">
           {avatarSrc && !avatarError ? (
-            <img
+            <Image
               src={avatarSrc}
               alt={result.author.username}
+              width={40}
+              height={40}
+              unoptimized
               onError={() => setAvatarError(true)}
               className="w-10 h-10 rounded-full object-cover border border-slate-300 dark:border-white/20"
             />
@@ -338,9 +342,12 @@ export function ResultCard({ result, labels }: ResultCardProps) {
                       </span>
                     </div>
                   )}
-                  <img
+                  <Image
                     src={activeUrl}
                     alt={`Media ${index + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    unoptimized
                     onLoad={() => handleMediaLoad(index)}
                     onError={() => handleMediaLoad(index)}
                     className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}

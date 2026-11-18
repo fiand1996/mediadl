@@ -57,7 +57,7 @@ export const CLOUDFLARE_SIGNATURES = [
 export function isAntiBotChallenge(
   target: Response | number,
   htmlText?: string,
-  customHeaders?: Headers | Record<string, string | string[] | undefined>
+  customHeaders?: Headers | Record<string, string | string[] | undefined>,
 ): boolean {
   let status: number;
   let headers: Headers | null = null;
@@ -95,7 +95,9 @@ export function isAntiBotChallenge(
   // 3. Inspect HTML text if available
   if (htmlText) {
     const lower = htmlText.toLowerCase();
-    const hasSignature = CLOUDFLARE_SIGNATURES.some((sig) => lower.includes(sig));
+    const hasSignature = CLOUDFLARE_SIGNATURES.some((sig) =>
+      lower.includes(sig),
+    );
     if (hasSignature) {
       return true;
     }
@@ -119,9 +121,9 @@ export function isAntiBotChallenge(
 
 export async function executeFlareSolverrCommand(
   config: FlareSolverrConfig,
-  cmdBody: Record<string, any>
+  cmdBody: Record<string, unknown>,
 ): Promise<FlareSolverrResponse> {
-  const send = async (payload: Record<string, any>) => {
+  const send = async (payload: Record<string, unknown>) => {
     return await fetch(config.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -143,7 +145,11 @@ export async function executeFlareSolverrCommand(
   let data = (await response.json()) as FlareSolverrResponse;
 
   // If session does not exist, try creating it, or retry without session
-  if (data.status === "error" && typeof data.message === "string" && data.message.toLowerCase().includes("session")) {
+  if (
+    data.status === "error" &&
+    typeof data.message === "string" &&
+    data.message.toLowerCase().includes("session")
+  ) {
     try {
       await send({ cmd: "sessions.create", session: config.sessionName });
       const retryRes = await send(initialPayload);
@@ -152,7 +158,8 @@ export async function executeFlareSolverrCommand(
       }
     } catch {
       // Fallback: send without session
-      const { session, ...noSessionPayload } = initialPayload;
+      const { session: omittedSession, ...noSessionPayload } = initialPayload;
+      void omittedSession;
       const retryRes = await send(noSessionPayload);
       if (retryRes.ok) {
         data = (await retryRes.json()) as FlareSolverrResponse;
@@ -163,7 +170,9 @@ export async function executeFlareSolverrCommand(
   return data;
 }
 
-export async function fetchWithFlareSolverr(targetUrl: string): Promise<{ status: number; text: string; headers?: Record<string, string> }> {
+export async function fetchWithFlareSolverr(
+  targetUrl: string,
+): Promise<{ status: number; text: string; headers?: Record<string, string> }> {
   const config = getFlareSolverrConfig();
 
   const data = await executeFlareSolverrCommand(config, {
@@ -182,7 +191,9 @@ export async function fetchWithFlareSolverr(targetUrl: string): Promise<{ status
   };
 }
 
-export async function getFlareSolverrSessionCookies(targetUrl: string): Promise<{ cookieHeader: string; userAgent: string }> {
+export async function getFlareSolverrSessionCookies(
+  targetUrl: string,
+): Promise<{ cookieHeader: string; userAgent: string }> {
   const config = getFlareSolverrConfig();
 
   const data = await executeFlareSolverrCommand(config, {
@@ -196,12 +207,16 @@ export async function getFlareSolverrSessionCookies(targetUrl: string): Promise<
 
   const cookies = (data.solution.cookies || []) as FlareSolverrCookie[];
   const cookieHeader = cookies.map((c) => `${c.name}=${c.value}`).join("; ");
-  const userAgent = data.solution.userAgent || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
+  const userAgent =
+    data.solution.userAgent ||
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
 
   return { cookieHeader, userAgent };
 }
 
-export async function fetchImageViaFlareSolverr(imageUrl: string): Promise<{ buffer: ArrayBuffer; contentType: string }> {
+export async function fetchImageViaFlareSolverr(
+  imageUrl: string,
+): Promise<{ buffer: ArrayBuffer; contentType: string }> {
   const config = getFlareSolverrConfig();
 
   const data = await executeFlareSolverrCommand(config, {
@@ -211,7 +226,9 @@ export async function fetchImageViaFlareSolverr(imageUrl: string): Promise<{ buf
   });
 
   if (data.status !== "ok" || !data.solution || !data.solution.screenshot) {
-    throw new Error(`FlareSolverr image error: ${data.message || "No screenshot returned"}`);
+    throw new Error(
+      `FlareSolverr image error: ${data.message || "No screenshot returned"}`,
+    );
   }
 
   const base64Data = data.solution.screenshot;
@@ -236,7 +253,7 @@ export async function fetchImageViaFlareSolverr(imageUrl: string): Promise<{ buf
  */
 export async function smartFetchWithFlareSolverr(
   url: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<Response> {
   const config = getFlareSolverrConfig();
   let initialResponse: Response | null = null;
@@ -256,13 +273,15 @@ export async function smartFetchWithFlareSolverr(
   // Determine if FlareSolverr is required
   let needsFlare = false;
   if (fetchError) {
-    const errMsg = fetchError instanceof Error ? fetchError.message : String(fetchError);
+    const errMsg =
+      fetchError instanceof Error ? fetchError.message : String(fetchError);
     if (/cloudflare|cf-turnstile|challenges\.cloudflare/i.test(errMsg)) {
       needsFlare = true;
     }
   } else if (initialResponse) {
     let bodyText: string | undefined;
-    const contentType = initialResponse.headers.get("content-type")?.toLowerCase() || "";
+    const contentType =
+      initialResponse.headers.get("content-type")?.toLowerCase() || "";
     if (!contentType.includes("application/json")) {
       try {
         const cloned = initialResponse.clone();

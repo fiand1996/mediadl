@@ -1,9 +1,11 @@
 import { db } from "@/db";
 import { cookiesConfig } from "@/db/schema";
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 // Get active yt-dlp cookie matching target domain or global
-export function getActiveCookieManagerForUrl(targetUrl: string): { id: number; name: string; cookieContent: string } | null {
+export function getActiveCookieManagerForUrl(
+  targetUrl: string,
+): { id: number; name: string; cookieContent: string } | null {
   try {
     const parsed = new URL(targetUrl);
     const hostname = parsed.hostname.toLowerCase();
@@ -12,7 +14,12 @@ export function getActiveCookieManagerForUrl(targetUrl: string): { id: number; n
     const activeCookies = db
       .select()
       .from(cookiesConfig)
-      .where(and(eq(cookiesConfig.provider, "yt-dlp"), eq(cookiesConfig.isActive, true)))
+      .where(
+        and(
+          eq(cookiesConfig.provider, "yt-dlp"),
+          eq(cookiesConfig.isActive, true),
+        ),
+      )
       .all();
 
     if (activeCookies.length === 0) return null;
@@ -20,8 +27,13 @@ export function getActiveCookieManagerForUrl(targetUrl: string): { id: number; n
     // Filter cookies matching the target hostname or global/empty domains
     const matching = activeCookies.filter((c) => {
       if (!c.domains || !c.domains.trim()) return true; // Global cookie applies everywhere
-      const domainsList = c.domains.split(",").map((d) => d.trim().toLowerCase()).filter(Boolean);
-      return domainsList.some((d) => hostname === d || hostname.endsWith(`.${d}`));
+      const domainsList = c.domains
+        .split(",")
+        .map((d) => d.trim().toLowerCase())
+        .filter(Boolean);
+      return domainsList.some(
+        (d) => hostname === d || hostname.endsWith(`.${d}`),
+      );
     });
 
     if (matching.length === 0) return null;
@@ -37,7 +49,7 @@ export function getActiveCookieManagerForUrl(targetUrl: string): { id: number; n
     });
 
     return matching[0];
-  } catch (err) {
+  } catch {
     return null;
   }
 }

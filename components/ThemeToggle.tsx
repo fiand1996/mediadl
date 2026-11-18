@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import { Sun, Moon, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
 
 export function ThemeToggle() {
   const { theme, cycleTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   if (!mounted) {
     return (
@@ -44,17 +44,23 @@ export function ThemeToggle() {
       {theme === "system" ? (
         <>
           <Laptop className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
-          <span className="hidden sm:inline text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">Auto</span>
+          <span className="hidden sm:inline text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            Auto
+          </span>
         </>
       ) : theme === "light" ? (
         <>
           <Sun className="w-3.5 h-3.5 text-amber-500" />
-          <span className="hidden sm:inline text-[11px] font-mono uppercase text-slate-600">Light</span>
+          <span className="hidden sm:inline text-[11px] font-mono uppercase text-slate-600">
+            Light
+          </span>
         </>
       ) : (
         <>
           <Moon className="w-3.5 h-3.5 text-purple-400" />
-          <span className="hidden sm:inline text-[11px] font-mono uppercase text-slate-400">Dark</span>
+          <span className="hidden sm:inline text-[11px] font-mono uppercase text-slate-400">
+            Dark
+          </span>
         </>
       )}
     </Button>

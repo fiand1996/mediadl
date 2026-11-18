@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import {
   Puzzle,
   KeyRound,
@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   ChevronDown,
   ChevronUp,
-  FileText,
   ShieldAlert,
   Store,
   DownloadCloud,
@@ -20,10 +19,12 @@ import {
   Settings2,
   Globe,
   Loader2,
-  ExternalLink,
 } from "lucide-react";
 import { CookieSessionWarning } from "@/components/admin/CookieSessionWarning";
-import { CurlParserBox, type CookieParserResult } from "@/components/admin/CurlParserBox";
+import {
+  CurlParserBox,
+  type CookieParserResult,
+} from "@/components/admin/CurlParserBox";
 import { ConfirmModal } from "@/components/admin/ConfirmModal";
 import { Modal } from "@/components/ui/modal";
 
@@ -133,13 +134,17 @@ export function ExtensionsClient({
   toggleRepositoryAction,
   deleteRepositoryAction,
 }: ExtensionsClientProps) {
-  const [activeTab, setActiveTab] = useState<"installed" | "marketplace" | "repositories">("installed");
+  const [activeTab, setActiveTab] = useState<
+    "installed" | "marketplace" | "repositories"
+  >("installed");
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [addModalProvider, setAddModalProvider] = useState<string | null>(null);
   const [addRepoModalOpen, setAddRepoModalOpen] = useState(false);
   const [editingCookie, setEditingCookie] = useState<CookieItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "disabled">("all");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "disabled"
+  >("all");
   const [installingId, setInstallingId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
@@ -158,21 +163,28 @@ export function ExtensionsClient({
     onConfirm: async () => {},
   });
 
-  const [extensionStates, setExtensionStates] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(extensions.map((ext) => [ext.id, ext.isEnabled]))
+  const [extensionOverrides, setExtensionOverrides] = useState<
+    Record<string, boolean>
+  >({});
+  const [repoOverrides, setRepoOverrides] = useState<Record<string, boolean>>(
+    {},
   );
 
-  const [repoStates, setRepoStates] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(repositories.map((r) => [r.id, r.isEnabled]))
+  const extensionStates = useMemo(
+    () => ({
+      ...Object.fromEntries(extensions.map((ext) => [ext.id, ext.isEnabled])),
+      ...extensionOverrides,
+    }),
+    [extensions, extensionOverrides],
   );
 
-  useEffect(() => {
-    setExtensionStates(Object.fromEntries(extensions.map((ext) => [ext.id, ext.isEnabled])));
-  }, [extensions]);
-
-  useEffect(() => {
-    setRepoStates(Object.fromEntries(repositories.map((r) => [r.id, r.isEnabled])));
-  }, [repositories]);
+  const repoStates = useMemo(
+    () => ({
+      ...Object.fromEntries(repositories.map((r) => [r.id, r.isEnabled])),
+      ...repoOverrides,
+    }),
+    [repositories, repoOverrides],
+  );
 
   const installedMap = new Map(extensions.map((e) => [e.id, e]));
   const marketplaceMap = new Map(marketplaceExtensions.map((e) => [e.id, e]));
@@ -182,7 +194,8 @@ export function ExtensionsClient({
     const matchesSearch =
       ext.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ext.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (ext.description && ext.description.toLowerCase().includes(searchQuery.toLowerCase()));
+      (ext.description &&
+        ext.description.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (statusFilter === "active") return matchesSearch && isEnabled;
     if (statusFilter === "disabled") return matchesSearch && !isEnabled;
@@ -193,7 +206,8 @@ export function ExtensionsClient({
     return (
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      (item.description &&
+        item.description.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   });
 
@@ -203,7 +217,11 @@ export function ExtensionsClient({
 
     const nameInput = form.elements.namedItem("name");
     const contentInput = form.elements.namedItem("cookieContent");
-    if (nameInput instanceof HTMLInputElement && !nameInput.value && result.name) {
+    if (
+      nameInput instanceof HTMLInputElement &&
+      !nameInput.value &&
+      result.name
+    ) {
       nameInput.value = result.name;
     }
     if (contentInput instanceof HTMLTextAreaElement) {
@@ -212,7 +230,7 @@ export function ExtensionsClient({
   };
 
   const handleToggleExtension = (id: string, nextState: boolean) => {
-    setExtensionStates((prev) => ({ ...prev, [id]: nextState }));
+    setExtensionOverrides((prev) => ({ ...prev, [id]: nextState }));
     startTransition(async () => {
       const formData = new FormData();
       formData.set("id", id);
@@ -222,7 +240,7 @@ export function ExtensionsClient({
   };
 
   const handleToggleRepo = (id: string, nextState: boolean) => {
-    setRepoStates((prev) => ({ ...prev, [id]: nextState }));
+    setRepoOverrides((prev) => ({ ...prev, [id]: nextState }));
     startTransition(async () => {
       const formData = new FormData();
       formData.set("id", id);
@@ -294,7 +312,9 @@ export function ExtensionsClient({
   return (
     <div className="admin-page mx-auto max-w-6xl space-y-7 text-xs">
       <div>
-        <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">Integrations</p>
+        <p className="admin-eyebrow mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">
+          Integrations
+        </p>
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-950 flex items-center gap-3">
@@ -302,7 +322,8 @@ export function ExtensionsClient({
               <span>Extensions</span>
             </h1>
             <p className="admin-muted mt-2 text-sm">
-              Modular scrapers, decoupled repository extensions, and cookie profiles.
+              Modular scrapers, decoupled repository extensions, and cookie
+              profiles.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -404,7 +425,12 @@ export function ExtensionsClient({
                     : "bg-zinc-900 text-zinc-400 border-zinc-800"
                 }`}
               >
-                Active ({extensions.filter((e) => extensionStates[e.id] ?? e.isEnabled).length})
+                Active (
+                {
+                  extensions.filter((e) => extensionStates[e.id] ?? e.isEnabled)
+                    .length
+                }
+                )
               </button>
               <button
                 onClick={() => setStatusFilter("disabled")}
@@ -414,7 +440,13 @@ export function ExtensionsClient({
                     : "bg-zinc-900 text-zinc-400 border-zinc-800"
                 }`}
               >
-                Disabled ({extensions.filter((e) => !(extensionStates[e.id] ?? e.isEnabled)).length})
+                Disabled (
+                {
+                  extensions.filter(
+                    (e) => !(extensionStates[e.id] ?? e.isEnabled),
+                  ).length
+                }
+                )
               </button>
             </div>
           )}
@@ -439,10 +471,13 @@ export function ExtensionsClient({
           ) : (
             filteredInstalled.map((ext) => {
               const isEnabled = extensionStates[ext.id] ?? ext.isEnabled;
-              const extCookies = allCookies.filter((c) => c.provider === ext.id);
+              const extCookies = allCookies.filter(
+                (c) => c.provider === ext.id,
+              );
               const isExpanded = expandedId === ext.id;
               const marketEntry = marketplaceMap.get(ext.id);
-              const hasUpdate = marketEntry && marketEntry.version !== ext.version;
+              const hasUpdate =
+                marketEntry && marketEntry.version !== ext.version;
               const isUpdating = installingId === ext.id;
 
               return (
@@ -457,14 +492,18 @@ export function ExtensionsClient({
                     <div className="flex items-center gap-3.5">
                       <div
                         className={`admin-icon-tile flex h-10 w-10 items-center justify-center rounded-xl border font-bold text-sm ${
-                          isEnabled ? "admin-icon-green" : "bg-zinc-800 text-zinc-500 border-zinc-700"
+                          isEnabled
+                            ? "admin-icon-green"
+                            : "bg-zinc-800 text-zinc-500 border-zinc-700"
                         }`}
                       >
                         {ext.name.slice(0, 2).toUpperCase()}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-white text-sm">{ext.name}</span>
+                          <span className="font-bold text-white text-sm">
+                            {ext.name}
+                          </span>
                           <span className="admin-count-badge rounded-full px-2 py-0.5 text-[10px] font-medium">
                             v{ext.version}
                           </span>
@@ -483,7 +522,9 @@ export function ExtensionsClient({
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-zinc-400 mt-0.5">{ext.description || `Module ID: ${ext.id}`}</p>
+                        <p className="text-xs text-zinc-400 mt-0.5">
+                          {ext.description || `Module ID: ${ext.id}`}
+                        </p>
                       </div>
                     </div>
 
@@ -498,7 +539,8 @@ export function ExtensionsClient({
                         >
                           {isUpdating ? (
                             <>
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" /> Updating...
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />{" "}
+                              Updating...
                             </>
                           ) : (
                             <>
@@ -510,10 +552,14 @@ export function ExtensionsClient({
 
                       {/* iOS Style Switch Toggle */}
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-zinc-400">{isEnabled ? "On" : "Off"}</span>
+                        <span className="text-[11px] text-zinc-400">
+                          {isEnabled ? "On" : "Off"}
+                        </span>
                         <SwitchToggle
                           checked={isEnabled}
-                          onChange={(next) => handleToggleExtension(ext.id, next)}
+                          onChange={(next) =>
+                            handleToggleExtension(ext.id, next)
+                          }
                         />
                       </div>
 
@@ -530,10 +576,16 @@ export function ExtensionsClient({
                       {/* Expand / Collapse Details */}
                       <button
                         type="button"
-                        onClick={() => setExpandedId(isExpanded ? null : ext.id)}
+                        onClick={() =>
+                          setExpandedId(isExpanded ? null : ext.id)
+                        }
                         className="px-2.5 py-1.5 bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 rounded-xl transition cursor-pointer flex items-center gap-1 text-xs"
                       >
-                        {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                        {isExpanded ? (
+                          <ChevronUp className="w-4 h-4" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -543,7 +595,9 @@ export function ExtensionsClient({
                     <div className="pt-4 border-t border-zinc-800/80 space-y-5">
                       {/* URL Matchers */}
                       <div className="bg-zinc-950/40 p-4 rounded-xl border border-zinc-800/50 space-y-2">
-                        <span className="text-zinc-400 font-bold block">URL Matchers ({ext.urlPatterns.length})</span>
+                        <span className="text-zinc-400 font-bold block">
+                          URL Matchers ({ext.urlPatterns.length})
+                        </span>
                         <div className="flex flex-wrap gap-2">
                           {ext.urlPatterns.map((pat, i) => (
                             <code
@@ -594,7 +648,9 @@ export function ExtensionsClient({
                                 >
                                   <div className="space-y-1">
                                     <div className="flex items-center gap-2">
-                                      <span className="font-bold text-white">{cookie.name}</span>
+                                      <span className="font-bold text-white">
+                                        {cookie.name}
+                                      </span>
                                       <span
                                         className={`text-[10px] px-2 py-0.5 rounded-full ${
                                           cookie.isActive
@@ -602,11 +658,14 @@ export function ExtensionsClient({
                                             : "bg-red-500/20 text-red-400 border border-red-500/30"
                                         }`}
                                       >
-                                        {cookie.isActive ? "Active" : "Disabled"}
+                                        {cookie.isActive
+                                          ? "Active"
+                                          : "Disabled"}
                                       </span>
                                       {cookie.failCount > 0 && (
                                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1">
-                                          <ShieldAlert className="w-3 h-3" /> Fails: {cookie.failCount}
+                                          <ShieldAlert className="w-3 h-3" />{" "}
+                                          Fails: {cookie.failCount}
                                         </span>
                                       )}
                                     </div>
@@ -618,7 +677,8 @@ export function ExtensionsClient({
                                       onClick={() => setEditingCookie(cookie)}
                                       className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg flex items-center gap-1.5 transition cursor-pointer text-xs"
                                     >
-                                      <Edit3 className="w-3.5 h-3.5 text-emerald-400" /> Edit
+                                      <Edit3 className="w-3.5 h-3.5 text-emerald-400" />{" "}
+                                      Edit
                                     </button>
                                     <button
                                       type="button"
@@ -652,7 +712,8 @@ export function ExtensionsClient({
               <Store className="w-8 h-8 mx-auto text-zinc-600" />
               <p>No extensions found in active repositories.</p>
               <p className="text-[11px] text-zinc-600">
-                Check the Repositories tab to verify your repository URLs are enabled.
+                Check the Repositories tab to verify your repository URLs are
+                enabled.
               </p>
             </div>
           ) : (
@@ -660,7 +721,8 @@ export function ExtensionsClient({
               {filteredMarketplace.map((item) => {
                 const installed = installedMap.get(item.id);
                 const isInstalled = Boolean(installed);
-                const hasUpdate = isInstalled && installed!.version !== item.version;
+                const hasUpdate =
+                  isInstalled && installed!.version !== item.version;
                 const isInstalling = installingId === item.id;
 
                 return (
@@ -676,7 +738,9 @@ export function ExtensionsClient({
                           </div>
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-bold text-white text-sm">{item.name}</h3>
+                              <h3 className="font-bold text-white text-sm">
+                                {item.name}
+                              </h3>
                               <span className="admin-count-badge rounded-full px-2 py-0.5 text-[10px] font-medium">
                                 v{item.version}
                               </span>
@@ -717,16 +781,20 @@ export function ExtensionsClient({
                           >
                             {isInstalling ? (
                               <>
-                                <Loader2 className="w-3.5 h-3.5 animate-spin" /> Updating...
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />{" "}
+                                Updating...
                               </>
                             ) : (
                               <>
-                                <RotateCcw className="w-3.5 h-3.5" /> Update to v{item.version}
+                                <RotateCcw className="w-3.5 h-3.5" /> Update to
+                                v{item.version}
                               </>
                             )}
                           </button>
                         ) : (
-                          <span className="text-zinc-500 text-xs">Up to date</span>
+                          <span className="text-zinc-500 text-xs">
+                            Up to date
+                          </span>
                         )
                       ) : (
                         <button
@@ -737,7 +805,8 @@ export function ExtensionsClient({
                         >
                           {isInstalling ? (
                             <>
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" /> Installing...
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />{" "}
+                              Installing...
                             </>
                           ) : (
                             <>
@@ -765,7 +834,8 @@ export function ExtensionsClient({
                 <span>Extension Sources</span>
               </h3>
               <p className="text-xs text-zinc-400 mt-0.5">
-                Manage extension catalogs and community third-party repositories.
+                Manage extension catalogs and community third-party
+                repositories.
               </p>
             </div>
             <button
@@ -790,7 +860,9 @@ export function ExtensionsClient({
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-white text-sm">{repo.name}</span>
+                      <span className="font-bold text-white text-sm">
+                        {repo.name}
+                      </span>
                       {repo.isOfficial ? (
                         <span className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-full font-semibold">
                           Official
@@ -808,7 +880,9 @@ export function ExtensionsClient({
 
                   <div className="flex items-center gap-3 self-end sm:self-center">
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] text-zinc-400">{isEnabled ? "Active" : "Disabled"}</span>
+                      <span className="text-[11px] text-zinc-400">
+                        {isEnabled ? "Active" : "Disabled"}
+                      </span>
                       <SwitchToggle
                         checked={isEnabled}
                         onChange={(next) => handleToggleRepo(repo.id, next)}
@@ -850,7 +924,9 @@ export function ExtensionsClient({
           className="space-y-4"
         >
           <div>
-            <label className="block text-zinc-300 font-medium mb-1">Repository Name</label>
+            <label className="block text-zinc-300 font-medium mb-1">
+              Repository Name
+            </label>
             <input
               type="text"
               name="name"
@@ -861,7 +937,9 @@ export function ExtensionsClient({
           </div>
 
           <div>
-            <label className="block text-zinc-300 font-medium mb-1">Index JSON URL</label>
+            <label className="block text-zinc-300 font-medium mb-1">
+              Index JSON URL
+            </label>
             <input
               type="url"
               name="url"
@@ -899,7 +977,11 @@ export function ExtensionsClient({
       >
         <div className="space-y-4">
           <CookieSessionWarning />
-          <CurlParserBox onParsed={(res) => applyParsedCookie("add-extension-cookie-form", res)} />
+          <CurlParserBox
+            onParsed={(res) =>
+              applyParsedCookie("add-extension-cookie-form", res)
+            }
+          />
 
           <form
             id="add-extension-cookie-form"
@@ -909,9 +991,15 @@ export function ExtensionsClient({
             }}
             className="space-y-4"
           >
-            <input type="hidden" name="provider" value={addModalProvider || ""} />
+            <input
+              type="hidden"
+              name="provider"
+              value={addModalProvider || ""}
+            />
             <div>
-              <label className="block text-zinc-300 font-medium mb-1">Account Label</label>
+              <label className="block text-zinc-300 font-medium mb-1">
+                Account Label
+              </label>
               <input
                 type="text"
                 name="name"
@@ -922,7 +1010,9 @@ export function ExtensionsClient({
             </div>
 
             <div>
-              <label className="block text-zinc-300 font-medium mb-1">Netscape Cookies Content</label>
+              <label className="block text-zinc-300 font-medium mb-1">
+                Netscape Cookies Content
+              </label>
               <textarea
                 name="cookieContent"
                 required
@@ -961,7 +1051,11 @@ export function ExtensionsClient({
       >
         {editingCookie && (
           <div className="space-y-4">
-            <CurlParserBox onParsed={(res) => applyParsedCookie("edit-extension-cookie-form", res)} />
+            <CurlParserBox
+              onParsed={(res) =>
+                applyParsedCookie("edit-extension-cookie-form", res)
+              }
+            />
 
             <form
               id="edit-extension-cookie-form"
@@ -973,7 +1067,9 @@ export function ExtensionsClient({
             >
               <input type="hidden" name="id" value={editingCookie.id} />
               <div>
-                <label className="block text-zinc-300 font-medium mb-1">Account Label</label>
+                <label className="block text-zinc-300 font-medium mb-1">
+                  Account Label
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -984,7 +1080,9 @@ export function ExtensionsClient({
               </div>
 
               <div>
-                <label className="block text-zinc-300 font-medium mb-1">Netscape Cookies Content</label>
+                <label className="block text-zinc-300 font-medium mb-1">
+                  Netscape Cookies Content
+                </label>
                 <textarea
                   name="cookieContent"
                   required
